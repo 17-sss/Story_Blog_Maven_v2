@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user.mybatis">
+	<!-- 회원가입 -->
+	<insert id="insertUser" parameterType="User">
+		insert into story_user(num, email, pwd, name, tel, birth, filename, filesize, cdate, p_level, ip) 
+		values(#{num}, #{email}, #{pwd}, #{name}, #{tel}, #{birth}, #{filename}, #{filesize}, sysdate, #{p_level}, #{ip})
+	</insert>
+	
+	<!-- 회원가입시 순번 계산 (시퀸스) -->
+	<select id="getNextUserNumber" resultType="int">
+		select story_userSer.nextval from dual
+	</select>
+	
+	<!-- 로그인시 유효성 체크 -->
+	<select id="loginCheck" parameterType="hashmap" resultType="User">
+		select pwd from story_user where email=#{email}
+	</select>
+	
+	<!-- 회원가입 중복확인 -->
+	<select id="confirmEmail" parameterType="hashmap" resultType="map">
+		select email from story_user where email=#{email}
+	</select>
+	
+	<!-- 회원정보 가져오기 (이메일) -->
+	<select id="getUser1" parameterType="hashmap" resultType="User">
+		select * from story_user WHERE email = #{email}
+	</select>
+	
+	<!-- 회원정보 가져오기 (이메일 & 비번) -->
+	<select id="getUser2" parameterType="hashmap" resultType="User">
+		select * from story_user where email = #{email} and pwd = #{pwd}
+	</select>
+	
+	<!-- 회원정보 수정 -->
+	<update id="updateUser" parameterType="User">
+		update story_user set pwd=#{pwd}, name=#{name}, tel=#{tel}, birth=#{birth}, filename=#{filename}, filesize=#{filesize} where email=#{email}	
+	</update>
+	
+	<!-- 파일 X - 테스트  -->
+	<!-- <update id="updateUser" parameterType="User">
+		update story_user set pwd=#{pwd}, name=#{name}, tel=#{tel}, birth=#{birth} where email=#{email}	
+	</update> -->
+	<!--  --><!--  -->
+	
+	
+	
+	<select id="getUserCount" resultType="int">
+		SELECT nvl(count(*),0) FROM userlist
+	</select>
+	
+	<select id="getUsers" parameterType="hashmap" resultType="User">
+		select * from (select rownum rnum, a.* from (select email, name, pwd, tel, birth, cdate, ip, filename from userlist order by cdate desc)a) 
+	where rnum between #{startRow} and #{endRow}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	<delete id="deleteUser" parameterType="hashmap">
+		delete from userlist where email=#{email} and pwd=#{pwd}	
+	</delete>
+	
+	
+	
+	
+	
+	<!-- 보류 -->
+	
+	
+</mapper>
