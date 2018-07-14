@@ -41,7 +41,45 @@ select * from (select rownum rnum, b.* from (select subject, d_date, filename1, 
 Select subject, d_date, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary where user_email = 'admin' and 
 (FILENAME1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null) order by d_date desc;  
 
+-- 갤러리 - 검색한 날짜 제외
+Select distinct d_date from story_diary where user_email =  'admin' and d_date != '2018-07-14' and (filename1 is not null or filename2 is not null or filename3 is not null 
+or filename4 is not null or filename5 is not null or filename6 is not null) order by d_date desc;
+
 -- 사진 수
 SELECT nvl(count(*),0) FROM story_diary WHERE user_email = 'admin' and 
 (FILENAME1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null);
+SELECT nvl(count(*),0) FROM story_diary WHERE user_email = 'admin' and d_date = '2018-07-14' and
+(FILENAME1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null);
+
+-- 최근 사진
+-- 1 (최근 게시물 기준)
+select filename1, filename2, filename3, filename4, filename5, filename6 FROM story_diary where user_email = 'admin' and (filename1 is not null or 
+filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null) and rownum <= 3;
+-- 2 (날짜 기준)
+select nvl(count(filename1),0) + nvl(count(filename2),0) + nvl(count(filename3),0) + nvl(count(filename4),0) + nvl(count(filename5),0) + nvl(count(filename6),0)
+from (select rownum rnum, b.* from (select d_date, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary
+		 where user_email = 'admin' and (FILENAME1 is not null or filename2 is not null or
+         filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null)  order by d_date desc) b) where  rownum <= 3;
+
+select * from (select rownum rnum, b.* from (select num, user_email, subject, d_date, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary
+		 where user_email ='admin' and 
+		 (filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null) 
+		 order by d_date desc) b) where rownum <= 3;
+
+
+-- 최근 사진 - 전체 사진 수
+-- 1 (최근 게시물 기준)
+select nvl(count(filename1),0) + nvl(count(filename2),0) + nvl(count(filename3),0) + nvl(count(filename4),0) + nvl(count(filename5),0) + nvl(count(filename6),0) 
+from story_diary where user_email = 'admin' and (filename1 is not null or filename2 is not null or filename3 is not null or 
+filename4 is not null or filename5 is not null or filename6 is not null) and rownum <= 3;
+-- 1-1
+select nvl(count(filename1),0) + nvl(count(filename2),0) + nvl(count(filename3),0) + nvl(count(filename4),0) + nvl(count(filename5),0) + nvl(count(filename6),0) 
+from story_diary where user_email = 'admin' and rownum <= 3;
+-- 2 (날짜 기준)
+select nvl(count(filename1),0) + nvl(count(filename2),0) + nvl(count(filename3),0) + nvl(count(filename4),0) + nvl(count(filename5),0) + nvl(count(filename6),0)
+from (select rownum rnum, b.* from (select d_date, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary
+		 where user_email = 'admin' and (FILENAME1 is not null or filename2 is not null or
+         filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null)  order by d_date desc) b) where  rownum <= 3;
+
+
 

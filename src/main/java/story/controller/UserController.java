@@ -1,7 +1,7 @@
 package story.controller;
 
 import java.io.FileOutputStream;
-import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -9,9 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,6 +22,7 @@ import story.db.UserDataBean;
 @RequestMapping("/user")
 public class UserController {
 	UserDBMyBatis usPro = UserDBMyBatis.getInstance();
+	DiaryDBMyBatis diPro = DiaryDBMyBatis.getInstance();
 	
 	// index
 	@RequestMapping("/index")
@@ -123,7 +122,7 @@ public class UserController {
         	session.setAttribute("s_email", user.getEmail());
         	session.setAttribute("s_name", user.getName());
             session.setAttribute("s_filename", user.getFilename());
-			msg = "view/user/user_main";
+			msg = "LoginPro";
 			System.out.println(email+"님이 로그인 하셨습니다.");
 			mv.setViewName(msg);
         }
@@ -155,14 +154,14 @@ public class UserController {
 	
 	// 마이페이지
 	@RequestMapping("/user_page")
-	public ModelAndView user_page (ModelAndView mv, UserDataBean user, HttpServletRequest req) throws Exception {
+	public ModelAndView user_page (ModelAndView mv, UserDataBean user, String email, HttpServletRequest req) throws Exception {
 		HttpSession session = req.getSession();
-		
+		if (email == null || email == "") {email = (String)session.getAttribute("s_email");}
 		// 접속 제한
 		if (session.getAttribute("s_email") == null) {
 			mv.setViewName("index");
 		} else {
-			user = usPro.getUser((String)session.getAttribute("s_email"));
+			user = usPro.getUser(email);
 			mv.addObject("user", user);
 			mv.setViewName("view/user/user_page");
 		}
@@ -240,14 +239,45 @@ public class UserController {
 		return mv;
 	}*/
 	
+	// FAQ
+	@RequestMapping("/user_faq")
+	public ModelAndView user_faq (HttpServletRequest req, ModelAndView mv, String email) {
+		HttpSession session = req.getSession();
+		if (email == "" || email == null) {email = (String) session.getAttribute("s_email");}
+		
+		if (session.getAttribute("s_email") == null) {
+			mv.setViewName("index");
+		} else if (session.getAttribute("s_email").equals(email)) {
+			mv.setViewName("view/user/user_faq");
+		} else {
+			mv.setViewName("index");
+		}
+		
+		return mv;
+	}
+	
 	// 메인
 	@RequestMapping("/user_main")
-	public ModelAndView user_main (HttpServletRequest req, ModelAndView mv) throws Exception {
+	public ModelAndView user_main (HttpServletRequest req, ModelAndView mv, String email) {
 		HttpSession session = req.getSession();
+		if (email == "" || email == null) {email = (String) session.getAttribute("s_email");}
+		
+		int count = 0;
+		
+		int recent_num = 3;
+		List recent_picture = null;
+		
+		count = diPro.getGalleryRecentCount(email, recent_num);
+		recent_picture = diPro.getGalleryRecent(email, recent_num);
+		
+		System.out.println("메인페이지 (최근 날짜 사진 갯수): "+count);
+		
 		// 접속 제한
 		if (session.getAttribute("s_email") == null) {
 			mv.setViewName("index");
 		} else {
+			mv.addObject("count", count);
+			mv.addObject("recent_picture", recent_picture);
 			mv.setViewName("view/user/user_main");
 		}
 		return mv;

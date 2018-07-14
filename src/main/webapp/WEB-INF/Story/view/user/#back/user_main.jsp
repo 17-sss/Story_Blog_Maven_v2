@@ -40,32 +40,41 @@
 	</div>
 	<!-- end. main - button(write) & section -->
 	
-	<!-- main - recent (not) picture -->
-	<c:if test="${count==0}">
-	<div class="w3-center w3-white w3-padding w3-margin-bottom">
-		<span style="font-size: 20pt;">What's New?</span>
-	</div>
 	
-	<div style="margin: 2% 24.5% 2% 25%;">
-		<div class="w3-container w3-white w3-round font-nanum-coding-c">
-			<div class="w3-center w3-container w3-padding-16">
-				<p>사진이 포함된 일기가 없습니다. 사진을 첨부해서 일기를 써주세요.</p>
-			</div>
-		</div>
-	</div>
-	</c:if>
-	<!-- end. main - recent (not) picture -->
-	
-	<!-- main - recent picture -->
-	<c:if test="${count!=0}">
-	
-	<div class="w3-center w3-white w3-padding w3-margin-bottom">
-		<span style="font-size: 20pt;">What's New?</span>
-	</div>
-	
+	<!-- main - display image -->
 	<div class="w3-container">
-		<div style="margin: 0% 7%;">
 		
+		<div class="w3-center w3-margin">
+			<span style="font-size: 30px;">What's New?</span>
+		</div>
+
+		<div style="margin: 0% 7%;">
+			
+			<!-- Ver.1 -->
+			<%-- <div class="story-third w3-margin-bottom" style="margin: 0% 0.15%;">
+				<div class="w3-padding-16 w3-center w3-round" style="margin: 0% 3.5%; background: #f6f6f6;">
+					<img src="${pageContext.request.contextPath}/utilize/images/Wallpapers/long2.jpg" alt="alt" class="story-autoimg">
+				</div>
+			</div> --%>
+			
+			<!-- Ver.2 -->
+			<%-- <div class="story-third-1 w3-margin-bottom" style="margin: 0% 1.5%;">
+				<div class="story-thumbnail w3-round" style="background: #f6f6f6;">
+					<div class="story-centered">
+						<img src="${pageContext.request.contextPath}/utilize/images/Wallpapers/04.jpg">
+					</div>
+				</div>
+			</div> --%>
+			
+			<!-- Ver.2 ++ -->
+			<%-- <div class="story-third-1 w3-margin-bottom" style="margin: 0% 1.5%;">
+				<div class="story-thumbnail w3-round" style="background: #f6f6f6;">
+					<div class="story-centered">
+						<img src="${pageContext.request.contextPath}/utilize/images/Wallpapers/long2.jpg" class="story-autoimg2">
+					</div>
+				</div>
+			</div> --%>
+			
 			<c:forEach items="${recent_picture}" var="diary">
 			
 			<c:if test="${diary.filename1 != null}">
@@ -129,11 +138,10 @@
 			</c:if>
 			
 			</c:forEach>
-	
+			
+				
 		</div>
-		
 	</div>
-	</c:if>
 	<!-- end. main - recent picture -->
 	
 	<!-- footer -->

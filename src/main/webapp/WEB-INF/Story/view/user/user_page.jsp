@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>       
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -138,6 +139,10 @@
        			<input type="hidden" name="num" value="${user.num}">
        			<input type="hidden" name="fname" value="${user.filename}">
        			<input type="hidden" name="fsize" value="${user.filesize}">
+       			
+       			<c:if test="${user.p_level == 3}">
+       			<input type="button" class="w3-button w3-round w3-gray w3-text-white" value="Admin Page" OnClick="">
+       			</c:if>
        			
 				<input type="submit" class="w3-button w3-round w3-gray w3-text-white" value="Update">
 				<input type="button" class="w3-button w3-round w3-gray w3-text-white" value="Cancel"  OnClick="history.back();">

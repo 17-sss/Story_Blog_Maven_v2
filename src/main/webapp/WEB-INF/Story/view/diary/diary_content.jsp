@@ -213,9 +213,13 @@
 						</c:if>
 						
 						<!-- 갤러리 -->
-						<c:if test="${type eq 'gallery'}">
+						<c:if test="${type eq 'gallery' && date_opt == null}">
 						<input type="button" class="w3-yellow w3-small w3-button" value="목록" 
 						onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_gallery?email=${s_email}&pageNum=${pageNum}'">
+						</c:if>
+						<c:if test="${type eq 'gallery' && date_opt != null}">
+						<input type="button" class="w3-yellow w3-small w3-button" value="목록" 
+						onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_gallery?email=${s_email}&date_opt=${date_opt}&pageNum=${pageNum}'">
 						</c:if>
 						
 						<!--end. 목록 (조건부) -->

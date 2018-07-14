@@ -34,4 +34,6 @@ COMMIT;
 DROP TABLE story_diary;
 DROP SEQUENCE story_diarySer;
 
+TRUNCATE TABLE story_diary;
+
 COMMIT;

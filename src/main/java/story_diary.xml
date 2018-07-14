@@ -26,12 +26,6 @@
 		SELECT nvl(count(*),0) FROM story_diary WHERE user_email = #{user_email} and d_diary = #{d_diary}
 	</select>
 	
-	<!-- 일기 사진 수 (이메일) -->
-	<select id="getGalleryCount" resultType="int" parameterType="hashmap">
-		SELECT nvl(count(*),0) FROM story_diary WHERE user_email = #{user_email} and 
-		(filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null)
-	</select>
-	
 	<!-- 일기 목록 가져오기 (이메일) -->
 	<select id="getDiaries1" resultType="Diary" parameterType="hashmap">
 		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, subject, content, user_email from story_diary
@@ -45,18 +39,60 @@
 		 where rnum between #{startRow} and #{endRow}
 	</select>
 	
-	<!-- 일기 사진 가져오기 (이메일) -->
-	<select id="getGallery" resultType="Diary" parameterType="hashmap">
+	<!-- 갤러리 - 사진 수 (이메일) -->
+	<select id="getGalleryCount1" resultType="int" parameterType="hashmap">
+		SELECT nvl(count(*),0) FROM story_diary WHERE user_email = #{user_email} and 
+		(filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null)
+	</select>
+	
+	<!-- 갤러리 - 사진 수 (이메일, 날짜) -->
+	<select id="getGalleryCount2" resultType="int" parameterType="hashmap">
+		SELECT nvl(count(*),0) FROM story_diary WHERE user_email = #{user_email} and d_date = #{date_opt} and 
+		(filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null)
+	</select>
+	
+	<!-- 갤러리 - 사진 가져오기 (이메일) -->
+	<select id="getGallery1" resultType="Diary" parameterType="hashmap">
 		select * from (select rownum rnum, b.* from (select num, user_email, subject, d_date, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary
 		 where user_email = #{user_email} and 
 		 (filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null) 
 		 order by d_date desc) b) where rnum between #{startRow} and #{endRow}
 	</select>
 	
-	<!-- 일기 날짜 가져오기 (이메일 기준) (갤러리 날짜 검색 전용) -->
+	<!-- 갤러리 - 사진 가져오기 (이메일, 날짜) -->
+	<select id="getGallery2" resultType="Diary" parameterType="hashmap">
+		select * from (select rownum rnum, b.* from (select num, user_email, subject, d_date, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary
+		 where user_email = #{user_email} and d_date = #{date_opt} and 
+		 (filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null) 
+		 order by d_date desc) b) where rnum between #{startRow} and #{endRow}
+	</select>
+	
+	<!-- 갤러리 - 날짜 가져오기 (이메일 기준) (갤러리 날짜 검색 전용) -->
 	<select id="getGalleryDate" resultType="Diary" parameterType="hashmap">
 		Select distinct d_date from story_diary where user_email = #{user_email} and (filename1 is not null or filename2 is not null or filename3 is not null 
 		or filename4 is not null or filename5 is not null or filename6 is not null) order by d_date desc
+	</select>
+	
+	<!-- 갤러리 - 날짜 가져오기2 (이메일 기준) (갤러리 날짜 검색 전용(검색한 날짜를 제외)) -->
+	<select id="getGalleryDate2" resultType="Diary" parameterType="hashmap">
+		Select distinct d_date from story_diary where user_email = #{user_email} and d_date != #{date_opt} and 
+		(filename1 is not null or filename2 is not null or filename3 is not null 
+		or filename4 is not null or filename5 is not null or filename6 is not null) order by d_date desc
+	</select>
+	
+	<!-- 갤러리 - 최근 일기 n개 게시물 갯수 (메인 전용) -->
+	<select id="getGalleryRecentCount" resultType="int" parameterType="hashmap">
+		select nvl(count(filename1),0) + nvl(count(filename2),0) + nvl(count(filename3),0) + nvl(count(filename4),0) + nvl(count(filename5),0) + nvl(count(filename6),0) 
+		from (select rownum rnum, b.* from (select d_date, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary 
+		where user_email = #{user_email} and (FILENAME1 is not null or filename2 is not null or 
+		filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null)  order by d_date desc) b) where  rownum <![CDATA[ <= ]]> #{recent_num}
+	</select>
+	
+	<!-- 갤러리 - 최근 일기 n개 게시물만큼 사진 가져오기 (메인 전용) -->
+	<select id="getGalleryRecent" resultType="Diary" parameterType="hashmap">
+		select * from (select rownum rnum, b.* from (select num, user_email, subject, d_date, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary 
+		where user_email = #{user_email} and (filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or 
+		filename5 is not null or filename6 is not null) order by d_date desc) b) where rownum <![CDATA[ <= ]]> #{recent_num}
 	</select>
 
 
@@ -157,39 +193,23 @@
 	<!-- end. $$$ 일기장 개별 $$$ -->
 	<!-- end. !!!!!!!!!!!! 검색 관련 !!!!!!!!!!!! -->
 	
+	<!-- 일기 수정 및 내용 가져오기 -->
 	<select id="getDiary" parameterType="hashmap" resultType="Diary">
 		select * from story_diary where num = #{num} and user_email = #{user_email}
 	</select>
-	
-	<delete id="deleteDiary" parameterType="hashmap">
-		delete from story_diary where num = #{num} and user_email = #{user_email}
-	</delete>
-	
+
+	<!-- 일기 수정 전송 -->
 	<update id="updateDiary" parameterType="Diary">
 		update story_diary set d_diary = #{d_diary}, d_date = #{d_date}, subject = #{subject}, content = #{content},
 		filename1 = #{filename1}, filename2 = #{filename2}, filename3 = #{filename3}, 
 		filename4 = #{filename4}, filename5 = #{filename5}, filename6 = #{filename6} where num = #{num} and user_email = #{user_email}
 	</update>
 	
+	<!-- 일기 삭제 -->
+	<delete id="deleteDiary" parameterType="hashmap">
+		delete from story_diary where num = #{num} and user_email = #{user_email}
+	</delete>
+	
 	<!-- ######################################################################################### -->
-	
-	
-	
-	
-	
-	<select id="getImgDiaryCountTotal" resultType="int" parameterType="hashmap">
-		SELECT nvl(count(filename0),0) + nvl(count(filename1),0) + nvl(count(filename2),0) + nvl(count(filename3),0) + nvl(count(filename4),0)
-			FROM diary WHERE diaryid = #{diaryid} and email=#{email}
-	</select>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-		
 
 </mapper>

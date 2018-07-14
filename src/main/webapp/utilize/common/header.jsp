@@ -27,7 +27,7 @@
 		<span style="font-size: 24px; margin: 1%;" id="font-poiretone">
 			<span title="Story Blog">Story Blog</span>
 		</span>
-
+		
 		<span>
 			<a href="${pageContext.request.contextPath}/user/LogoutPro" style="font-size: 24px; text-decoration: none; margin: 0.5% 1% 0.5% 0;" class="w3-hover-text-gray w3-right">
 				<span class="fas fa-sign-in-alt" title="Logout"></span>
@@ -44,15 +44,15 @@
 	        <div class="w3-dropdown-content w3-center" style="right:2em; top:38px; font-size: 10pt; text-decoration: none; min-width: 8%; ">
 	
 	        	<hr style="margin-top: -1%;">
+	        	<a href="${pageContext.request.contextPath}/diary/diary_board" class="w3-hover-text-gray">
+					<span class="fas fa-sort-alpha-down" title="Board">&nbsp;
+						<span class="font-montserrat-c">Board</span>
+					</span>
+				</a>
+	        	<hr>
 				<a href="${pageContext.request.contextPath}/diary/diary_gallery" class="w3-hover-text-gray">
 					<span class="fas fa-images" title="Gallery">&nbsp;
 						<span class="font-montserrat-c">Gallery</span>
-					</span>
-				</a>
-				<hr>
-				<a href="${pageContext.request.contextPath}/diary/diary_board" class="w3-hover-text-gray">
-					<span class="fas fa-sort-alpha-down" title="Board">&nbsp;
-						<span class="font-montserrat-c">Board</span>
 					</span>
 				</a>
 				<hr style="margin-bottom: -0.5%;">
@@ -66,13 +66,23 @@
 			</a>
 		</span>
 		
+		<span>
+			<a href="${pageContext.request.contextPath}/user/user_faq" style="font-size: 12px; text-decoration: none; margin: 1.2% 1.2% 0.7% 0%;" class="w3-hover-text-light-gray w3-text-gray w3-right">
+				<span class="far fa-question-circle" title="FAQ"></span>
+			</a>
+		</span>
+		
 		
 
 		
-		<span class="w3-right" style="margin: 0.3% 3% 0% 0%;">
+		<span class="w3-right" style="margin: 0.3% 0.5% 0% 0%;">
 			<img src="${pageContext.request.contextPath}/userSave/${s_filename}" style="height:30px; width:30px; margin-bottom: 0.4%;">
 			&nbsp;
-			<span style="font-size: 9pt;">Hi! ${s_name}.</span>
+			<span>
+				<span style="font-size: 9pt;">
+					Hi! ${s_name}.
+				</span>		
+			</span>
 		</span>
 		
 	</div>
