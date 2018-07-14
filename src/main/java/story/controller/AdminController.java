@@ -32,7 +32,7 @@ public class AdminController {
 	}
 	
 	// 包府磊 蜡历包府
-	// /admin/accountList
+	// /admin/accountList 
 	@RequestMapping("/accountList")
 	public ModelAndView accountList(String pageNum, ModelAndView mv, HttpServletRequest req) throws Exception {
 		HttpSession session = req.getSession();
