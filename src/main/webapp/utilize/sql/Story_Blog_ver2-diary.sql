@@ -7,6 +7,7 @@ CREATE TABLE story_diary(
   user_name VARCHAR2(50) NOT NULL,
   d_diary VARCHAR2(100) DEFAULT 'Main',
   d_date VARCHAR2(100),
+  d_cdate DATE NOT NULL,
   subject VARCHAR2(100) DEFAULT '제목없음',
   content NCLOB DEFAULT '내용없음',
   filename1 VARCHAR2(100),

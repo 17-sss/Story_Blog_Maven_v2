@@ -5,9 +5,9 @@
 	
 	<!-- 일기 쓰기 -->
 	<insert id="insertDiary" parameterType="Diary">
-		insert into story_diary (num, user_email, user_name, d_diary, d_date, subject, content, filename1, filesize1, filename2,
+		insert into story_diary (num, user_email, user_name, d_diary, d_date, d_cdate, subject, content, filename1, filesize1, filename2,
 		 filesize2, filename3, filesize3, filename4, filesize4, filename5, filesize5, filename6, filesize6) values (#{num},#{user_email},#{user_name},
-		 #{d_diary},#{d_date},#{subject},#{content},#{filename1},#{filesize1},#{filename2},#{filesize2},#{filename3},#{filesize3},
+		 #{d_diary},#{d_date}, sysdate, #{subject},#{content},#{filename1},#{filesize1},#{filename2},#{filesize2},#{filename3},#{filesize3},
 		 #{filename4},#{filesize4},#{filename5},#{filesize5},#{filename6},#{filesize6})
 	</insert>
 	
@@ -28,14 +28,14 @@
 	
 	<!-- 일기 목록 가져오기 (이메일) -->
 	<select id="getDiaries1" resultType="Diary" parameterType="hashmap">
-		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, subject, content, user_email from story_diary
-		 where user_email = #{user_email} order by num desc) b) where rnum between #{startRow} and #{endRow}
+		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, d_cdate, subject, content, user_email from story_diary
+		 where user_email = #{user_email} order by d_cdate desc) b) where rnum between #{startRow} and #{endRow}
 	</select>
 	
 	<!-- 일기 목록 가져오기 (이메일 & 일기장) -->
 	<select id="getDiaries2" resultType="Diary" parameterType="hashmap">
-		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, subject, content, user_email from story_diary
-		 where user_email = #{user_email} and d_diary = #{d_diary} order by num desc) b) 
+		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, d_cdate, subject, content, user_email from story_diary
+		 where user_email = #{user_email} and d_diary = #{d_diary} order by d_cdate desc) b) 
 		 where rnum between #{startRow} and #{endRow}
 	</select>
 	
@@ -53,7 +53,7 @@
 	
 	<!-- 갤러리 - 사진 가져오기 (이메일) -->
 	<select id="getGallery1" resultType="Diary" parameterType="hashmap">
-		select * from (select rownum rnum, b.* from (select num, user_email, subject, d_date, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary
+		select * from (select rownum rnum, b.* from (select num, user_email, subject, d_date, d_cdate, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary
 		 where user_email = #{user_email} and 
 		 (filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null) 
 		 order by d_date desc) b) where rnum between #{startRow} and #{endRow}
@@ -61,7 +61,7 @@
 	
 	<!-- 갤러리 - 사진 가져오기 (이메일, 날짜) -->
 	<select id="getGallery2" resultType="Diary" parameterType="hashmap">
-		select * from (select rownum rnum, b.* from (select num, user_email, subject, d_date, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary
+		select * from (select rownum rnum, b.* from (select num, user_email, subject, d_date, d_cdate, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary
 		 where user_email = #{user_email} and d_date = #{date_opt} and 
 		 (filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null) 
 		 order by d_date desc) b) where rnum between #{startRow} and #{endRow}
@@ -129,22 +129,22 @@
 	<!-- ~ 목록 가져오기 [전체] ~ -->
 	<!-- (전체) 일기 목록 가져오기  - 제목 & 내용 -->
 	<select id="searchDiary_SC" resultType="Diary" parameterType="hashmap">
-		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, subject, content, user_email from story_diary
-		 where user_email = #{user_email} and subject like #{search} or content like #{search} order by num desc) b) 
+		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, d_cdate, subject, content, user_email from story_diary
+		 where user_email = #{user_email} and subject like #{search} or content like #{search} order by d_cdate desc) b) 
 		 where rnum between #{startRow} and #{endRow}
 	</select>
 	
 	<!-- (전체) 일기 목록 가져오기  - 제목 -->
 	<select id="searchDiary_S" resultType="Diary" parameterType="hashmap">
-		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, subject, content, user_email from story_diary
-		 where user_email = #{user_email} and subject like #{search} order by num desc) b) 
+		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, d_cdate, subject, content, user_email from story_diary
+		 where user_email = #{user_email} and subject like #{search} order by d_cdate desc) b) 
 		 where rnum between #{startRow} and #{endRow}
 	</select>
 	
 	<!-- (전체) 일기 목록 가져오기  - 내용 -->
 	<select id="searchDiary_C" resultType="Diary" parameterType="hashmap">
-		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, subject, content, user_email from story_diary
-		 where user_email = #{user_email} and content like #{search} order by num desc) b) 
+		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, d_cdate, subject, content, user_email from story_diary
+		 where user_email = #{user_email} and content like #{search} order by d_cdate desc) b) 
 		 where rnum between #{startRow} and #{endRow}
 	</select>
 
@@ -171,22 +171,22 @@
 	<!-- ~ 목록 가져오기 [개별] ~ -->
 	<!-- (개별) 일기 목록 가져오기  - 제목 & 내용 -->
 	<select id="searchDiary_D_SC" resultType="Diary" parameterType="hashmap">
-		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, subject, content, user_email from story_diary
-		 where user_email = #{user_email} and d_diary = #{d_diary} and (subject like #{search} or content like #{search}) order by num desc) b) 
+		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, d_cdate, subject, content, user_email from story_diary
+		 where user_email = #{user_email} and d_diary = #{d_diary} and (subject like #{search} or content like #{search}) order by d_cdate desc) b) 
 		 where rnum between #{startRow} and #{endRow}
 	</select>
 	
 	<!-- (개별) 일기 목록 가져오기  - 제목 -->
 	<select id="searchDiary_D_S" resultType="Diary" parameterType="hashmap">
-		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, subject, content, user_email from story_diary
-		 where user_email = #{user_email} and d_diary = #{d_diary} and subject like #{search} order by num desc) b) 
+		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, d_cdate, subject, content, user_email from story_diary
+		 where user_email = #{user_email} and d_diary = #{d_diary} and subject like #{search} order by d_cdate desc) b) 
 		 where rnum between #{startRow} and #{endRow}
 	</select>
 	
 	<!-- (개별) 일기 목록 가져오기  - 내용 -->
 	<select id="searchDiary_D_C" resultType="Diary" parameterType="hashmap">
-		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, subject, content, user_email from story_diary
-		 where user_email = #{user_email} and d_diary = #{d_diary} and content like #{search} order by num desc) b) 
+		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, d_cdate, subject, content, user_email from story_diary
+		 where user_email = #{user_email} and d_diary = #{d_diary} and content like #{search} order by d_cdate desc) b) 
 		 where rnum between #{startRow} and #{endRow}
 	</select>
 
@@ -200,7 +200,7 @@
 
 	<!-- 일기 수정 전송 -->
 	<update id="updateDiary" parameterType="Diary">
-		update story_diary set d_diary = #{d_diary}, d_date = #{d_date}, subject = #{subject}, content = #{content},
+		update story_diary set d_diary = #{d_diary}, d_date = #{d_date}, d_cdate= sysdate, subject = #{subject}, content = #{content},
 		filename1 = #{filename1}, filename2 = #{filename2}, filename3 = #{filename3}, 
 		filename4 = #{filename4}, filename5 = #{filename5}, filename6 = #{filename6} where num = #{num} and user_email = #{user_email}
 	</update>

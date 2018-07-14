@@ -94,12 +94,14 @@
 					Story: <b>${count}</b>
 				</h6>
 				
-				<table class="w3-table w3-bordered w3-border w3-small font-nanum-coding-c" width="100">
+				<table class="w3-table w3-bordered w3-border w3-small font-nanum-coding-c" width="120">
 					<tr class="w3-center">
 						<td align="center" width="10" class="w3-border w3-center font-montserrat-c" style="padding: 10px 0;"><b>NUM</b></td>
 						<td align="center" width="50" class="w3-center w3-border font-montserrat-c" style="padding: 10px 30px;"><b>Subject</b></td>
 						<td align="center" width="20" class="w3-center w3-border font-montserrat-c"><b>Diary</b></td>
+						<td align="center" width="20" class="w3-center w3-border font-montserrat-c"><b>Reporting Date</b></td>
 						<td align="center" width="20" class="w3-center w3-border font-montserrat-c"><b>Date</b></td>
+						
 					</tr>
 
 					<c:forEach var="diary" items="${d_list}">
@@ -123,6 +125,7 @@
 							</c:if>
 						</td>
 						<td align="center" width="20" class="w3-center w3-border">${diary.d_diary}</td>
+						<td align="center" width="20" class="w3-center w3-border">${diary.d_cdate}</td>
 						<td align="center" width="20" class="w3-center w3-border">${diary.d_date}</td>
 					</tr>
 					</c:forEach>

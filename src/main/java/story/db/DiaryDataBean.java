@@ -1,11 +1,14 @@
 package story.db;
 
+import java.util.Date;
+
 public class DiaryDataBean {
 	private int num;
 	private String user_email; 
 	private String user_name; 
 	private String d_diary; 
 	private String d_date;
+	private Date d_cdate;
 	private String subject;
 	private String content;
 	private String filename1;
@@ -20,6 +23,7 @@ public class DiaryDataBean {
 	private int filesize5;
 	private String filename6; 
 	private int filesize6;
+	
 	public int getNum() {
 		return num;
 	}
@@ -49,6 +53,12 @@ public class DiaryDataBean {
 	}
 	public void setD_date(String d_date) {
 		this.d_date = d_date;
+	}
+	public Date getD_cdate() {
+		return d_cdate;
+	}
+	public void setD_cdate(Date d_cdate) {
+		this.d_cdate = d_cdate;
 	}
 	public String getSubject() {
 		return subject;
@@ -134,15 +144,15 @@ public class DiaryDataBean {
 	public void setFilesize6(int filesize6) {
 		this.filesize6 = filesize6;
 	}
+	
 	@Override
 	public String toString() {
 		return "DiaryDataBean [num=" + num + ", user_email=" + user_email + ", user_name=" + user_name + ", d_diary="
-				+ d_diary + ", d_date=" + d_date + ", subject=" + subject + ", content=" + content + ", filename1="
-				+ filename1 + ", filesize1=" + filesize1 + ", filename2=" + filename2 + ", filesize2=" + filesize2
-				+ ", filename3=" + filename3 + ", filesize3=" + filesize3 + ", filename4=" + filename4 + ", filesize4="
-				+ filesize4 + ", filename5=" + filename5 + ", filesize5=" + filesize5 + ", filename6=" + filename6
-				+ ", filesize6=" + filesize6 + "]";
+				+ d_diary + ", d_date=" + d_date + ", d_cdate=" + d_cdate + ", subject=" + subject + ", content="
+				+ content + ", filename1=" + filename1 + ", filesize1=" + filesize1 + ", filename2=" + filename2
+				+ ", filesize2=" + filesize2 + ", filename3=" + filename3 + ", filesize3=" + filesize3 + ", filename4="
+				+ filename4 + ", filesize4=" + filesize4 + ", filename5=" + filename5 + ", filesize5=" + filesize5
+				+ ", filename6=" + filename6 + ", filesize6=" + filesize6 + "]";
 	}
 
-	
 }

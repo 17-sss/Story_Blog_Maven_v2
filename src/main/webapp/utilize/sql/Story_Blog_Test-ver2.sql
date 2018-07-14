@@ -1,13 +1,7 @@
+--############################## 2018-07-14 이전 ##############################
 -- Story Blog Ver.2 User Test
 
-
-
-
 -- 냉무 --
-
-
-
-
 
 -- Story Blog Ver.2 Diary Test
 select * from story_diary;
@@ -56,16 +50,10 @@ SELECT nvl(count(*),0) FROM story_diary WHERE user_email = 'admin' and d_date = 
 select filename1, filename2, filename3, filename4, filename5, filename6 FROM story_diary where user_email = 'admin' and (filename1 is not null or 
 filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null) and rownum <= 3;
 -- 2 (날짜 기준)
-select nvl(count(filename1),0) + nvl(count(filename2),0) + nvl(count(filename3),0) + nvl(count(filename4),0) + nvl(count(filename5),0) + nvl(count(filename6),0)
-from (select rownum rnum, b.* from (select d_date, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary
-		 where user_email = 'admin' and (FILENAME1 is not null or filename2 is not null or
-         filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null)  order by d_date desc) b) where  rownum <= 3;
-
 select * from (select rownum rnum, b.* from (select num, user_email, subject, d_date, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary
 		 where user_email ='admin' and 
 		 (filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null) 
 		 order by d_date desc) b) where rownum <= 3;
-
 
 -- 최근 사진 - 전체 사진 수
 -- 1 (최근 게시물 기준)
@@ -80,6 +68,12 @@ select nvl(count(filename1),0) + nvl(count(filename2),0) + nvl(count(filename3),
 from (select rownum rnum, b.* from (select d_date, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary
 		 where user_email = 'admin' and (FILENAME1 is not null or filename2 is not null or
          filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null)  order by d_date desc) b) where  rownum <= 3;
+-- end. ############################## 2018-07-14 이전 ##############################         
+         
+--############################## 2018-07-14 이후 ##############################
+-- Story Blog Ver.2 User Test
+
+-- Story Blog Ver.2 Diary Test
 
 
 

@@ -36,16 +36,25 @@
 								<b>1.</b> 
 								일기장 (Board)은
 								<span class="w3-text-red">"</span>
-								<b>최근 게시글</b>
+								<b class="font-montserrat-c">Reporting Date</b>
 								<span class="w3-text-red">"</span>
 								기준으로 정렬 됩니다.
 							</span>
 							<br>
 							<span>
 								<b>2.</b> 
-								사진첩 (Gallery), 메인(Home)은
+								사진첩 (Gallery)은
 								<span class="w3-text-red">"</span>
-								<b>최근 날짜</b>
+								<b class="font-montserrat-c">Date</b>
+								<span class="w3-text-red">"</span>
+								기준으로 정렬 됩니다.
+							</span>
+							<br>
+							<span>
+								<b>3.</b> 
+								메인 (Home)의 사진은
+								<span class="w3-text-red">"</span>
+								<b class="font-montserrat-c">Date</b>
 								<span class="w3-text-red">"</span>
 								기준으로 정렬 됩니다.
 							</span>
