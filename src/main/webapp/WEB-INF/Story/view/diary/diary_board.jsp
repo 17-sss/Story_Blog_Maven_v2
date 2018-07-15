@@ -99,8 +99,44 @@
 						<td align="center" width="10" class="w3-border w3-center font-montserrat-c" style="padding: 10px 0;"><b>NUM</b></td>
 						<td align="center" width="50" class="w3-center w3-border font-montserrat-c" style="padding: 10px 30px;"><b>Subject</b></td>
 						<td align="center" width="20" class="w3-center w3-border font-montserrat-c"><b>Diary</b></td>
-						<td align="center" width="20" class="w3-center w3-border font-montserrat-c"><b>Reporting Date</b></td>
-						<td align="center" width="20" class="w3-center w3-border font-montserrat-c"><b>Date</b></td>
+						
+						<!-- [전체] 정렬  -->
+						<c:if test="${search == null}">
+						<td align="center" width="20" class="w3-center w3-border font-montserrat-c">
+							<a href="${pageContext.request.contextPath}/diary/diary_board?&email=${diary.user_email}&pageNum=${pageNum}&sort_opt=cd" 
+							style="text-decoration: none;" class="w3-text-gray w3-hover-text-black">
+								<b>Reporting Date</b>
+							</a>
+						</td>
+						<td align="center" width="20" class="w3-center w3-border font-montserrat-c">
+							<a href="${pageContext.request.contextPath}/diary/diary_board?&email=${diary.user_email}&pageNum=${pageNum}&sort_opt=d" 
+							style="text-decoration: none;" class="w3-text-gray w3-hover-text-black">
+								<b>Date</b>
+							</a>
+						</td>
+						</c:if>
+						
+						<!-- [검색] 정렬 -->
+						<c:if test="${search != null}">
+						<td align="center" width="20" class="w3-center w3-border font-montserrat-c">
+							<a href="javascript:void(0);" style="text-decoration: none;" class="w3-text-gray w3-hover-text-black"
+							onclick="document.location.href=
+							'${pageContext.request.contextPath}/diary/diary_board?&email=${diary.user_email}&search='
+							 + encodeURI('${search}') + '&opt=${opt}&pageNum=${pageNum}&sort_opt=cd'">
+								<b>Reporting Date</b>
+							</a>
+						</td>
+						<td align="center" width="20" class="w3-center w3-border font-montserrat-c">
+							<a href="javascript:void(0);" style="text-decoration: none;" class="w3-text-gray w3-hover-text-black"
+							onclick="document.location.href=
+							'${pageContext.request.contextPath}/diary/diary_board?&email=${diary.user_email}&search='
+							 + encodeURI('${search}') + '&opt=${opt}&pageNum=${pageNum}&sort_opt=d'">
+								<b>Date</b>
+							</a>
+						</td>
+						</c:if>
+						
+						<!-- end. 정렬 -->
 						
 					</tr>
 

@@ -197,12 +197,15 @@ public class DiaryController {
 	
 	// 일기 게시판 - 전체보기
 	@RequestMapping(value = "/diary_board", produces = "application/text; charset=euckr")
-	public ModelAndView diary_board (HttpServletRequest req, ModelAndView mv, String pageNum, String email, String search, String opt) throws Exception {  
+	public ModelAndView diary_board (HttpServletRequest req, ModelAndView mv, String pageNum, String email, String search, String opt, String sort_opt) throws Exception {  
 		HttpSession session = req.getSession();
 		
 		if (pageNum == null || pageNum == "") {pageNum = "1";}
 		if (email == null || email=="") {email = (String)session.getAttribute("s_email");}
-	    
+		if (sort_opt == null || sort_opt == "") {sort_opt = "";}
+	
+		System.out.println("==Sort Test==\n정렬 옵션: "+sort_opt+"\nPageNum: "+pageNum);
+		
 	    int pageSize = 10;
 	    
 	    int currentPage = Integer.parseInt(pageNum);
@@ -220,33 +223,53 @@ public class DiaryController {
 	    
 	    // 전체 보기
 	    count = diPro.getDiaryCount(email);
-		if (count > 0) {
+		if (count > 0 && sort_opt.equals("") || sort_opt.equals("cd")) {
 			d_list = diPro.getDiaries(startRow, endRow, email);
-			System.out.println("############\n"+"Count (전체): " + count + "\n############");
-		} 
+			System.out.println("############\n"+"Count (전체, 정렬 - 작성일): " + count + "\n############");
+		}
+		
+		if (count > 0 && sort_opt.equals("d")) {
+			d_list = diPro.getDiaries_d(startRow, endRow, email);
+			System.out.println("############\n"+"Count (전체, 정렬 - 일기 날짜): " + count + "\n############");
+		}
 		
 	    // 전체 보기 - 검색
 	    if (search != null) {
 
 			if (opt.equals("SC")) {
 				count = diPro.getSearchDiaryCount_SC(email, "%" + search + "%");
-				if (count > 0) {
+				
+				if (count > 0  && sort_opt.equals("") || sort_opt.equals("cd")) {
 					d_list = diPro.searchDiary_SC(startRow, endRow, email, "%" + search + "%");
-					System.out.println("[SC] Count: " + count);
+					System.out.println("[SC] (정렬 - 작성일) Count: " + count);
+				}
+				if (count > 0  && sort_opt.equals("d")) {
+					d_list = diPro.searchDiary_SC_d(startRow, endRow, email, "%" + search + "%");
+					System.out.println("[SC] (정렬 - 일기 날짜) Count: " + count);
 				}
 			} 
 		    if (opt.equals("S")) {
 				count = diPro.getSearchDiaryCount_S(email, "%" + search + "%");
-				if (count > 0) {
+				
+				if (count > 0  && sort_opt.equals("") || sort_opt.equals("cd")) {
 					d_list = diPro.searchDiary_S(startRow, endRow, email, "%" + search + "%");
-					System.out.println("[S] Count: " + count);
+					System.out.println("[S] (정렬 - 작성일) Count: " + count);
+				}
+				if (count > 0  && sort_opt.equals("d")) {
+					d_list = diPro.searchDiary_S_d(startRow, endRow, email, "%" + search + "%");
+					System.out.println("[S] (정렬 - 일기 날짜) Count: " + count);
 				}
 			}
 		    if (opt.equals("C")) {
 				count = diPro.getSearchDiaryCount_C(email, "%" + search + "%");
-				if (count > 0) {
+				
+				if (count > 0 && sort_opt.equals("") || sort_opt.equals("cd")) {
 					d_list = diPro.searchDiary_C(startRow, endRow, email, "%" + search + "%");
-					System.out.println("[C] Count: " + count);
+					System.out.println("[C] (정렬 - 작성일) Count: " + count);
+				}
+				if (count > 0 && sort_opt.equals("d")) {
+					d_list = diPro.searchDiary_C_d(startRow, endRow, email, "%" + search + "%");
+					System.out.println("[C] (정렬 - 일기 날짜) Count: " + count);
 				}
 			}
 		    System.out.println("~~~~~~~~~~~~\n(전체) 검색어: "+search+"\n이메일: " +email+"\n~~~~~~~~~~~~");
@@ -276,7 +299,11 @@ public class DiaryController {
 	    mv.addObject("currentPage", currentPage);
 	    mv.addObject("bottomLine", bottomLine);
 	    mv.addObject("startPage", startPage);
+	    mv.addObject("pageNum", pageNum);
 	   
+	    // 정렬
+	    mv.addObject("sort_opt", sort_opt);
+	    
 	    // 검색
 	    mv.addObject("search", search);
 	    mv.addObject("opt", opt);
