@@ -149,22 +149,45 @@
 						<td align="center" width="10" class="w3-border w3-center" style="padding: 10px 0;">${number2}</td>
 						<c:set var="number2" value="${number2-1}" />
 						<td align="center" width="50" class="w3-center w3-border">
+						<c:if test="${sort_opt eq '' }">
 							<c:if test = "${opt == null && search == null}">
-							<a href="javascript:void(0);" style="text-decoration: none;" class="w3-text-gray w3-hover-text-black"
-							onclick="document.location.href=
-							'${pageContext.request.contextPath}/diary/diary_content?num=${diary.num}&email=${diary.user_email}&d_diary='
-							 + encodeURI('${d_diary}') + '&pageNum=${currentPage}'">
-								${diary.subject}
-							</a>
-							</c:if>
+								<a href="javascript:void(0);" style="text-decoration: none;" class="w3-text-gray w3-hover-text-black"
+								onclick="document.location.href=
+								'${pageContext.request.contextPath}/diary/diary_content?num=${diary.num}&email=${diary.user_email}&d_diary='
+								 + encodeURI('${d_diary}') + '&pageNum=${currentPage}'">
+									${diary.subject}
+								</a>
+							</c:if>		
+					
 							<c:if test = "${opt != null && search != null}">
-							<a href="javascript:void(0);" style="text-decoration: none;" class="w3-text-gray w3-hover-text-black"
-							onclick="document.location.href=
-							'${pageContext.request.contextPath}/diary/diary_content?num=${diary.num}&email=${diary.user_email}&d_diary='
-							 + encodeURI('${d_diary}') + '&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${currentPage}'">
-								${diary.subject}
-							</a>
+								<a href="javascript:void(0);" style="text-decoration: none;" class="w3-text-gray w3-hover-text-black"
+								onclick="document.location.href=
+								'${pageContext.request.contextPath}/diary/diary_content?num=${diary.num}&email=${diary.user_email}&d_diary='
+								 + encodeURI('${d_diary}') + '&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${currentPage}'">
+									${diary.subject}
+								</a>
 							</c:if>
+						</c:if>
+						
+						<c:if test="${sort_opt != null && sort_opt ne ''}">	
+							<c:if test = "${opt == null && search == null}">
+								<a href="javascript:void(0);" style="text-decoration: none;" class="w3-text-gray w3-hover-text-black"
+								onclick="document.location.href=
+								'${pageContext.request.contextPath}/diary/diary_content?num=${diary.num}&email=${diary.user_email}&d_diary='
+								 + encodeURI('${d_diary}') + '&pageNum=${currentPage}&sort_opt=${sort_opt}'">
+									${diary.subject}
+								</a>
+							</c:if>		
+					
+							<c:if test = "${opt != null && search != null}">
+								<a href="javascript:void(0);" style="text-decoration: none;" class="w3-text-gray w3-hover-text-black"
+								onclick="document.location.href=
+								'${pageContext.request.contextPath}/diary/diary_content?num=${diary.num}&email=${diary.user_email}&d_diary='
+								 + encodeURI('${d_diary}') + '&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${currentPage}&sort_opt=${sort_opt}'">
+									${diary.subject}
+								</a>
+							</c:if>
+						</c:if>		
 						</td>
 						<td align="center" width="20" class="w3-center w3-border">${diary.d_diary}</td>
 						<td align="center" width="20" class="w3-center w3-border">${diary.d_cdate}</td>

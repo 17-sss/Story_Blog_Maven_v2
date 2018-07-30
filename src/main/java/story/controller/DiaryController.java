@@ -448,10 +448,11 @@ public class DiaryController {
 	// 일기 내용
 	@RequestMapping("/diary_content")
 	public ModelAndView diary_content (HttpServletRequest req, ModelAndView mv, int num, DiaryDataBean diary, String email, String pageNum, 
-			String d_diary, String opt, String search, String type, String date_opt) {
+			String d_diary, String opt, String search, String type, String date_opt, String sort_opt) {
 		HttpSession session = req.getSession();
 		if (email == null || email=="") {email = (String)session.getAttribute("s_email");}
 		System.out.println("####content####\n다이어리: "+d_diary+"\n검색어: "+search+"\n옵션: "+opt+"\n타입: "+type);
+		System.out.println("정렬 값 테스트: "+sort_opt);
 		// 접속 제한
 		if (session.getAttribute("s_email") == null) {
 			mv.setViewName("index");
@@ -466,6 +467,9 @@ public class DiaryController {
 			
 			// 전체, 개별 구분 (d_diary) [수정, 삭제 후 돌아갈 페이지 구분에 쓰임] - d_diary 있으면 개별.
 			mv.addObject("d_diary", d_diary); 
+			
+			// 정렬 구분
+			mv.addObject("sort_opt", sort_opt); 
 			
 			// 일반, 갤러리 구분
 			mv.addObject("type", type);
