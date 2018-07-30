@@ -99,8 +99,49 @@
 						<td align="center" width="10" class="w3-border w3-center font-montserrat-c" style="padding: 10px 0;"><b>NUM</b></td>
 						<td align="center" width="50" class="w3-center w3-border font-montserrat-c" style="padding: 10px 30px;"><b>Subject</b></td>
 						<td align="center" width="20" class="w3-center w3-border font-montserrat-c"><b>Diary</b></td>
-						<td align="center" width="20" class="w3-center w3-border font-montserrat-c"><b>Reporting Date</b></td>
-						<td align="center" width="20" class="w3-center w3-border font-montserrat-c"><b>Date</b></td>
+						
+						<!-- [전체] 정렬 - 일기장  -->
+						<c:if test="${search == null}">
+						<td align="center" width="20" class="w3-center w3-border font-montserrat-c">
+							<a href="javascript:void(0);" style="text-decoration: none;" class="w3-text-gray w3-hover-text-black"
+							onclick="document.location.href=
+							'${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary='
+							 + encodeURI('${d_diary}') + '&pageNum=${pageNum}&sort_opt=cd'">
+								<b>Reporting Date</b>
+							</a>
+						</td>
+						<td align="center" width="20" class="w3-center w3-border font-montserrat-c">
+							<a href="javascript:void(0);" style="text-decoration: none;" class="w3-text-gray w3-hover-text-black"
+							onclick="document.location.href=
+							'${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary='
+							 + encodeURI('${d_diary}') + '&pageNum=${pageNum}&sort_opt=d'">
+								<b>Date</b>
+							</a>
+						</td>
+						</c:if>
+						
+						<!-- [검색] 정렬 - 일기장 -->
+						<c:if test="${search != null}">
+						<td align="center" width="20" class="w3-center w3-border font-montserrat-c">
+							<a href="javascript:void(0);" style="text-decoration: none;" class="w3-text-gray w3-hover-text-black"
+							onclick="document.location.href=
+							'${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary=' + encodeURI('${d_diary}') + '&search='
+							 + encodeURI('${search}') + '&opt=${opt}&pageNum=${pageNum}&sort_opt=cd'">
+								<b>Reporting Date</b>
+							</a>
+						</td>
+						<td align="center" width="20" class="w3-center w3-border font-montserrat-c">
+							<a href="javascript:void(0);" style="text-decoration: none;" class="w3-text-gray w3-hover-text-black"
+							onclick="document.location.href=
+							'${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary=' + encodeURI('${d_diary}') + '&search='
+							 + encodeURI('${search}') + '&opt=${opt}&pageNum=${pageNum}&sort_opt=d'">
+								<b>Date</b>
+							</a>
+						</td>
+						</c:if>
+						
+						<!-- end. 정렬 - 일기장 -->
+					
 					</tr>
 
 					<c:forEach var="diary" items="${d_list}">
@@ -152,26 +193,63 @@
 				<c:if test="${count2 != 0 && search == null}">
 				<div class="w3-center font-montserrat-c w3-padding-16">
 					<c:if test="${count2>0}">
+					
 						<c:if test="${startPage > bottomLine}">
-							<a href="javascript:void(0);" style="font-size: 11pt;"
-							onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary=' + encodeURI('${d_diary}') + '&pageNum=${startPage - bottomLine}'">[이전]</a>
-						</c:if>
-						<c:forEach var="i" begin="${startPage}" end="${endPage2}">	
-							<a href="javascript:void(0);" 
-							onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary=' + encodeURI('${d_diary}') + '&pageNum=${i}'"> 
-							<c:if test="${i != currentPage}">
-								[${i}]
-							</c:if> 
-							<c:if test="${i == currentPage}">
-								<font color='orange'>[${i}]</font>
+							<c:if test="${sort_opt eq ''}">
+								<a href="javascript:void(0);" style="font-size: 11pt;"
+								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary='
+								 + encodeURI('${d_diary}') + '&pageNum=${startPage - bottomLine}'">[이전]</a>
 							</c:if>
-							</a>
+							
+							<c:if test="${sort_opt != null && sort_opt ne ''}">
+								<a href="javascript:void(0);" style="font-size: 11pt;"
+								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary='
+								 + encodeURI('${d_diary}') + '&pageNum=${startPage - bottomLine}&sort_opt=${sort_opt}'">[이전]</a>
+							</c:if>
+						</c:if>
+						
+						<c:forEach var="i" begin="${startPage}" end="${endPage2}">	
+							<c:if test="${sort_opt eq ''}">	
+								<a href="javascript:void(0);" 
+								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary=' 
+								+ encodeURI('${d_diary}') + '&pageNum=${i}'"> 
+								<c:if test="${i != currentPage}">
+									[${i}]
+								</c:if> 
+								<c:if test="${i == currentPage}">
+									<font color='orange'>[${i}]</font>
+								</c:if>
+								</a>
+							</c:if>
+							
+							<c:if test="${sort_opt != null && sort_opt ne ''}">
+								<a href="javascript:void(0);" 
+								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary='
+								 + encodeURI('${d_diary}') + '&pageNum=${i}&sort_opt=${sort_opt}'"> 
+								<c:if test="${i != currentPage}">
+									[${i}]
+								</c:if> 
+								<c:if test="${i == currentPage}">
+									<font color='red'>[${i}]</font>
+								</c:if>
+								</a>
+								</c:if>
 						</c:forEach>
 
 						<c:if test="${endPage2 < pageCount2}">
-							<a href="javascript:void(0);" style="font-size: 11pt;"
-							onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary=' + encodeURI('${d_diary}') + '&pageNum=${startPage + bottomLine}'">[다음]</a>
+							<c:if test="${sort_opt eq ''}">	
+								<a href="javascript:void(0);" style="font-size: 11pt;"
+								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary=' 
+								+ encodeURI('${d_diary}') + '&pageNum=${startPage + bottomLine}'">[다음]</a>
+							</c:if>
+							
+							<c:if test="${sort_opt != null && sort_opt ne ''}">
+								<a href="javascript:void(0);" style="font-size: 11pt;"
+								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary=' 
+								+ encodeURI('${d_diary}') + '&pageNum=${startPage + bottomLine}&sort_opt=${sort_opt}'">[다음]</a>
+							</c:if>
 						</c:if>
+						
 					</c:if>
 				</div>
 				</c:if>
@@ -182,25 +260,60 @@
 				<div class="w3-center font-montserrat-c w3-padding-16">
 					<c:if test="${count2>0}">
 						<c:if test="${startPage > bottomLine}">
-							<a href="javascript:void(0);" style="font-size: 11pt;"
-							onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary=' + encodeURI('${d_diary}') + '&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${startPage - bottomLine}'">[이전]</a>
-						</c:if>
-						<c:forEach var="i" begin="${startPage}" end="${endPage2}">
-							<a href="javascript:void(0);"
-							onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary=' + encodeURI('${d_diary}') + '&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${i}'"> 
-							<c:if test="${i != currentPage}">
-								[${i}]
-							</c:if> 
-							<c:if test="${i == currentPage}">
-								<font color='orange'>[${i}]</font>
+							<c:if test="${sort_opt eq ''}">
+								<a href="javascript:void(0);" style="font-size: 11pt;"
+								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary=' 
+								+ encodeURI('${d_diary}') + '&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${startPage - bottomLine}'">[이전]</a>
 							</c:if>
-							</a>
+							<c:if test="${sort_opt != null && sort_opt ne ''}">
+								<a href="javascript:void(0);" style="font-size: 11pt;"
+								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary=' 
+								+ encodeURI('${d_diary}') + '&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${startPage - bottomLine}&sort_opt=${sort_opt}'">[이전]</a>
+							</c:if>
+						</c:if>
+						
+						<c:forEach var="i" begin="${startPage}" end="${endPage2}">
+							<c:if test= "${sort_opt eq ''}">
+								<a href="javascript:void(0);"
+								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary=' 
+								+ encodeURI('${d_diary}') + '&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${i}'"> 
+								<c:if test="${i != currentPage}">
+									[${i}]
+								</c:if> 
+								<c:if test="${i == currentPage}">
+									<font color='orange'>[${i}]</font>
+								</c:if>
+								</a>
+							</c:if>
+							
+							<c:if test= "${sort_opt != null && sort_opt ne ''}">
+								<a href="javascript:void(0);"
+								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary=' 
+								+ encodeURI('${d_diary}') + '&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${i}&sort_opt=${sort_opt}'"> 
+								<c:if test="${i != currentPage}">
+									[${i}]
+								</c:if> 
+								<c:if test="${i == currentPage}">
+									<font color='red'>[${i}]</font>
+								</c:if>
+								</a>
+							</c:if> 	 	
 						</c:forEach>
 
 						<c:if test="${endPage2 < pageCount2}">
-							<a href="javascript:void(0);" style="font-size: 11pt;"
-							onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary=' + encodeURI('${d_diary}') + '&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${startPage + bottomLine}'">[다음]</a>
+							<c:if test= "${sort_opt eq ''}">	
+								<a href="javascript:void(0);" style="font-size: 11pt;"
+								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary='
+								 + encodeURI('${d_diary}') + '&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${startPage + bottomLine}'">[다음]</a>
+							</c:if>
+							
+							<c:if test= "${sort_opt != null && sort_opt ne ''}">	
+								<a href="javascript:void(0);" style="font-size: 11pt;"
+								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary='
+								 + encodeURI('${d_diary}') + '&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${startPage + bottomLine}&sort_opt=${sort_opt}'">[다음]</a>
+							</c:if>
 						</c:if>
+						
 					</c:if>
 				</div>
 				</c:if>

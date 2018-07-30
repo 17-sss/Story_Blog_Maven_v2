@@ -204,7 +204,7 @@ public class DiaryController {
 		if (email == null || email=="") {email = (String)session.getAttribute("s_email");}
 		if (sort_opt == null || sort_opt == "") {sort_opt = "";}
 	
-		System.out.println("==Sort Test==\n정렬 옵션: "+sort_opt+"\nPageNum: "+pageNum);
+		System.out.println("==Sort Test - Diary_Board1==\n정렬 옵션: "+sort_opt+"\nPageNum: "+pageNum);
 		
 	    int pageSize = 10;
 	    
@@ -320,11 +320,14 @@ public class DiaryController {
 	
 	// 일기 게시판 - 개별
 	@RequestMapping(value = "/diary_board2", produces = "application/text; charset=euckr")
-	public ModelAndView diary_board2 (HttpServletRequest req, ModelAndView mv, String pageNum, String email, String d_diary, String search, String opt) throws Exception  {
+	public ModelAndView diary_board2 (HttpServletRequest req, ModelAndView mv, String pageNum, String email, String d_diary, String search, String opt, String sort_opt) throws Exception  {
 		HttpSession session = req.getSession();
 		
 		if (pageNum == null || pageNum == "") {pageNum = "1";}
 		if (email == null || email=="") {email = (String)session.getAttribute("s_email");}
+		if (sort_opt == null || sort_opt == "") {sort_opt = "";}
+	    
+		System.out.println("==Sort Test - Diary_Board2==\n정렬 옵션: "+sort_opt+"\nPageNum: "+pageNum);
 	    
 	    int pageSize = 10;
 	    
@@ -340,12 +343,16 @@ public class DiaryController {
 	    int number2 = 0;
 	    
 	    d_diarylist = diPro.getDiarylist(email); // 일기장 목록 생성용
-	    
+		
 	    // 일기장 개별
 		count2 = diPro.getDiaryCount(email, d_diary);
-		if (count2 > 0) {
+		if (count2 > 0 && sort_opt.equals("") || sort_opt.equals("cd")) {
 			d_list = diPro.getDiaries(startRow, endRow, email, d_diary);
-			System.out.println("############\n"+"Count2 (개별): "+ count2 + "\nDiary: "+d_diary+"\n############");
+			System.out.println("############\n"+"Count (일기장 분류, 정렬 - 작성일): "+ count2 + "\nDiary: "+d_diary+"\n############");
+		}
+		if (count2 > 0 && sort_opt.equals("d")) {
+			d_list = diPro.getDiaries_d(startRow, endRow, email, d_diary);
+			System.out.println("############\n"+"Count (일기장 분류, 정렬 - 일기 날짜): " + count2 + "\nDiary: "+d_diary+"\n############");
 		}
 
 		// 일기장 개별 - 검색
@@ -353,23 +360,40 @@ public class DiaryController {
 	    	
 		    if (opt.equals("SC")) {
 				count2 = diPro.getSearchDiaryCount_D_SC(email, d_diary, "%"+search+"%");
-				if (count2 > 0) {
+				
+				if (count2 > 0 && sort_opt.equals("") || sort_opt.equals("cd")) {
 					d_list = diPro.searchDiary_D_SC(startRow, endRow, email, d_diary, "%"+search+"%");
-					System.out.println("[SC] Count2: " + count2);
+					System.out.println("[SC] (정렬 - 작성일) Count2: " + count2);
+				}
+				if (count2 > 0 && sort_opt.equals("d")) {
+					d_list = diPro.searchDiary_D_SC_d(startRow, endRow, email, d_diary, "%"+search+"%");
+					System.out.println("[SC] (정렬 - 일기 날짜) Count2: " + count2);
 				}
 			} 
+		  
 		    if (opt.equals("S")) {
 				count2 = diPro.getSearchDiaryCount_D_S(email, d_diary, "%"+search+"%");
-				if (count2 > 0) {
+				
+				if (count2 > 0 && sort_opt.equals("") || sort_opt.equals("cd")) {
 					d_list = diPro.searchDiary_D_S(startRow, endRow, email, d_diary, "%"+search +"%");
-					System.out.println("[S] Count2: " + count2);
+					System.out.println("[S] (정렬 - 작성일) Count2: " + count2);
+				}
+				if (count2 > 0  && sort_opt.equals("d")) {
+					d_list = diPro.searchDiary_D_S_d(startRow, endRow, email, d_diary, "%"+search +"%");
+					System.out.println("[S] (정렬 - 일기 날짜) Count2: " + count2);
 				}
 			}
+		    
 		    if (opt.equals("C")) {
 				count2 = diPro.getSearchDiaryCount_D_C(email, d_diary, "%"+search+"%");
-				if (count2 > 0) {
+		
+				if (count2 > 0 && sort_opt.equals("") || sort_opt.equals("cd")) {
 					d_list = diPro.searchDiary_D_C(startRow, endRow, email, d_diary, "%"+search+"%");
-					System.out.println("[C] Count2: " + count2);
+					System.out.println("[C] (정렬 - 작성일) Count2: " + count2);
+				}
+				if (count2 > 0 && sort_opt.equals("d")) {
+					d_list = diPro.searchDiary_D_C_d(startRow, endRow, email, d_diary, "%"+search+"%");
+					System.out.println("[C] (정렬 - 일기 날짜) Count2: " + count2);
 				}
 			}
 			
@@ -402,7 +426,11 @@ public class DiaryController {
 	    mv.addObject("currentPage", currentPage);
 	    mv.addObject("bottomLine", bottomLine);
 	    mv.addObject("startPage", startPage);
+	    mv.addObject("pageNum", pageNum);
 	   
+	    // 정렬
+	    mv.addObject("sort_opt", sort_opt);
+	    
 	    // 검색
 	    mv.addObject("search", search);
 	    mv.addObject("opt", opt);

@@ -103,13 +103,13 @@
 						<!-- [전체] 정렬  -->
 						<c:if test="${search == null}">
 						<td align="center" width="20" class="w3-center w3-border font-montserrat-c">
-							<a href="${pageContext.request.contextPath}/diary/diary_board?&email=${diary.user_email}&pageNum=${pageNum}&sort_opt=cd" 
+							<a href="${pageContext.request.contextPath}/diary/diary_board?email=${s_email}&pageNum=${pageNum}&sort_opt=cd" 
 							style="text-decoration: none;" class="w3-text-gray w3-hover-text-black">
 								<b>Reporting Date</b>
 							</a>
 						</td>
 						<td align="center" width="20" class="w3-center w3-border font-montserrat-c">
-							<a href="${pageContext.request.contextPath}/diary/diary_board?&email=${diary.user_email}&pageNum=${pageNum}&sort_opt=d" 
+							<a href="${pageContext.request.contextPath}/diary/diary_board?email=${s_email}&pageNum=${pageNum}&sort_opt=d" 
 							style="text-decoration: none;" class="w3-text-gray w3-hover-text-black">
 								<b>Date</b>
 							</a>
@@ -121,7 +121,7 @@
 						<td align="center" width="20" class="w3-center w3-border font-montserrat-c">
 							<a href="javascript:void(0);" style="text-decoration: none;" class="w3-text-gray w3-hover-text-black"
 							onclick="document.location.href=
-							'${pageContext.request.contextPath}/diary/diary_board?&email=${diary.user_email}&search='
+							'${pageContext.request.contextPath}/diary/diary_board?email=${s_email}&search='
 							 + encodeURI('${search}') + '&opt=${opt}&pageNum=${pageNum}&sort_opt=cd'">
 								<b>Reporting Date</b>
 							</a>
@@ -129,7 +129,7 @@
 						<td align="center" width="20" class="w3-center w3-border font-montserrat-c">
 							<a href="javascript:void(0);" style="text-decoration: none;" class="w3-text-gray w3-hover-text-black"
 							onclick="document.location.href=
-							'${pageContext.request.contextPath}/diary/diary_board?&email=${diary.user_email}&search='
+							'${pageContext.request.contextPath}/diary/diary_board?email=${s_email}&search='
 							 + encodeURI('${search}') + '&opt=${opt}&pageNum=${pageNum}&sort_opt=d'">
 								<b>Date</b>
 							</a>
@@ -188,23 +188,46 @@
 				<c:if test="${count != 0 && search == null}">
 				<div class="w3-center font-montserrat-c w3-padding-16">
 					<c:if test="${count>0}">
-						<c:if test="${startPage > bottomLine}">
-							<a href="diary_board?email=${s_email}&pageNum=${startPage - bottomLine}" style="font-size: 11pt;">[이전]</a>
-						</c:if>
-
-						<c:forEach var="i" begin="${startPage}" end="${endPage}">
-							<a href="diary_board?email=${s_email}&pageNum=${i}"> 
-							<c:if test="${i != currentPage}">
-								[${i}]
-							</c:if> 
-							<c:if test="${i == currentPage}">
-								<font color='orange'>[${i}]</font>
+						<c:if test="${startPage > bottomLine}">		
+							<c:if test="${sort_opt eq ''}">
+								<a href="diary_board?email=${s_email}&pageNum=${startPage - bottomLine}" style="font-size: 11pt;">[이전]</a>
 							</c:if>
-							</a>
+							<c:if test="${sort_opt != null && sort_opt ne ''}">
+								<a href="diary_board?email=${s_email}&pageNum=${startPage - bottomLine}&sort_opt=${sort_opt}" style="font-size: 11pt;">[이전]</a>
+							</c:if>
+						</c:if>	
+					
+						<c:forEach var="i" begin="${startPage}" end="${endPage}">
+							<c:if test="${sort_opt eq ''}">
+								<a href="diary_board?email=${s_email}&pageNum=${i}">
+								<c:if test="${i != currentPage}">
+									[${i}]
+								</c:if> 
+								<c:if test="${i == currentPage}">
+									<font color='orange'>[${i}]</font>
+								</c:if>
+								</a>
+							</c:if>
+							
+							<c:if test="${sort_opt != null && sort_opt ne ''}">
+								<a href="diary_board?email=${s_email}&pageNum=${i}&sort_opt=${sort_opt}">
+								<c:if test="${i != currentPage}">
+									[${i}]
+								</c:if> 
+								<c:if test="${i == currentPage}">
+									<font color='red'>[${i}]</font>
+								</c:if>
+								</a>
+							</c:if>		
 						</c:forEach>
 
 						<c:if test="${endPage < pageCount}">
-							<a href="diary_board?email=${s_email}&pageNum=${startPage + bottomLine}" style="font-size: 11pt;">[다음]</a>
+							<c:if test="${sort_opt eq ''}">
+								<a href="diary_board?email=${s_email}&pageNum=${startPage + bottomLine}" style="font-size: 11pt;">[다음]</a>
+							</c:if>
+							<c:if test="${sort_opt != null && sort_opt ne ''}">
+								<a href="diary_board?email=${s_email}&pageNum=${startPage + bottomLine}&sort_opt=${sort_opt}" style="font-size: 11pt;">[다음]</a>
+							</c:if>
 						</c:if>
 					</c:if>
 				</div>
@@ -216,25 +239,52 @@
 				
 					<c:if test="${count>0}">
 						<c:if test="${startPage > bottomLine}">
-							<a href="javascript:void(0);" style="font-size: 11pt;"
-							onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board?email=${s_email}&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${startPage + bottomLine}'">[이전]</a>
+							<c:if test="${sort_opt eq ''}">
+								<a href="javascript:void(0);" style="font-size: 11pt;"
+								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board?email=${s_email}&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${startPage + bottomLine}'">[이전]</a>
+							</c:if>
+							<c:if test="${sort_opt != null && sort_opt ne ''}">
+								<a href="javascript:void(0);" style="font-size: 11pt;"
+								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board?email=${s_email}&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${startPage + bottomLine}&sort_opt=${sort_opt}'">[이전]</a>
+							</c:if>		
 						</c:if>
 
 						<c:forEach var="i" begin="${startPage}" end="${endPage}">
-							<a href="javascript:void(0);"
-							onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board?email=${s_email}&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${i}'">
-							<c:if test="${i != currentPage}">
-								[${i}]
-							</c:if> 
-							<c:if test="${i == currentPage}">
-								<font color='orange'>[${i}]</font>
+							<c:if test= "${sort_opt eq ''}">
+								<a href="javascript:void(0);"
+								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board?email=${s_email}&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${i}'">
+								<c:if test="${i != currentPage}">
+									[${i}]
+								</c:if> 
+								<c:if test="${i == currentPage}">
+									<font color='orange'>[${i}]</font>
+								</c:if>
+								</a>
 							</c:if>
-							</a>
+							
+							<c:if test= "${sort_opt != null && sort_opt ne ''}">
+								<a href="javascript:void(0);"
+								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board?email=${s_email}&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${i}&sort_opt=${sort_opt}'">
+								<c:if test="${i != currentPage}">
+									[${i}]
+								</c:if> 
+								<c:if test="${i == currentPage}">
+									<font color='red'>[${i}]</font>
+								</c:if>
+								</a>
+							</c:if>
 						</c:forEach>
 
 						<c:if test="${endPage < pageCount}">
-							<a href="javascript:void(0);" style="font-size: 11pt;"
-							onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board?email=${s_email}&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${startPage + bottomLine}'">[다음]</a>
+							<c:if test= "${sort_opt eq ''}">
+								<a href="javascript:void(0);" style="font-size: 11pt;"
+								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board?email=${s_email}&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${startPage + bottomLine}'">[다음]</a>
+							</c:if>	
+							
+							<c:if test= "${sort_opt != null && sort_opt ne ''}">	
+								<a href="javascript:void(0);" style="font-size: 11pt;"
+								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board?email=${s_email}&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${startPage + bottomLine}&sort_opt=${sort_opt}'">[다음]</a>
+							</c:if>
 						</c:if>
 					</c:if>
 					
