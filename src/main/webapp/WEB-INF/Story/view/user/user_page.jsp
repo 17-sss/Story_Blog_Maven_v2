@@ -61,7 +61,7 @@
 			<table class="w3-table " cellspacing="20" style="margin-left: 5.5%;">        
       			
       			<tr class="w3-margin-top">
-      					<td>
+      				<td>
 						<i class="far fa-envelope i-mar-size">&nbsp;&nbsp;</i>
 						<span style="font-size: 14px;">Email</span>
 					</td>
@@ -71,8 +71,8 @@
        			</tr>
        			
        			<tr class="w3-margin-top">
-      					<td>
-						<i class="fas fa-key i-mar-size">&nbsp;&nbsp;</i>
+      				<td>
+						<i class="fas fa-key i-mar-size">&nbsp;&nbsp;</i>	
 						<span style="font-size: 14px;">Password</span>
 					</td>
 					<td>
@@ -81,7 +81,7 @@
        			</tr>
        			
        			<tr class="w3-margin-top">
-      					<td>
+      				<td>
 						<i class="fas fa-key i-mar-size" style="color:#FF4848;">&nbsp;&nbsp;</i>
 						<span style="font-size: 14px;">Password Check</span>
 					</td>
@@ -92,7 +92,7 @@
        			</tr>
       			
       			<tr class="w3-margin-top">
-      					<td>
+      				<td>
 						<i class="far fa-id-badge i-mar-size">&nbsp;&nbsp;</i>
 						<span style="font-size: 14px;">Name</span>
 					</td>
@@ -102,7 +102,7 @@
        			</tr>
        			
        			<tr class="w3-margin-top">
-      					<td>
+      				<td>
 						<i class="fas fa-phone i-mar-size">&nbsp;&nbsp;</i>
 						<span style="font-size: 14px;">Tel</span>
 					</td>
@@ -112,7 +112,7 @@
        			</tr>
        			
        			<tr class="w3-margin-top">
-      					<td>
+      				<td>
 						<i class="fas fa-birthday-cake i-mar-size">&nbsp;&nbsp;</i>
 						<span style="font-size: 14px;">Birthday</span>
 					</td>
@@ -122,7 +122,54 @@
        			</tr>
        			
        			<tr class="w3-margin-top">
-      					<td>
+      				<td>
+						<i class="fas fas fa-sort i-mar-size w3-text-red">&nbsp;&nbsp;</i>
+						<span style="font-size: 14px;" title="메인, 갤러리의 정렬 옵션입니다." class="w3-text-red">Sort</span>
+					</td>
+					<td>
+						<c:if test="${user.sort_option == null}">
+						<span>
+							<input type="radio" name="sort_option" value="r_date">
+							<span style="font-size: 14px;">작성일</span>
+						</span>
+						&nbsp;
+						<span>
+							<input type="radio" name="sort_option" value="n_date">
+							<span style="font-size: 14px;">일기 기준 날짜</span>
+						</span>
+						</c:if>
+						
+						<c:if test="${user.sort_option != null}">
+							<c:if test="${user.sort_option eq 'r_date'}">
+							<span>
+								<input type="radio" name="sort_option" value="r_date" checked="checked">
+								<span style="font-size: 14px;">작성일</span>
+							</span>
+							&nbsp;
+							<span>
+								<input type="radio" name="sort_option" value="n_date">
+								<span style="font-size: 14px;">일기 기준 날짜</span>
+							</span>
+							</c:if>
+							
+							<c:if test="${user.sort_option eq 'n_date'}">
+							<span>
+								<input type="radio" name="sort_option" value="r_date">
+								<span style="font-size: 14px;">작성일</span>
+							</span>
+							&nbsp;
+							<span>
+								<input type="radio" name="sort_option" value="n_date" checked="checked">
+								<span style="font-size: 14px;">일기 기준 날짜</span>
+							</span>
+							</c:if>
+						</c:if>
+					
+					</td>	
+       			</tr>
+       			
+       			<tr class="w3-margin-top">
+      				<td>
 						<i class="far fa-image i-mar-size">&nbsp;&nbsp;</i>
 						<span style="font-size: 14px;">Photo</span>
 					</td>

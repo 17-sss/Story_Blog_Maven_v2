@@ -26,31 +26,38 @@
 		SELECT nvl(count(*),0) FROM story_diary WHERE user_email = #{user_email} and d_diary = #{d_diary}
 	</select>
 	
-	<!-- 일기 목록 가져오기 (이메일) [정렬 - 작성일 기준 (기본)] -->
-	<select id="getDiaries1" resultType="Diary" parameterType="hashmap">
-		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, d_cdate, subject, content, user_email from story_diary
-		 where user_email = #{user_email} order by d_cdate desc) b) where rnum between #{startRow} and #{endRow}
-	</select>
 	
-	<!-- 일기 목록 가져오기 (이메일) [정렬 - 일기 날짜 기준] -->
-	<select id="getDiaries1_d" resultType="Diary" parameterType="hashmap">
-		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, d_cdate, subject, content, user_email from story_diary
-		 where user_email = #{user_email} order by d_date desc, subject desc) b) where rnum between #{startRow} and #{endRow}
-	</select>
+	<!-- # 일기 목록 가져오기 (이메일) -->
+		<!-- 일기 목록 가져오기 (이메일) [정렬 - 작성일 기준 (기본)] -->
+		<select id="getDiaries1" resultType="Diary" parameterType="hashmap">
+			select * from (select rownum rnum, b.* from (select num, d_diary, d_date, d_cdate, subject, content, user_email from story_diary
+			 where user_email = #{user_email} order by d_cdate desc) b) where rnum between #{startRow} and #{endRow}
+		</select>
+		
+		<!-- 일기 목록 가져오기 (이메일) [정렬 - 일기 날짜 기준] -->
+		<select id="getDiaries1_d" resultType="Diary" parameterType="hashmap">
+			select * from (select rownum rnum, b.* from (select num, d_diary, d_date, d_cdate, subject, content, user_email from story_diary
+			 where user_email = #{user_email} order by d_date desc, subject desc) b) where rnum between #{startRow} and #{endRow}
+		</select>
+	<!-- # end. 일기 목록 가져오기 (이메일) -->
 	
-	<!-- 일기 목록 가져오기 (이메일 & 일기장) [정렬 - 작성일 기준 (기본)] -->
-	<select id="getDiaries2" resultType="Diary" parameterType="hashmap">
-		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, d_cdate, subject, content, user_email from story_diary
-		 where user_email = #{user_email} and d_diary = #{d_diary} order by d_cdate desc) b) 
-		 where rnum between #{startRow} and #{endRow}
-	</select>
-
-	<!-- 일기 목록 가져오기 (이메일 & 일기장) [정렬 - 일기 날짜 기준] -->
-	<select id="getDiaries2_d" resultType="Diary" parameterType="hashmap">
-		select * from (select rownum rnum, b.* from (select num, d_diary, d_date, d_cdate, subject, content, user_email from story_diary
-		 where user_email = #{user_email} and d_diary = #{d_diary} order by d_date desc, subject desc) b) 
-		 where rnum between #{startRow} and #{endRow}
-	</select>
+	
+	<!-- # 일기 목록 가져오기 (이메일 & 일기장) -->
+		<!-- 일기 목록 가져오기 (이메일 & 일기장) [정렬 - 작성일 기준 (기본)] -->
+		<select id="getDiaries2" resultType="Diary" parameterType="hashmap">
+			select * from (select rownum rnum, b.* from (select num, d_diary, d_date, d_cdate, subject, content, user_email from story_diary
+			 where user_email = #{user_email} and d_diary = #{d_diary} order by d_cdate desc) b) 
+			 where rnum between #{startRow} and #{endRow}
+		</select>
+	
+		<!-- 일기 목록 가져오기 (이메일 & 일기장) [정렬 - 일기 날짜 기준] -->
+		<select id="getDiaries2_d" resultType="Diary" parameterType="hashmap">
+			select * from (select rownum rnum, b.* from (select num, d_diary, d_date, d_cdate, subject, content, user_email from story_diary
+			 where user_email = #{user_email} and d_diary = #{d_diary} order by d_date desc, subject desc) b) 
+			 where rnum between #{startRow} and #{endRow}
+		</select>
+	<!-- # end. 일기 목록 가져오기 (이메일 & 일기장) -->
+	
 	
 	<!-- 갤러리 - 사진 수 (이메일) -->
 	<select id="getGalleryCount1" resultType="int" parameterType="hashmap">
@@ -64,28 +71,51 @@
 		(filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null)
 	</select>
 	
-	<!-- 갤러리 - 사진 가져오기 (이메일) -->
-	<select id="getGallery1" resultType="Diary" parameterType="hashmap">
-		select * from (select rownum rnum, b.* from (select num, user_email, subject, d_date, d_cdate, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary
-		 where user_email = #{user_email} and 
-		 (filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null) 
-		 order by d_date desc) b) where rnum between #{startRow} and #{endRow}
-	</select>
 	
-	<!-- 갤러리 - 사진 가져오기 (이메일, 날짜) -->
-	<select id="getGallery2" resultType="Diary" parameterType="hashmap">
-		select * from (select rownum rnum, b.* from (select num, user_email, subject, d_date, d_cdate, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary
-		 where user_email = #{user_email} and d_date = #{date_opt} and 
-		 (filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null) 
-		 order by d_date desc) b) where rnum between #{startRow} and #{endRow}
-	</select>
+	<!-- # 갤러리 - 사진 가져오기 (이메일) -->
+		<!-- 갤러리 - 사진 가져오기 (이메일) - [정렬 - 작성일 기준 (기본)] -->
+		<select id="getGallery1" resultType="Diary" parameterType="hashmap">
+			select * from (select rownum rnum, b.* from (select num, user_email, subject, d_date, d_cdate, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary
+			 where user_email = #{user_email} and 
+			 (filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null) 
+			 order by d_cdate desc) b) where rnum between #{startRow} and #{endRow}
+		</select>
+		
+		<!-- 갤러리 - 사진 가져오기 (이메일) - [정렬 - 일기 날짜 기준] -->
+		<select id="getGallery1_d" resultType="Diary" parameterType="hashmap">
+			select * from (select rownum rnum, b.* from (select num, user_email, subject, d_date, d_cdate, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary
+			 where user_email = #{user_email} and 
+			 (filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null) 
+			 order by d_date desc, subject desc) b) where rnum between #{startRow} and #{endRow}
+		</select>
+	<!-- # end. 갤러리 - 사진 가져오기 (이메일) -->
 	
-	<!-- 갤러리 - 날짜 가져오기 (이메일 기준) (갤러리 날짜 검색 전용) -->
+	
+	<!-- # 갤러리 - 사진 가져오기 (이메일, 날짜) -->
+		<!-- 갤러리 - 사진 가져오기 (이메일, 날짜) - [정렬 - 작성일 기준 (기본)] -->
+		<select id="getGallery2" resultType="Diary" parameterType="hashmap">
+			select * from (select rownum rnum, b.* from (select num, user_email, subject, d_date, d_cdate, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary
+			 where user_email = #{user_email} and d_date = #{date_opt} and 
+			 (filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null) 
+			 order by d_cdate desc) b) where rnum between #{startRow} and #{endRow}
+		</select>
+		
+		<!-- 갤러리 - 사진 가져오기 (이메일, 날짜) - [정렬 - 일기 날짜 기준] -->
+		<select id="getGallery2_d" resultType="Diary" parameterType="hashmap">
+			select * from (select rownum rnum, b.* from (select num, user_email, subject, d_date, d_cdate, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary
+			 where user_email = #{user_email} and d_date = #{date_opt} and 
+			 (filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null) 
+			 order by d_date desc, subject desc) b) where rnum between #{startRow} and #{endRow}
+		</select>
+	<!-- # end. 갤러리 - 사진 가져오기 (이메일, 날짜) -->
+
+
+	<!-- 갤러리 - 날짜 가져오기 (이메일 기준) (갤러리 날짜 검색 전용)-->
 	<select id="getGalleryDate" resultType="Diary" parameterType="hashmap">
 		Select distinct d_date from story_diary where user_email = #{user_email} and (filename1 is not null or filename2 is not null or filename3 is not null 
 		or filename4 is not null or filename5 is not null or filename6 is not null) order by d_date desc
 	</select>
-	
+
 	<!-- 갤러리 - 날짜 가져오기2 (이메일 기준) (갤러리 날짜 검색 전용(검색한 날짜를 제외)) -->
 	<select id="getGalleryDate2" resultType="Diary" parameterType="hashmap">
 		Select distinct d_date from story_diary where user_email = #{user_email} and d_date != #{date_opt} and 
@@ -101,12 +131,22 @@
 		filename3 is not null or filename4 is not null or filename5 is not null or filename6 is not null)  order by d_date desc) b) where  rownum <![CDATA[ <= ]]> #{recent_num}
 	</select>
 	
-	<!-- 갤러리 - 최근 일기 n개 게시물만큼 사진 가져오기 (메인 전용) -->
-	<select id="getGalleryRecent" resultType="Diary" parameterType="hashmap">
-		select * from (select rownum rnum, b.* from (select num, user_email, subject, d_date, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary 
-		where user_email = #{user_email} and (filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or 
-		filename5 is not null or filename6 is not null) order by d_date desc) b) where rownum <![CDATA[ <= ]]> #{recent_num}
-	</select>
+	
+	<!-- # 갤러리 - 최근 일기 n개 게시물만큼 사진 가져오기 (메인 전용) -->
+		<!-- 갤러리 - 최근 일기 n개 게시물만큼 사진 가져오기 (메인 전용) - [정렬 - 작성일 기준 (기본)] -->
+		<select id="getGalleryRecent" resultType="Diary" parameterType="hashmap">
+			select * from (select rownum rnum, b.* from (select num, user_email, subject, d_date, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary 
+			where user_email = #{user_email} and (filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or 
+			filename5 is not null or filename6 is not null) order by d_cdate desc) b) where rownum <![CDATA[ <= ]]> #{recent_num}
+		</select>
+		
+		<!-- 갤러리 - 최근 일기 n개 게시물만큼 사진 가져오기 (메인 전용) - [정렬 - 일기 날짜 기준] -->
+		<select id="getGalleryRecent_d" resultType="Diary" parameterType="hashmap">
+			select * from (select rownum rnum, b.* from (select num, user_email, subject, d_date, filename1, filename2, filename3, filename4, filename5, filename6 from story_diary 
+			where user_email = #{user_email} and (filename1 is not null or filename2 is not null or filename3 is not null or filename4 is not null or 
+			filename5 is not null or filename6 is not null) order by d_date desc, subject desc) b) where rownum <![CDATA[ <= ]]> #{recent_num}
+		</select>
+	<!-- # end. 갤러리 - 최근 일기 n개 게시물만큼 사진 가져오기 (메인 전용) -->
 
 
 	<!-- 일기장 목록 가져오기 (이메일 기준) (일기장 가져오기 전용) -->

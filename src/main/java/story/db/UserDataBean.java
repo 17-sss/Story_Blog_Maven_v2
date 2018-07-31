@@ -13,6 +13,7 @@ public class UserDataBean {
 	private int filesize;	// 프로필 용량
 	private Date cdate;	// 생성 날짜
 	private int p_level; // 회원권한레벨
+	private String sort_option; // 갤러리, 메인 사진 정렬 옵션
 	private String ip;
 	
 	public int getNum() {
@@ -75,6 +76,12 @@ public class UserDataBean {
 	public void setP_level(int p_level) {
 		this.p_level = p_level;
 	}
+	public String getSort_option() {
+		return sort_option;
+	}
+	public void setSort_option(String sort_option) {
+		this.sort_option = sort_option;
+	}
 	public String getIp() {
 		return ip;
 	}
@@ -82,12 +89,14 @@ public class UserDataBean {
 		this.ip = ip;
 	}
 	
+	
 	@Override
 	public String toString() {
 		return "UserDataBean [num=" + num + ", email=" + email + ", pwd=" + pwd + ", name=" + name + ", tel=" + tel
 				+ ", birth=" + birth + ", filename=" + filename + ", filesize=" + filesize + ", cdate=" + cdate
-				+ ", p_level=" + p_level + ", ip=" + ip + "]";
+				+ ", p_level=" + p_level + ", sort_option=" + sort_option + ", ip=" + ip + "]";
 	}
 	
+
 	
 }

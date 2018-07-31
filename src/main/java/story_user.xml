@@ -4,8 +4,8 @@
 <mapper namespace="user.mybatis">
 	<!-- 회원가입 -->
 	<insert id="insertUser" parameterType="User">
-		insert into story_user(num, email, pwd, name, tel, birth, filename, filesize, cdate, p_level, ip) 
-		values(#{num}, #{email}, #{pwd}, #{name}, #{tel}, #{birth}, #{filename}, #{filesize}, sysdate, #{p_level}, #{ip})
+		insert into story_user(num, email, pwd, name, tel, birth, filename, filesize, cdate, p_level, sort_option, ip) 
+		values(#{num}, #{email}, #{pwd}, #{name}, #{tel}, #{birth}, #{filename}, #{filesize}, sysdate, #{p_level}, #{sort_option}, #{ip})
 	</insert>
 	
 	<!-- 회원가입시 순번 계산 (시퀸스) -->
@@ -35,7 +35,8 @@
 	
 	<!-- 회원정보 수정 -->
 	<update id="updateUser" parameterType="User">
-		update story_user set pwd=#{pwd}, name=#{name}, tel=#{tel}, birth=#{birth}, filename=#{filename}, filesize=#{filesize} where email=#{email}	
+		update story_user set pwd=#{pwd}, name=#{name}, tel=#{tel}, birth=#{birth}, filename=#{filename}, 
+		filesize=#{filesize}, sort_option=#{sort_option} where email=#{email}	
 	</update>
 	
 	<!-- 파일 X - 테스트  -->
@@ -45,7 +46,7 @@
 	<!--  --><!--  -->
 	
 	
-	
+	<!-- 보류 -->
 	<select id="getUserCount" resultType="int">
 		SELECT nvl(count(*),0) FROM userlist
 	</select>
@@ -56,11 +57,6 @@
 	</select>
 	
 	
-	
-	
-	
-	
-	
 	<delete id="deleteUser" parameterType="hashmap">
 		delete from userlist where email=#{email} and pwd=#{pwd}	
 	</delete>
@@ -69,7 +65,7 @@
 	
 	
 	
-	<!-- 보류 -->
+	
 	
 	
 </mapper>

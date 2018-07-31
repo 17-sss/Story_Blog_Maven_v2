@@ -53,6 +53,7 @@ public class UserController {
 		user.setName(req.getParameter("name"));
 		user.setTel(req.getParameter("tel"));
 		user.setBirth(req.getParameter("birth"));
+		user.setSort_option(null);
 		user.setIp(req.getRemoteAddr());
 		
 		if (filename != null && !filename.equals("")) {
@@ -122,6 +123,7 @@ public class UserController {
         	session.setAttribute("s_email", user.getEmail());
         	session.setAttribute("s_name", user.getName());
             session.setAttribute("s_filename", user.getFilename());
+            session.setAttribute("s_option", user.getSort_option());
 			msg = "LoginPro";
 			System.out.println(email+"님이 로그인 하셨습니다.");
 			mv.setViewName(msg);
@@ -154,9 +156,13 @@ public class UserController {
 	
 	// 마이페이지
 	@RequestMapping("/user_page")
-	public ModelAndView user_page (ModelAndView mv, UserDataBean user, String email, HttpServletRequest req) throws Exception {
+	public ModelAndView user_page (ModelAndView mv, UserDataBean user, String email, HttpServletRequest req, String sort_option) throws Exception {
 		HttpSession session = req.getSession();
 		if (email == null || email == "") {email = (String)session.getAttribute("s_email");}
+		if (sort_option == null || sort_option == "") {sort_option = (String)session.getAttribute("s_option");}
+		
+		System.out.println("유저 정렬 옵션: " + sort_option);
+		
 		// 접속 제한
 		if (session.getAttribute("s_email") == null) {
 			mv.setViewName("index");
@@ -171,7 +177,8 @@ public class UserController {
 	
 	// 마이페이지 전송 (Spring 방식으로 하면 계속  400..(파일없을경우엔 잘돌아감 / 보류 / 몇번을 시도해도..))
 	@RequestMapping("/user_pagePro")
-	public ModelAndView user_pagePro (ModelAndView mv, int num, String fname, int fsize, String email, MultipartHttpServletRequest req) throws Exception {
+	public ModelAndView user_pagePro (ModelAndView mv, int num, String fname, int fsize, String email, String sort_option,
+			MultipartHttpServletRequest req) throws Exception {
 		HttpSession session = req.getSession();
 		
 		UserDataBean user = new UserDataBean();
@@ -186,6 +193,7 @@ public class UserController {
 		user.setName(req.getParameter("name"));
 		user.setTel(req.getParameter("tel"));
 		user.setBirth(req.getParameter("birth"));
+		user.setSort_option(sort_option);
 		
 		
 		if (filename != null && !filename.equals("")) {
@@ -216,6 +224,7 @@ public class UserController {
 			int chk = usPro.updateUser(user);
 			session.setAttribute("s_name", user.getName());
 			session.setAttribute("s_filename", user.getFilename());
+			session.setAttribute("s_option", user.getSort_option());
 			
 			System.out.println(email +"님의 정보가 변경되었습니다" + "\t # 변경여부[chk]: "+chk+"\n");
 			mv.addObject("filechk", filechk);
