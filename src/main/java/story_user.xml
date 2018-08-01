@@ -39,6 +39,11 @@
 		filesize=#{filesize}, sort_option=#{sort_option} where email=#{email}	
 	</update>
 	
+	<!-- 회원 탈퇴 -->
+	<delete id="deleteUser" parameterType="hashmap">
+		delete from story_user where email=#{email} and pwd=#{pwd}	
+	</delete>
+	
 	<!-- 파일 X - 테스트  -->
 	<!-- <update id="updateUser" parameterType="User">
 		update story_user set pwd=#{pwd}, name=#{name}, tel=#{tel}, birth=#{birth} where email=#{email}	
@@ -57,9 +62,7 @@
 	</select>
 	
 	
-	<delete id="deleteUser" parameterType="hashmap">
-		delete from userlist where email=#{email} and pwd=#{pwd}	
-	</delete>
+	
 	
 	
 	

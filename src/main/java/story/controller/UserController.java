@@ -175,6 +175,18 @@ public class UserController {
 		return mv;
 	}
 	
+	@RequestMapping("user_deletePro")
+	public ModelAndView user_deletePro (ModelAndView mv, String email, String pwd) {
+		int check = usPro.deleteUser(email, pwd);
+		
+		System.out.println("삭제여부: " + check);
+		
+		mv.addObject("check", check);
+		mv.setViewName("view/user/user_deletePro");
+		
+		return mv;
+	}
+	
 	// 마이페이지 전송 (Spring 방식으로 하면 계속  400..(파일없을경우엔 잘돌아감 / 보류 / 몇번을 시도해도..))
 	@RequestMapping("/user_pagePro")
 	public ModelAndView user_pagePro (ModelAndView mv, int num, String fname, int fsize, String email, String sort_option,

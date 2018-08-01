@@ -112,6 +112,19 @@ public class UserDBMyBatis extends MybatisConnector {
 		
 		return chk;
 	}
+	
+	// È¸¿ø Å»Åð
+	public int deleteUser (String email, String pwd) {
+		sqlSession= sqlSession();
+		Map map = new HashMap();
+		map.put("email", email);
+		map.put("pwd", pwd);
+		int chk = sqlSession.delete(namespace+".deleteUser", map);
+		sqlSession.commit();
+		sqlSession.close();
+		
+		return chk;
+	} 
 	///////////////
 	
 	
@@ -135,24 +148,6 @@ public class UserDBMyBatis extends MybatisConnector {
 		sqlSession.close();
 		return li;
 	}
-	
-
-	
-
-	
-	
-	// È¸¿ø °­Á¦ Å»Åð
-	public int deleteUser (String email, String pwd) throws Exception {
-		sqlSession= sqlSession();
-		Map map = new HashMap();
-		map.put("email", email);
-		map.put("pwd", pwd);
-		int chk = sqlSession.delete(namespace+".deleteUser", map);
-		sqlSession.commit();
-		sqlSession.close();
-		
-		return chk;
-	} 
 
 	
 }

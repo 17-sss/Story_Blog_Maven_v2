@@ -43,6 +43,17 @@
 				return false;
 			}
 		}
+		
+		function delete_check() {
+			var check_delete_user=confirm('Å»ÅðÇÏ½Ã°Ú½À´Ï±î?');
+			
+			if (check_delete_user) {
+				location.href="${pageContext.request.contextPath}/user/user_deletePro?email=${user.email}&pwd=${user.pwd}";
+		   } else {
+			   alert('Å»Åð°¡ Ãë¼ÒµÇ¾ú½À´Ï´Ù.');
+		   }
+		}
+		
 			
 	</script>
 </head>
@@ -192,6 +203,7 @@
        			</c:if>
        			
 				<input type="submit" class="w3-button w3-round w3-gray w3-text-white" value="Update">
+				<input type="button" class="w3-button w3-round w3-red w3-text-white" value="Delete" onclick="delete_check()">
 				<input type="button" class="w3-button w3-round w3-gray w3-text-white" value="Cancel"  OnClick="history.back();">
 			</div>
 		
