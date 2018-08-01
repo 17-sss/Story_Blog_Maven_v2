@@ -267,9 +267,10 @@ public class UserController {
 	
 	// 메인
 	@RequestMapping("/user_main")
-	public ModelAndView user_main (HttpServletRequest req, ModelAndView mv, String email) {
+	public ModelAndView user_main (HttpServletRequest req, ModelAndView mv, String email, String sort_option) {
 		HttpSession session = req.getSession();
 		if (email == "" || email == null) {email = (String) session.getAttribute("s_email");}
+		if (sort_option == "" || sort_option == null) {sort_option = (String) session.getAttribute("s_option");}
 		
 		int count = 0;
 		
@@ -277,9 +278,16 @@ public class UserController {
 		List recent_picture = null;
 		
 		count = diPro.getGalleryRecentCount(email, recent_num);
-		recent_picture = diPro.getGalleryRecent(email, recent_num);
 		
-		System.out.println("메인페이지 (최근 날짜 사진 갯수): "+count);
+		if (count > 0) {
+			if (sort_option.equals("r_date")) {
+				recent_picture = diPro.getGalleryRecent(email, recent_num);
+			}
+			if (sort_option.equals("n_date")) {
+				recent_picture = diPro.getGalleryRecent_d(email, recent_num);
+			}
+		}	
+		System.out.println("메인페이지 (최근 날짜 사진 갯수): "+count+"\n정렬 옵션: "+sort_option);
 		
 		// 접속 제한
 		if (session.getAttribute("s_email") == null) {

@@ -66,11 +66,12 @@
 			</a>
 		</span>
 		
-		<span>
+		<!-- FAQ 필요 없어짐. 정렬기능 다 만듬 -->
+		<%-- <span>
 			<a href="${pageContext.request.contextPath}/user/user_faq" style="font-size: 12px; text-decoration: none; margin: 1.2% 1.2% 0.7% 0%;" class="w3-hover-text-light-gray w3-text-gray w3-right">
 				<span class="far fa-question-circle" title="FAQ"></span>
 			</a>
-		</span>
+		</span> --%>
 		
 		
 

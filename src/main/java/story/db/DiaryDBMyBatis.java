@@ -127,32 +127,58 @@ public class DiaryDBMyBatis extends MybatisConnector {
 		sqlSession.close();
 		return x;
 	}
+	// # 갤러리 - 사진 가져오기 (이메일) 
+		// 갤러리 - 사진 가져오기 (이메일) - [정렬 - 작성일 기준 (기본)]
+		public List getGallery (int startRow, int endRow, String user_email) {
+			sqlSession= sqlSession();
+			Map map = new HashMap();
+			map.put("startRow", startRow);
+			map.put("endRow", endRow);
+			map.put("user_email", user_email);
+			List li = sqlSession.selectList(namespace + ".getGallery1" ,map);
+			sqlSession.close();
+			return li;
+		}
+		// 갤러리 - 사진 가져오기 (이메일) - [정렬 - 일기 날짜 기준]
+		public List getGallery_d (int startRow, int endRow, String user_email) {
+			sqlSession= sqlSession();
+			Map map = new HashMap();
+			map.put("startRow", startRow);
+			map.put("endRow", endRow);
+			map.put("user_email", user_email);
+			List li = sqlSession.selectList(namespace + ".getGallery1_d" ,map);
+			sqlSession.close();
+			return li;
+		}
+	// # end. 갤러리 - 사진 가져오기 (이메일)
 	
-	// 갤러리 - 사진 가져오기 (이메일)
-	public List getGallery (int startRow, int endRow, String user_email) {
-		sqlSession= sqlSession();
-		Map map = new HashMap();
-		map.put("startRow", startRow);
-		map.put("endRow", endRow);
-		map.put("user_email", user_email);
-		List li = sqlSession.selectList(namespace + ".getGallery1" ,map);
-		sqlSession.close();
-		return li;
-	}
-	
-	// 갤러리 - 사진 가져오기 (이메일, 날짜)
-	public List getGallery (int startRow, int endRow, String user_email, String date_opt) {
-		sqlSession= sqlSession();
-		Map map = new HashMap();
-		map.put("startRow", startRow);
-		map.put("endRow", endRow);
-		map.put("user_email", user_email);
-		map.put("date_opt", date_opt);
-		List li = sqlSession.selectList(namespace + ".getGallery2" ,map);
-		sqlSession.close();
-		return li;
-	}
-	
+	// # 갤러리 - 사진 가져오기 (이메일, 날짜)
+		// 갤러리 - 사진 가져오기 (이메일, 날짜) - [정렬 - 작성일 기준 (기본)]
+		public List getGallery (int startRow, int endRow, String user_email, String date_opt) {
+			sqlSession= sqlSession();
+			Map map = new HashMap();
+			map.put("startRow", startRow);
+			map.put("endRow", endRow);
+			map.put("user_email", user_email);
+			map.put("date_opt", date_opt);
+			List li = sqlSession.selectList(namespace + ".getGallery2" ,map);
+			sqlSession.close();
+			return li;
+		}
+		// 갤러리 - 사진 가져오기 (이메일, 날짜) - [정렬 - 일기 날짜 기준] 
+		public List getGallery_d (int startRow, int endRow, String user_email, String date_opt) {
+			sqlSession= sqlSession();
+			Map map = new HashMap();
+			map.put("startRow", startRow);
+			map.put("endRow", endRow);
+			map.put("user_email", user_email);
+			map.put("date_opt", date_opt);
+			List li = sqlSession.selectList(namespace + ".getGallery2_d" ,map);
+			sqlSession.close();
+			return li;
+		}
+	// # end. 갤러리 - 사진 가져오기 (이메일, 날짜)
+		
 	// 갤러리 - 날짜 가져오기 (이메일 기준) (갤러리 날짜 검색 전용)
 	public List getGalleryDate (String user_email) {
 		sqlSession= sqlSession();
@@ -187,17 +213,29 @@ public class DiaryDBMyBatis extends MybatisConnector {
 		return x;
 	}
 	
-	// 갤러리 - 최근 일기 n개 게시물만큼 사진 가져오기 (메인 전용)
-	public List getGalleryRecent (String user_email, int recent_num) {
-		sqlSession= sqlSession();
-		Map map = new HashMap();
-		map.put("user_email", user_email);
-		map.put("recent_num", recent_num);
-		List li = sqlSession.selectList(namespace + ".getGalleryRecent" ,map);
-		sqlSession.close();
-		return li;
-	}
-	
+	// # 갤러리 - 최근 일기 n개 게시물만큼 사진 가져오기 (메인 전용)
+		// 갤러리 - 최근 일기 n개 게시물만큼 사진 가져오기 (메인 전용) - [정렬 - 작성일 기준 (기본)]
+		public List getGalleryRecent (String user_email, int recent_num) {
+			sqlSession= sqlSession();
+			Map map = new HashMap();
+			map.put("user_email", user_email);
+			map.put("recent_num", recent_num);
+			List li = sqlSession.selectList(namespace + ".getGalleryRecent" ,map);
+			sqlSession.close();
+			return li;
+		}
+		// 갤러리 - 최근 일기 n개 게시물만큼 사진 가져오기 (메인 전용) - [정렬 - 일기 날짜 기준]
+		public List getGalleryRecent_d (String user_email, int recent_num) {
+			sqlSession= sqlSession();
+			Map map = new HashMap();
+			map.put("user_email", user_email);
+			map.put("recent_num", recent_num);
+			List li = sqlSession.selectList(namespace + ".getGalleryRecent_d" ,map);
+			sqlSession.close();
+			return li;
+		}
+	// # end. 갤러리 - 최근 일기 n개 게시물만큼 사진 가져오기 (메인 전용)
+		
 	// 일기장 목록 가져오기 (이메일 기준) (일기장 가져오기 전용)
 	public List getDiarylist (String user_email) {
 		sqlSession= sqlSession();

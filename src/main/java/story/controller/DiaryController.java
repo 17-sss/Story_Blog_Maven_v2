@@ -451,8 +451,10 @@ public class DiaryController {
 			String d_diary, String opt, String search, String type, String date_opt, String sort_opt) {
 		HttpSession session = req.getSession();
 		if (email == null || email=="") {email = (String)session.getAttribute("s_email");}
+		
 		System.out.println("####content####\n다이어리: "+d_diary+"\n검색어: "+search+"\n옵션: "+opt+"\n타입: "+type);
 		System.out.println("정렬 값 테스트: "+sort_opt);
+		
 		// 접속 제한
 		if (session.getAttribute("s_email") == null) {
 			mv.setViewName("index");
@@ -723,10 +725,11 @@ public class DiaryController {
 	
 	// 사진첩
 	@RequestMapping("/diary_gallery")
-	public ModelAndView diary_gallery (HttpServletRequest req, ModelAndView mv, String email, String pageNum, String date_opt) {
+	public ModelAndView diary_gallery (HttpServletRequest req, ModelAndView mv, String email, String pageNum, String date_opt, String sort_option) {
 		HttpSession session  = req.getSession();
 		
 		if (email == null || email=="") {email = (String)session.getAttribute("s_email");}
+		if (sort_option == null || sort_option=="") {sort_option = (String)session.getAttribute("s_option");}
 		if (pageNum == null || pageNum == "") {pageNum = "1";}
 	    
 	    int pageSize = 5;
@@ -743,12 +746,19 @@ public class DiaryController {
 	    
 	    System.out.println("날짜 옵션 (갤러리): " + date_opt);
 	    
-	    // 갤러리
+	    // 갤러리 
 	    if (date_opt == null) {
 		    count = diPro.getGalleryCount(email);
 			if (count > 0) {
 			    date_list = diPro.getGalleryDate(email); // 일기 날짜 리스트
-				gallery_list = diPro.getGallery(startRow, endRow, email);
+			    
+			    // r_date: 작성일, n_date: 일기 날짜 기준
+			    if (sort_option.equals("r_date")) {
+			    	gallery_list = diPro.getGallery(startRow, endRow, email);
+			    }
+			    if (sort_option.equals("n_date")) {
+			    	gallery_list = diPro.getGallery_d(startRow, endRow, email);
+			    }
 				System.out.println("Count (갤러리): " + count);
 			}
 	    }
@@ -758,7 +768,12 @@ public class DiaryController {
 		    count = diPro.getGalleryCount(email, date_opt);
 			if (count > 0) {
 			    date_list = diPro.getGalleryDate(email, date_opt); // 일기 날짜 리스트 (검색한 날짜 제외)
-				gallery_list = diPro.getGallery(startRow, endRow, email, date_opt);
+				if (sort_option.equals("r_date")) {
+					gallery_list = diPro.getGallery(startRow, endRow, email, date_opt);
+			    }
+				if (sort_option.equals("n_date")) {
+					gallery_list = diPro.getGallery_d(startRow, endRow, email, date_opt);
+			    }
 				System.out.println("Count (갤러리 - 날짜별): " + count);
 			}
 	    }

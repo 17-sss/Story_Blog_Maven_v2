@@ -83,6 +83,24 @@
 						<div style="margin: 0 3%;">			
 							<div>
 								<p class="story-content-15">
+									<i class="far fa-flag i-mar-size">&nbsp;</i>
+									<span style="font-size: 10pt;" class="font-montserrat-c">Reporting<br>
+										<span style="margin: 0 33%;">Date</span>
+									</span>
+								</p>
+								<p class="story-content-85">
+									<span class="w3-text-gray font-nanum-coding-c">
+										${diary.d_cdate}
+									</span>
+								</p>
+							</div>
+						</div>
+					</div>
+					
+					<div class="w3-container w3-white">
+						<div style="margin: 0 3%;">			
+							<div>
+								<p class="story-content-15">
 									<i class="far fa-clock i-mar-size">&nbsp;</i>
 									<span style="font-size: 11pt;" class="font-montserrat-c">Date</span>
 								</p>
@@ -192,18 +210,18 @@
 						<!-- 목록 (조건부) -->
 						
 						<!-- 전체  -->
-						<c:if test="${d_diary == null && opt == null && search == null && type ne 'gallery'}">
-							<c:if test="${sort_opt eq ''}">
-								<input type="button" class="w3-yellow w3-small w3-button" value="목록" 
-								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board?email=${s_email}&pageNum=${pageNum}">
+						<c:if test="${d_diary == null && opt == null && search == null}">
+							<c:if test="${sort_opt eq '' || sort_opt == null}">
+								<input type="button" class="w3-yellow w3-button w3-small" value="목록" 
+								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board?email=${s_email}&pageNum=${pageNum}'"> 
 							</c:if>
 							<c:if test="${sort_opt != null && sort_opt ne ''}">
 								<input type="button" class="w3-yellow w3-small w3-button" value="목록" 
 								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board?email=${s_email}&pageNum=${pageNum}&sort_opt=${sort_opt}'">
 							</c:if>
 						</c:if>
-						<c:if test="${d_diary == null && opt != null && search != null && type ne 'gallery'}">
-							<c:if test="${sort_opt eq ''}">
+						<c:if test="${d_diary == null && opt != null && search != null}">
+							<c:if test="${sort_opt eq '' || sort_opt == null}">
 								<input type="button" class="w3-yellow w3-small w3-button" value="목록" 
 								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board?email=${s_email}&search='
 								+ encodeURI('${search}') +'&opt=${opt}&pageNum=${pageNum}'">
@@ -216,8 +234,8 @@
 						</c:if>
 					
 						<!-- 개별 -->
-						<c:if test="${d_diary != null && opt == null && search == null && type ne 'gallery'}">
-							<c:if test="${sort_opt eq ''}">
+						<c:if test="${d_diary != null && opt == null && search == null}">
+							<c:if test="${sort_opt eq '' || sort_opt == null}">
 								<input type="button" class="w3-yellow w3-small w3-button" value="목록" 
 								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary='
 								+ encodeURI('${d_diary}') + '&pageNum=${pageNum}'">
@@ -229,8 +247,8 @@
 							</c:if>
 						</c:if>
 						
-						<c:if test="${d_diary != null && opt != null && search != null && type ne 'gallery'}">
-							<c:if test="${sort_opt eq ''}">
+						<c:if test="${d_diary != null && opt != null && search != null}">
+							<c:if test="${sort_opt eq '' || sort_opt == null}">
 								<input type="button" class="w3-yellow w3-small w3-button" value="목록" 
 								onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board2?email=${s_email}&d_diary='+ encodeURI('${d_diary}') + '&search=' 
 								+ encodeURI('${search}') +'&opt=${opt}&pageNum=${pageNum}'">
