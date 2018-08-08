@@ -65,6 +65,22 @@
 	            return false;
 	        }
 	    }
+		
+		function checkpwd() {
+			var form = document.userInfo;
+			var pw1 = form.pwd.value;
+		    var pw2 = form.passchk.value;
+			if(pw1!=pw2){
+			    document.getElementById('checkpwd').style.color = "aqua";
+			    document.getElementById("checkpwd").style.fontSize = "small";
+			    document.getElementById("checkpwd").style.fontWeight = "900";
+			    document.getElementById('checkpwd').innerHTML = "동일한 암호를 입력하세요."; 
+			} else {
+			    document.getElementById('checkpwd').style.color = "black";
+			    document.getElementById("checkpwd").style.fontSize = "small";
+			    document.getElementById('checkpwd').innerHTML = "암호가 확인 되었습니다."; 
+			}
+		}
 	</script>
 </head>
 <body>
@@ -98,7 +114,8 @@
 					<div class="w3-margin-top">
 						<i class="fas fa-key" style="font-size: 24px; color:#FF4848;">&nbsp;</i>
 						<span style="font-size: 20px;">Password Check</span>
-						<input type="password" class="w3-white story-input" name="passchk">
+						<input type="password" class="w3-white story-input" name="passchk" onkeyup="checkpwd()">
+						<div id="checkpwd"></div>
 					</div>
 					
 					<div class="w3-margin-top">
