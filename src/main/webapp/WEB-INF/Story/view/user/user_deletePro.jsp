@@ -15,7 +15,7 @@
 	</script>
 	</c:if>	
 
-	<c:if test="${check!=1}">
+	<c:if test="${check!=1 && check_diary!=1}">
 	<script type="text/javascript">
 		alert("삭제 불가");
 		history.go(-1);

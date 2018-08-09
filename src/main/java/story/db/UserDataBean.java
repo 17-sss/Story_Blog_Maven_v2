@@ -12,7 +12,7 @@ public class UserDataBean {
 	private String filename; //프로필 사진
 	private int filesize;	// 프로필 용량
 	private Date cdate;	// 생성 날짜
-	private int p_level; // 회원권한레벨
+	private String p_level; // 회원권한레벨
 	private String sort_option; // 갤러리, 메인 사진 정렬 옵션
 	private String ip;
 	
@@ -70,10 +70,11 @@ public class UserDataBean {
 	public void setCdate(Date cdate) {
 		this.cdate = cdate;
 	}
-	public int getP_level() {
+	
+	public String getP_level() {
 		return p_level;
 	}
-	public void setP_level(int p_level) {
+	public void setP_level(String p_level) {
 		this.p_level = p_level;
 	}
 	public String getSort_option() {

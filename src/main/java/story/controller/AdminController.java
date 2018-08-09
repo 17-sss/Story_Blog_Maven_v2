@@ -31,72 +31,68 @@ public class AdminController {
 		}
 	}
 	
-	// 관리자 유저관리
-	// /admin/accountList 
-	@RequestMapping("/accountList")
-	public ModelAndView accountList(String pageNum, ModelAndView mv, HttpServletRequest req) throws Exception {
+	// 관리자 페이지
+	@RequestMapping("/admin_page")
+	public ModelAndView admin_page(HttpServletRequest req, String pageNum, ModelAndView mv, String email, String p_level) throws Exception {
 		HttpSession session = req.getSession();
 		
-		int pageSize = 10;
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		//String pageNum = req.getParameter("pageNum");
-		if (pageNum == null || pageNum == "") {
-			pageNum = "1";
-		}
-		/*// 임시로 무조건 1페이지로 가게해둠..
-		int currentPage = 1;
-		if(!"".equals(pageNum)){
-		   currentPage = Integer.parseInt(pageNum);
+		if (pageNum == null || pageNum == "") {pageNum = "1";}
+		if (email == null || email=="") {email = (String)session.getAttribute("s_email");}
+		if (p_level == null || p_level=="") {p_level = (String)session.getAttribute("s_p_level");}
+		
+		System.out.println("권한레벨: "+p_level);
+	    int pageSize = 10;
+	    
+	    int currentPage = Integer.parseInt(pageNum);
+	   
+	    int startRow = (currentPage - 1) * pageSize + 1;
+	    int endRow = currentPage * pageSize;
+	   
+	    int count = 0; 
+	    int number = 0;
+	    
+	    // 유저 목록 불러오기
+	   /* count = diPro.getDiaryCount(email);
+		if (count > 0 && sort_opt.equals("") || sort_opt.equals("cd")) {
+			d_list = diPro.getDiaries(startRow, endRow, email);
+			System.out.println("############\n"+"Count (전체, 정렬 - 작성일): " + count + "\n############");
 		}*/
-		// end. 임시 1페이지
-		
-		int currentPage = Integer.parseInt(pageNum);
-		int startRow = (currentPage - 1) * pageSize + 1;
-		int endRow = currentPage * pageSize;
-		//System.out.println("+++++++++++\n"+"start: "+ startRow + "\nend: "+endRow + "\n+++++++++++");
-		int count = 0;
-		int number = 0;
-		List usList = null;
-		
-		count = usPro.getUserCount();
-		if (count > 0) {
-			usList = usPro.getUsers(startRow, endRow);
-		}
+	    // 검색 게시판 참고해서 만들기
+	    
+	    //##################
 		number = count - (currentPage - 1) * pageSize;
 
-		int bottomLine = 3;
-		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
-		int startPage = 1 + (currentPage - 1) / bottomLine * bottomLine;
-		int endPage = startPage + bottomLine - 1;
+	    int bottomLine = 3;
+	    int startPage = 1 + (currentPage - 1) / bottomLine * bottomLine;    
+	    int endPage = startPage + bottomLine - 1;
+	    int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1); 
+	    if (endPage > pageCount) { endPage = pageCount; } 
 
-		if (endPage > pageCount)
-			endPage = pageCount;
-		
-		
-		mv.addObject("count", count);
-		mv.addObject("usList", usList);
-		mv.addObject("currentPage", currentPage);
-		mv.addObject("startPage", startPage);
-		mv.addObject("bottomLine", bottomLine);
-		mv.addObject("pageCount", pageCount);
-		mv.addObject("number", number);
-		mv.addObject("endPage", endPage);
-		
-		String sessioncheck = (String)session.getAttribute("sessionID");
-		System.out.println("세션아이디: "+sessioncheck);
-		
-		if(sessioncheck == null) {
+	    mv.addObject("count", count);
+	    mv.addObject("number", number);
+	    mv.addObject("pageCount", pageCount);
+	    mv.addObject("endPage", endPage);
+	   
+	    mv.addObject("currentPage", currentPage);
+	    mv.addObject("bottomLine", bottomLine);
+	    mv.addObject("startPage", startPage);
+	    mv.addObject("pageNum", pageNum);
+	   
+	    // 검색
+	   /* mv.addObject("search", search);
+	    mv.addObject("opt", opt);*/
+
+		// 접속 제한
+		if (session.getAttribute("s_email") == null || !p_level.equals("3")) {
 			mv.setViewName("index");
-		} else if (sessioncheck.equals("admin")) {
-			mv.setViewName("admin/accountList");
-		} else if (!sessioncheck.equals("admin")) {
-			mv.setViewName("index");
+		} else {
+			mv.setViewName("view/admin/admin_page");
 		}
 		
 		return mv;
-		
 	}
 	
+	//=============================================================================================================================
 	// 관리자 유저수정
 	// /admin/updateUserForm
 	@RequestMapping("/updateUserForm")

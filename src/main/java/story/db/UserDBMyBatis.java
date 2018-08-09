@@ -23,7 +23,7 @@ public class UserDBMyBatis extends MybatisConnector {
 		int number = sqlSession.selectOne(namespace + ".getNextUserNumber", user);
 		number = number+1;
 		user.setNum(number);
-		user.setP_level(1);
+		user.setP_level("1");
 		
 		sqlSession.insert(namespace + ".insertUser" ,user);
 		sqlSession.commit();
@@ -124,7 +124,17 @@ public class UserDBMyBatis extends MybatisConnector {
 		sqlSession.close();
 		
 		return chk;
-	} 
+	}
+	
+	public int deleteUser_diary (String email) {
+		sqlSession= sqlSession();
+		Map map = new HashMap();
+		map.put("email", email);
+		int chk = sqlSession.delete(namespace+".deleteUser_diary", map);
+		sqlSession.commit();
+		sqlSession.close();
+		return chk;
+	}
 	///////////////
 	
 	

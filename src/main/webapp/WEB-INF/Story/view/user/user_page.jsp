@@ -44,7 +44,7 @@
 			}
 		}
 		
-		function delete_check() {
+		/* function delete_check() {
 			var check_delete_user=confirm('탈퇴하시겠습니까?');
 			
 			if (check_delete_user) {
@@ -52,9 +52,25 @@
 		   } else {
 			   alert('탈퇴가 취소되었습니다.');
 		   }
+		} */
+		
+		function delete_check() {
+			var form = document.userpage;
+			var check_pwd = form.pwd.value != form.passchk.value; //true 나옴
+
+			if (check_pwd) { //true
+				alert("비밀번호를 동일하게 입력하세요.");
+			}
+
+			if (!check_pwd) { //false
+				if (confirm('탈퇴하시겠습니까?')) {
+					location.href = "${pageContext.request.contextPath}/user/user_deletePro?email=${user.email}&pwd=${user.pwd}";
+				} else {
+					alert('탈퇴가 취소되었습니다.');
+				}
+			}
 		}
 		
-			
 	</script>
 </head>
 <%@include file="/utilize/common/header.jsp" %>
@@ -193,13 +209,13 @@
        		</table>
        		
        		<div class="w3-container w3-right" style="margin: 1% 3% 1% 0%;">
-       		
        			<input type="hidden" name="num" value="${user.num}">
        			<input type="hidden" name="fname" value="${user.filename}">
        			<input type="hidden" name="fsize" value="${user.filesize}">
        			
        			<c:if test="${user.p_level == 3}">
-       			<input type="button" class="w3-button w3-round w3-gray w3-text-white" value="Admin Page" OnClick="">
+       			<input type="button" class="w3-button w3-round w3-gray w3-text-white" value="Admin Page" 
+       			OnClick="document.location.href='${pageContext.request.contextPath}/admin/admin_page'">
        			</c:if>
        			
 				<input type="submit" class="w3-button w3-round w3-gray w3-text-white" value="Update">

@@ -124,6 +124,7 @@ public class UserController {
         	session.setAttribute("s_name", user.getName());
             session.setAttribute("s_filename", user.getFilename());
             session.setAttribute("s_option", user.getSort_option());
+            session.setAttribute("s_p_level", user.getP_level());
 			msg = "LoginPro";
 			System.out.println(email+"님이 로그인 하셨습니다.");
 			mv.setViewName(msg);
@@ -178,10 +179,13 @@ public class UserController {
 	@RequestMapping("user_deletePro")
 	public ModelAndView user_deletePro (ModelAndView mv, String email, String pwd) {
 		int check = usPro.deleteUser(email, pwd);
+		int check_diary = usPro.deleteUser_diary(email);
 		
-		System.out.println("삭제여부: " + check);
+		// 다이어리가 하나도 없을 수도 있으니, 유저정보삭제의 check만 신경쓰길. 1은 성공, 0은 실패
+		System.out.println("삭제여부: " + check+"\n다이어리 삭제여부: "+check_diary);
 		
 		mv.addObject("check", check);
+		mv.addObject("check_diary", check_diary);
 		mv.setViewName("view/user/user_deletePro");
 		
 		return mv;
