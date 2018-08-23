@@ -49,31 +49,27 @@
 		delete from story_diary where user_email = #{email}
 	</delete>
 	
+	<!-- [어드민] 유저 수 -->
+	<select id="getUserCount" resultType="int">
+		SELECT nvl(count(*),0) FROM story_user where p_level != 3
+	</select>
+	
+	<!-- [어드민] 유저 리스트 출력 -->
+	<select id="getUsers" parameterType="hashmap" resultType="User">
+		select * from (select rownum rnum, a.* from (select num, email, pwd, name, tel, birth, filename, cdate, p_level, ip from story_user where p_level != 3 order by cdate desc)a) 
+		where rnum between #{startRow} and #{endRow}
+	</select>
+	
+	<!-- [어드민] 회원 삭제 -->
+	<delete id="deleteUser_admin" parameterType="hashmap">
+		delete from story_user where email=#{email}	
+	</delete>
+	
 	<!-- 파일 X - 테스트  -->
 	<!-- <update id="updateUser" parameterType="User">
 		update story_user set pwd=#{pwd}, name=#{name}, tel=#{tel}, birth=#{birth} where email=#{email}	
 	</update> -->
 	<!--  --><!--  -->
-	
-	
-	<!-- 보류 -->
-	<select id="getUserCount" resultType="int">
-		SELECT nvl(count(*),0) FROM userlist
-	</select>
-	
-	<select id="getUsers" parameterType="hashmap" resultType="User">
-		select * from (select rownum rnum, a.* from (select email, name, pwd, tel, birth, cdate, ip, filename from userlist order by cdate desc)a) 
-	where rnum between #{startRow} and #{endRow}
-	</select>
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 </mapper>

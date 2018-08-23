@@ -3,6 +3,7 @@ package story.controller;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,7 +42,6 @@ public class AdminController {
 		if (email == null || email=="") {email = (String)session.getAttribute("s_email");}
 		if (p_level == null || p_level=="") {p_level = (String)session.getAttribute("s_p_level");}
 		
-		System.out.println("권한레벨: "+p_level);
 	    int pageSize = 10;
 	    
 	    int currentPage = Integer.parseInt(pageNum);
@@ -48,30 +49,34 @@ public class AdminController {
 	    int startRow = (currentPage - 1) * pageSize + 1;
 	    int endRow = currentPage * pageSize;
 	   
-	    int count = 0; 
+	    int count_user = 0; 
 	    int number = 0;
 	    
+	    List u_list = null;
+	    
 	    // 유저 목록 불러오기
-	   /* count = diPro.getDiaryCount(email);
-		if (count > 0 && sort_opt.equals("") || sort_opt.equals("cd")) {
-			d_list = diPro.getDiaries(startRow, endRow, email);
-			System.out.println("############\n"+"Count (전체, 정렬 - 작성일): " + count + "\n############");
-		}*/
+	   count_user = usPro.getUserCount();
+		if (count_user > 0) {
+			u_list = usPro.getUsers(startRow, endRow);
+			System.out.println("count_user: "+count_user);
+		}
 	    // 검색 게시판 참고해서 만들기
 	    
 	    //##################
-		number = count - (currentPage - 1) * pageSize;
+		number = count_user - (currentPage - 1) * pageSize;
 
 	    int bottomLine = 3;
 	    int startPage = 1 + (currentPage - 1) / bottomLine * bottomLine;    
 	    int endPage = startPage + bottomLine - 1;
-	    int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1); 
+	    int pageCount = count_user / pageSize + (count_user % pageSize == 0 ? 0 : 1); 
 	    if (endPage > pageCount) { endPage = pageCount; } 
 
-	    mv.addObject("count", count);
+	    mv.addObject("count_user", count_user);
 	    mv.addObject("number", number);
 	    mv.addObject("pageCount", pageCount);
 	    mv.addObject("endPage", endPage);
+	    
+	    mv.addObject("u_list", u_list);
 	   
 	    mv.addObject("currentPage", currentPage);
 	    mv.addObject("bottomLine", bottomLine);
@@ -88,6 +93,28 @@ public class AdminController {
 		} else {
 			mv.setViewName("view/admin/admin_page");
 		}
+		
+		return mv;
+	}
+	
+	@RequestMapping("/admin_user_deletePro")
+	public ModelAndView admin_user_deletePro(HttpServletRequest req, ModelAndView mv,
+			@RequestParam Map<String, String> paramMap) throws Exception {
+		int check = 0;
+		int check_diary =0;
+		
+		String[] arrIdx = paramMap.get("email").toString().split(",");
+		for (int i=0; i<arrIdx.length; i++) {
+			check = usPro.deleteUser(arrIdx[i]);
+			check_diary = usPro.deleteUser_diary(arrIdx[i]);
+			
+			System.out.println("####이메일: "+arrIdx[i]+"####\n"+"삭제여부: " + check+"\n다이어리 삭제여부: "+check_diary);
+		}
+
+		
+		mv.addObject("check", check);
+		mv.addObject("check_diary", check_diary);
+		mv.setViewName("view/admin/admin_user_deletePro");
 		
 		return mv;
 	}

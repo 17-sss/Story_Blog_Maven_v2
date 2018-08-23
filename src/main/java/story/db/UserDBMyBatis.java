@@ -21,7 +21,7 @@ public class UserDBMyBatis extends MybatisConnector {
 	public void insertUser(UserDataBean user) {
 		sqlSession= sqlSession();
 		int number = sqlSession.selectOne(namespace + ".getNextUserNumber", user);
-		number = number+1;
+		//number = number+1;
 		user.setNum(number);
 		user.setP_level("1");
 		
@@ -113,7 +113,7 @@ public class UserDBMyBatis extends MybatisConnector {
 		return chk;
 	}
 	
-	// 회원 탈퇴
+	// 회원 탈퇴 (회원)
 	public int deleteUser (String email, String pwd) {
 		sqlSession= sqlSession();
 		Map map = new HashMap();
@@ -126,6 +126,7 @@ public class UserDBMyBatis extends MybatisConnector {
 		return chk;
 	}
 	
+	// 회원 탈퇴 (회원의 일기 삭제)
 	public int deleteUser_diary (String email) {
 		sqlSession= sqlSession();
 		Map map = new HashMap();
@@ -135,10 +136,8 @@ public class UserDBMyBatis extends MybatisConnector {
 		sqlSession.close();
 		return chk;
 	}
-	///////////////
-	
-	
-	// 회원 수 메소드
+
+	// [어드민] 회원 수 메소드
 	public int getUserCount() {
 		int x = 0;
 		sqlSession=sqlSession();
@@ -146,9 +145,8 @@ public class UserDBMyBatis extends MybatisConnector {
 		sqlSession.close();
 		return x;
 	}
-	
-	
-	// 회원리스트 목록출력 메소드?
+
+	// [어드민] 회원리스트 목록출력
 	public List getUsers(int startRow, int endRow) {
 		sqlSession= sqlSession();
 		Map map = new HashMap();
@@ -158,6 +156,17 @@ public class UserDBMyBatis extends MybatisConnector {
 		sqlSession.close();
 		return li;
 	}
-
+	
+	// [어드민] 회원 삭제 
+	public int deleteUser (String email) {
+		sqlSession= sqlSession();
+		Map map = new HashMap();
+		map.put("email", email);
+		int chk = sqlSession.delete(namespace+".deleteUser_admin", map);
+		sqlSession.commit();
+		sqlSession.close();
+		
+		return chk;
+	}
 	
 }
