@@ -23,7 +23,7 @@ public class UserDBMyBatis extends MybatisConnector {
 		int number = sqlSession.selectOne(namespace + ".getNextUserNumber", user);
 		//number = number+1;
 		user.setNum(number);
-		user.setP_level("1");
+		user.setP_level("1(User)");
 		
 		sqlSession.insert(namespace + ".insertUser" ,user);
 		sqlSession.commit();
@@ -138,24 +138,50 @@ public class UserDBMyBatis extends MybatisConnector {
 	}
 
 	// [어드민] 회원 수 메소드
-	public int getUserCount() {
+	// + 접속 계정 제외, 권한 S-Manager 제외
+	public int getUserCount(String email) {
 		int x = 0;
 		sqlSession=sqlSession();
-		x = sqlSession.selectOne(namespace+".getUserCount");
+		x = sqlSession.selectOne(namespace+".getUserCount", email);
+
+		sqlSession.close();
+		return x;
+	}
+	// + 접속 계정 제외, 권한 S-Manager, Manager 제외
+	public int getUserCount1(String email) {
+		int x = 0;
+		sqlSession=sqlSession();
+		x = sqlSession.selectOne(namespace+".getUserCount1", email);
+
 		sqlSession.close();
 		return x;
 	}
 
+
 	// [어드민] 회원리스트 목록출력
-	public List getUsers(int startRow, int endRow) {
+	// + 접속 계정 제외, 권한 S-Manager 제외
+	public List getUsers(int startRow, int endRow, String email) {
 		sqlSession= sqlSession();
 		Map map = new HashMap();
 		map.put("startRow", startRow);
 		map.put("endRow", endRow);
+		map.put("email", email);
 		List li = sqlSession.selectList(namespace + ".getUsers",map);
 		sqlSession.close();
 		return li;
 	}
+	// + 접속 계정 제외, 권한 S-Manager, Manager 제외
+	public List getUsers1(int startRow, int endRow, String email) {
+		sqlSession= sqlSession();
+		Map map = new HashMap();
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		map.put("email", email);
+		List li = sqlSession.selectList(namespace + ".getUsers1",map);
+		sqlSession.close();
+		return li;
+	}
+
 	
 	// [어드민] 회원 삭제 
 	public int deleteUser (String email) {
@@ -163,6 +189,30 @@ public class UserDBMyBatis extends MybatisConnector {
 		Map map = new HashMap();
 		map.put("email", email);
 		int chk = sqlSession.delete(namespace+".deleteUser_admin", map);
+		sqlSession.commit();
+		sqlSession.close();
+		
+		return chk;
+	}
+	
+	// [어드민] 회원 정보 가져오기 (유저 고유번호)
+	public UserDataBean getUser_n(String num) {
+		sqlSession= sqlSession();
+		Map map = new HashMap();
+		map.put("num", num);
+		
+		UserDataBean user = sqlSession.selectOne(namespace+".getUser_n", map);
+		
+		sqlSession.commit();
+		sqlSession.close();
+		
+		return user;
+	}
+	
+	// [어드민] 회원 정보 수정 (권한 수정하기 위해 필요)
+	public int updateUser_m (UserDataBean user) {
+		sqlSession= sqlSession();
+		int chk = sqlSession.update(namespace+".updateUser_m", user);
 		sqlSession.commit();
 		sqlSession.close();
 		

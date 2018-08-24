@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<title>${s_name}'s Story - Story Blog</title>
+	<title>[Manager] Manager Page - Story Blog</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/utilize/css/Story_Blog.css">
@@ -64,15 +64,15 @@
 			<div class="w3-container w3-white w3-round">
 				<div class="w3-container w3-center story-padding-t16-b24">
 					<p>회원이 없습니다.</p>
-					<input type="button" class="w3-light-gray w3-small w3-button" value="Main" 
-					onclick="document.location.href='${pageContext.request.contextPath}/user/user_main'">
+					<input type="button" class="w3-light-gray w3-small w3-button" value="Back" 
+					onclick="history.go(-1);">
 				</div>
 			</div>
 		</div>
 		</c:if>
 	
 		<c:if test="${count_user!=0}">
-		<div style="margin: 2% 20.5% 2% 21%;">
+		<div style="margin: 2% 18.5% 2% 19%;">
 			<div class="w3-container w3-white w3-round w3-padding-16">
 				
 				<span class="w3-right font-montserrat-c" style="font-size: 10pt;">
@@ -91,14 +91,14 @@
 							</td>	
 							
 							<td align="center" width="3"  class="w3-center w3-border font-montserrat-c" style="width: 1%;">NUM</td>
-							<td align="center" width="30" class="w3-center w3-border font-montserrat-c">Email</td>
-							<td align="center" width="20" class="w3-center w3-border">이름</td>
+							<td align="center" width="30" class="w3-center w3-border font-montserrat-c" style="width: 10%;">Email</td>
+							<td align="center" width="20" class="w3-center w3-border" style="width: 10%;">이름</td>
 							<!-- pwd, filename -->
 							<td align="center" width="20" class="w3-center w3-border font-montserrat-c">Tel</td>
 							<td align="center" width="20" class="w3-center w3-border">생일</td>
 							<td align="center" width="30" class="w3-center w3-border">생성일</td>
 							<td align="center" width="3"  class="w3-center w3-border">권한</td>
-							<td align="center" width="10" class="w3-center w3-border font-montserrat-c" style="width: 20%;">IP</td>
+							<td align="center" width="10" class="w3-center w3-border font-montserrat-c">IP</td>
 						</tr>
 						
 						<c:forEach var="user" items="${u_list}">
@@ -109,13 +109,25 @@
 							
 							<td align="center" width="3"  class="w3-center w3-border font-montserrat-c" style="width: 1%;">${number}</td>
 							<c:set var="number" value="${number-1}" />
-							<td align="center" width="30" class="w3-center w3-border">${user.email}</td>
-							<td align="center" width="20" class="w3-center w3-border">${user.name}</td>
+							<td align="center" width="30" class="w3-center w3-border" style="width: 10%;">
+								<a href="${pageContext.request.contextPath}/admin/admin_userinfo?userN=${user.num}" class="w3-hover-text-gray">${user.email}</a>
+							</td>
+							<td align="center" width="20" class="w3-center w3-border" style="width: 10%;">${user.name}</td>
+							<c:if test="${user.tel != null}">
 							<td align="center" width="20" class="w3-center w3-border">${user.tel}</td>
+							</c:if>
+							<c:if test="${user.tel == null}">
+							<td align="center" width="20" class="w3-center w3-border w3-text-gray">미입력</td>
+							</c:if>
+							<c:if test="${user.birth != null}">
 							<td align="center" width="20" class="w3-center w3-border">${user.birth}</td>
-							<td align="center" width="30" class="w3-center w3-border" style="font-size: 8pt;">${user.cdate}</td>
+							</c:if>
+							<c:if test="${user.birth == null}">
+							<td align="center" width="20" class="w3-center w3-border w3-text-gray">미입력</td>
+							</c:if>
+							<td align="center" width="30" class="w3-center w3-border" style="font-size: 9pt;">${user.cdate}</td>
 							<td align="center" width="3"  class="w3-center w3-border">${user.p_level}</td>
-							<td align="center" width="10" class="w3-center w3-border" style="width: 20%;">${user.ip}</td>
+							<td align="center" width="10" class="w3-center w3-border">${user.ip}</td>
 						</tr>
 						</c:forEach>
 					</table>
@@ -133,10 +145,40 @@
 							 style="display: inline-block; padding: 6px 9px; font-size: 8pt;">
 						</div>
 					</form>
+					
+					<!-- 전체보기 (페이지)  -->
+					<c:if test="${count_user != 0}">
+					<div class="w3-center font-montserrat-c w3-padding-16">
+						<c:if test="${count_user > 0}">
+							<c:if test="${startPage > bottomLine}">		
+								<a href="admin_page?pageNum=${startPage - bottomLine}" style="font-size: 11pt;">[이전]</a>
+							</c:if>	
+						
+							<c:forEach var="i" begin="${startPage}" end="${endPage}">
+								<a href="admin_page?pageNum=${i}">
+								<c:if test="${i != currentPage}">
+									[${i}]
+								</c:if> 
+								<c:if test="${i == currentPage}">
+									<font color='orange'>[${i}]</font>
+								</c:if>
+								</a>
+							</c:forEach>
+	
+							<c:if test="${endPage < pageCount}">
+								<a href="admin_page?pageNum=${startPage + bottomLine}" style="font-size: 11pt;">[다음]</a>
+							</c:if>
+						</c:if>
+					</div>
+					</c:if>
+					
+					
 				</div>
 			</div>
 		</div>	
 		</c:if>
+		
+		
 	
 	</div>
 	<!-- footer  -->

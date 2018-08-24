@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-	<title>${s_name}'s Page - Story Blog</title>
+	<title>[Manager] ${user.name}'s Page - Story Blog</title>
 	<style type="text/css">
 		#font-poiretone {
 			font-family: 'Poiret One', cursive;
@@ -19,66 +19,13 @@
 			font-family: 'Montserrat', sans-serif;
 		}
 	</style>
-	<script type="text/javascript">
-		function checkpwd() {
-			var form = document.userpage;
-			var pw1 = form.pwd.value;
-		    var pw2 = form.passchk.value;
-			if(pw1!=pw2){
-			    document.getElementById('checkpwd').style.color = "aqua";
-			    document.getElementById("checkpwd").style.fontSize = "small";
-			    document.getElementById("checkpwd").style.fontWeight = "900";
-			    document.getElementById('checkpwd').innerHTML = "동일한 암호를 입력하세요."; 
-			} else {
-			    document.getElementById('checkpwd').style.color = "black";
-			    document.getElementById("checkpwd").style.fontSize = "small";
-			    document.getElementById('checkpwd').innerHTML = "암호가 확인 되었습니다."; 
-			}
-		}
-		
-		function check() {
-			var form = document.userpage;
-			if(form.pwd.value!=form.passchk.value) {
-				alert("비밀번호를 동일하게 입력하세요."); 
-				return false;
-			}
-		}
-		
-		/* function delete_check() {
-			var check_delete_user=confirm('탈퇴하시겠습니까?');
-			
-			if (check_delete_user) {
-				location.href="${pageContext.request.contextPath}/user/user_deletePro?email=${user.email}&pwd=${user.pwd}";
-		   } else {
-			   alert('탈퇴가 취소되었습니다.');
-		   }
-		} */
-		
-		function delete_check() {
-			var form = document.userpage;
-			var check_pwd = form.pwd.value != form.passchk.value; //true 나옴
-
-			if (check_pwd) { //true
-				alert("비밀번호를 동일하게 입력하세요.");
-			}
-
-			if (!check_pwd) { //false
-				if (confirm('탈퇴하시겠습니까?')) {
-					location.href = "${pageContext.request.contextPath}/user/user_deletePro?email=${user.email}&pwd=${user.pwd}";
-				} else {
-					alert('탈퇴가 취소되었습니다.');
-				}
-			}
-		}
-		
-	</script>
 </head>
 <%@include file="/utilize/common/header.jsp" %>
 <body>
 <div style="margin-top: 39px; background: #f1f1f1; width: 100%;">
 	
-	<!-- form (user_page) -->	
-	<form action="${pageContext.request.contextPath}/user/user_pagePro" enctype="multipart/form-data" method="post" name="userpage" onsubmit="return check()">
+	<!-- form (admin_userinfo) -->	
+	<form action="${pageContext.request.contextPath}/admin/admin_userinfoPro" enctype="multipart/form-data" method="post" name="admin_userinfo">
 	<div class="w3-container" style="background: #f3f1f1;">
 		
 		<!-- table (info)  -->
@@ -103,18 +50,7 @@
 						<span style="font-size: 14px;">Password</span>
 					</td>
 					<td>
-						<input type="password" class="story-input-1" name="pwd" value="${user.pwd}" style="width: 80%;">
-					</td>	
-       			</tr>
-       			
-       			<tr class="w3-margin-top">
-      				<td>
-						<i class="fas fa-key i-mar-size" style="color:#FF4848;">&nbsp;&nbsp;</i>
-						<span style="font-size: 14px;">Password Check</span>
-					</td>
-					<td>
-						<input type="password" class="story-input-1" name="passchk" style="width: 80%;" onkeyup="checkpwd()">
-						<div id="checkpwd"></div>
+						<input type="text" class="story-input-1" name="pwd" value="${user.pwd}" style="width: 80%;">
 					</td>	
        			</tr>
       			
@@ -151,7 +87,7 @@
        			<tr class="w3-margin-top">
       				<td>
 						<i class="fas fas fa-sort i-mar-size w3-text-red">&nbsp;&nbsp;</i>
-						<span style="font-size: 14px;" title="메인, 갤러리의 정렬 옵션입니다." class="w3-text-red">Sort</span>
+						<span style="font-size: 14px;" title="유저의 메인, 갤러리의 정렬 옵션" class="w3-text-red">Sort</span>
 					</td>
 					<td>
 						<c:if test="${user.sort_option == null}">
@@ -197,6 +133,24 @@
        			
        			<tr class="w3-margin-top">
       				<td>
+						<i class="fas fa-user-astronaut i-mar-size w3-text-orange">&nbsp;&nbsp;</i>
+						<span style="font-size: 14px;" title="권한 설정" class="w3-text-orange">Authority</span>
+					</td>
+					<td>
+						<select class="w3-border" style="display: inline-block; font-size: 10pt;" name="p_level">
+							<option class="w3-text-gray" selected>${user.p_level}</option>
+							<option value="1(User)">1(User)</option>
+							<option value="2(S-User)">2(S-User)</option>
+							<c:if test="${s_p_level eq '4(S-Manager)'}">
+							<option value="3(Manager)">3(Manager)</option>
+							</c:if>
+							
+						</select> 
+					</td>	
+       			</tr>
+       			
+       			<tr class="w3-margin-top">
+      				<td>
 						<i class="far fa-image i-mar-size">&nbsp;&nbsp;</i>
 						<span style="font-size: 14px;">Photo</span>
 					</td>
@@ -213,13 +167,9 @@
        			<input type="hidden" name="fname" value="${user.filename}">
        			<input type="hidden" name="fsize" value="${user.filesize}">
        			
-       			<c:if test="${user.p_level eq '4(S-Manager)' || user.p_level eq '3(Manager)'}">
-       			<input type="button" class="w3-button w3-round w3-orange w3-text-white" value="Admin Page" 
-       			OnClick="document.location.href='${pageContext.request.contextPath}/admin/admin_page'">
-       			</c:if>
+       		
        			
 				<input type="submit" class="w3-button w3-round w3-blue w3-text-white" value="Update">
-				<input type="button" class="w3-button w3-round w3-red w3-text-white" value="Delete" onclick="delete_check()">
 				<input type="button" class="w3-button w3-round w3-gray w3-text-white" value="Cancel"  OnClick="history.back();">
 			</div>
 		
@@ -229,7 +179,7 @@
 		
 	</div>
 	</form>
-	<!-- end. form (user_page) -->		
+	<!-- end. form (admin_userinfo) -->		
 	
 	<!-- footer  -->
 	<div class="story-footer" style="background: #EAEAEA;">

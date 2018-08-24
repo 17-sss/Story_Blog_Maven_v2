@@ -1,6 +1,8 @@
 package story.controller;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -55,11 +58,21 @@ public class AdminController {
 	    List u_list = null;
 	    
 	    // 유저 목록 불러오기
-	   count_user = usPro.getUserCount();
-		if (count_user > 0) {
-			u_list = usPro.getUsers(startRow, endRow);
-			System.out.println("count_user: "+count_user);
-		}
+	    if (p_level.equals("3(Manager)")) {
+		    count_user = usPro.getUserCount1(email);
+			if (count_user > 0) {
+				u_list = usPro.getUsers1(startRow, endRow, email);
+				System.out.println("count_user: "+count_user);
+			}
+	    }
+	    
+	    if (p_level.equals("4(S-Manager)")) {
+		    count_user = usPro.getUserCount(email);
+			if (count_user > 0) {
+				u_list = usPro.getUsers(startRow, endRow, email);
+				System.out.println("count_user: "+count_user);
+			}
+	    }
 	    // 검색 게시판 참고해서 만들기
 	    
 	    //##################
@@ -88,9 +101,13 @@ public class AdminController {
 	    mv.addObject("opt", opt);*/
 
 		// 접속 제한
-		if (session.getAttribute("s_email") == null || !p_level.equals("3")) {
+	    if (session.getAttribute("s_email") == null) {
 			mv.setViewName("index");
-		} else {
+		} 
+	    else if (p_level.equals("1(User)") || p_level.equals("2(S-User)")) {
+	    	mv.setViewName("index");
+		}
+	    else if (p_level.equals("3(Manager)") || p_level.equals("4(S-Manager)"))  {
 			mv.setViewName("view/admin/admin_page");
 		}
 		
@@ -115,6 +132,84 @@ public class AdminController {
 		mv.addObject("check", check);
 		mv.addObject("check_diary", check_diary);
 		mv.setViewName("view/admin/admin_user_deletePro");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/admin_userinfo")
+	public ModelAndView admin_userinfo (HttpServletRequest req, ModelAndView mv, String p_level, String userN, UserDataBean user) {
+		HttpSession session = req.getSession();
+		if (p_level == null || p_level=="") {p_level = (String)session.getAttribute("s_p_level");}
+
+		// 접속 제한
+		if (session.getAttribute("s_email") == null) {
+			mv.setViewName("index");
+		} 
+	    else if (p_level.equals("1(User)") || p_level.equals("2(S-User)")) {
+	    	mv.setViewName("index");
+		}
+	    else if (p_level.equals("3(Manager)") || p_level.equals("4(S-Manager)"))  {
+			user = usPro.getUser_n(userN);
+			mv.addObject("user", user);
+			mv.setViewName("view/admin/admin_userinfo");
+		}
+		
+		return mv;
+	}
+	
+	@RequestMapping("/admin_userinfoPro")
+	public ModelAndView admin_userinfoPro (ModelAndView mv, int num, String fname, int fsize, String email, String sort_option, String p_level,
+			MultipartHttpServletRequest req) throws Exception {
+		UserDataBean user = new UserDataBean();
+		
+		MultipartFile multi = req.getFile("filename");
+		String filename = multi.getOriginalFilename();
+
+		System.out.println("[Manager] '"+email+"'를 변경 ###\n"+"[Manager] 확인 1) 유저 파일 업로드: "+filename+"\t # 기존 이미지: "+fname);
+		
+		user.setNum(num);
+		//user.setEmail(email);
+		user.setPwd(req.getParameter("pwd"));
+		user.setName(req.getParameter("name"));
+		user.setTel(req.getParameter("tel"));
+		user.setBirth(req.getParameter("birth"));
+		user.setSort_option(sort_option);
+		user.setP_level(p_level);
+		
+		
+		if (filename != null && !filename.equals("")) {
+			String uploadPath = req.getRealPath("/")+"userSave";
+			System.out.println("[Manager] 확인 2) 업로드 경로: " +uploadPath);
+			FileCopyUtils.copy(multi.getInputStream(), new FileOutputStream(uploadPath+"/"+multi.getOriginalFilename()));
+			user.setFilename(filename);
+			user.setFilesize((int)multi.getSize());
+		} else {
+			user.setFilename(fname);
+			user.setFilesize(fsize);
+		}
+		
+		// 프로필 사진 파일 타입 체크
+		String filetype=".png";
+		int filechk=0;
+		if (filename!=null) {
+			filetype= filename.substring(filename.lastIndexOf(".")+1);
+			if (!(filetype.equalsIgnoreCase("jpg")||filetype.equalsIgnoreCase("jpeg")
+					||filetype.equalsIgnoreCase("png")||filetype.equalsIgnoreCase("gif")||filename.equals(""))) {
+				filechk=1;
+				mv.addObject("filechk", filechk);
+				mv.setViewName("view/admin/admin_userinfoPro");
+			} 
+		}
+		
+		if(filechk==0) {
+			int chk = usPro.updateUser_m(user);
+			
+			System.out.println("[Manager] "+email+"님의 정보가 변경되었습니다" + "\t # 변경여부[chk]: "+chk+"\n");
+			mv.addObject("filechk", filechk);
+			mv.addObject("chk", chk);
+			mv.addObject("num", num); // 유저고유번호 (페이지 되돌아갈때 쓰임)
+			mv.setViewName("view/admin/admin_userinfoPro");
+		}
 		
 		return mv;
 	}
