@@ -311,7 +311,11 @@ public class DiaryController {
 		// 立加 力茄
 		if (session.getAttribute("s_email") == null) {
 			mv.setViewName("index");
-		} else {
+		}
+		if (!session.getAttribute("s_email").equals(email)) {
+			mv.setViewName("index");
+		}
+		else {
 			mv.setViewName("view/diary/diary_board");
 		}
 		
@@ -436,9 +440,13 @@ public class DiaryController {
 	    mv.addObject("opt", opt);
 
 		// 立加 力茄
-		if (session.getAttribute("s_email") == null) {
+	    if (session.getAttribute("s_email") == null) {
 			mv.setViewName("index");
-		} else {
+		}
+		if (!session.getAttribute("s_email").equals(email)) {
+			mv.setViewName("index");
+		}
+		else {
 			mv.setViewName("view/diary/diary_board2");
 		}
 		

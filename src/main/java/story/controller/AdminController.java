@@ -169,7 +169,7 @@ public class AdminController {
 	
 	@RequestMapping("/admin_user_deletePro")
 	public ModelAndView admin_user_deletePro(HttpServletRequest req, ModelAndView mv,
-			@RequestParam Map<String, String> paramMap) throws Exception {
+			@RequestParam Map<String, String> paramMap, String pageNum, String opt, String search) throws Exception {
 		int check = 0;
 		int check_diary =0;
 		
@@ -181,6 +181,9 @@ public class AdminController {
 			System.out.println("####이메일: "+arr_del_user[i]+"####\n"+"삭제여부: " + check+"\n다이어리 삭제여부: "+check_diary);
 		}
 
+		mv.addObject("pageNum", pageNum);
+		mv.addObject("search", search);
+		mv.addObject("opt", opt);
 		
 		mv.addObject("check", check);
 		mv.addObject("check_diary", check_diary);
@@ -190,7 +193,8 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/admin_userinfo")
-	public ModelAndView admin_userinfo (HttpServletRequest req, ModelAndView mv, String p_level, String userN, UserDataBean user) {
+	public ModelAndView admin_userinfo (HttpServletRequest req, ModelAndView mv, String p_level, String userN, UserDataBean user,
+			String pageNum, String search, String opt) {
 		HttpSession session = req.getSession();
 		if (p_level == null || p_level=="") {p_level = (String)session.getAttribute("s_p_level");}
 
@@ -203,7 +207,8 @@ public class AdminController {
 		}
 	    else if (p_level.equals("3(Manager)") || p_level.equals("4(S-Manager)"))  {
 			user = usPro.getUser_n(userN);
-			mv.addObject("user", user);
+			mv.addObject("user", user); mv.addObject("pageNum", pageNum);
+			mv.addObject("search", search); mv.addObject("opt", opt);
 			mv.setViewName("view/admin/admin_userinfo");
 		}
 		
@@ -211,8 +216,8 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/admin_userinfoPro")
-	public ModelAndView admin_userinfoPro (ModelAndView mv, int num, String fname, int fsize, String email, String sort_option, String p_level,
-			MultipartHttpServletRequest req) throws Exception {
+	public ModelAndView admin_userinfoPro (ModelAndView mv, int num, String fname, int fsize, String email, String p_level,
+			MultipartHttpServletRequest req, String opt, String search, String pageNum, String sort_option) throws Exception {
 		UserDataBean user = new UserDataBean();
 		
 		MultipartFile multi = req.getFile("filename");
@@ -258,8 +263,9 @@ public class AdminController {
 			int chk = usPro.updateUser_m(user);
 			
 			System.out.println("[Manager] "+email+"님의 정보가 변경되었습니다" + "\t # 변경여부[chk]: "+chk+"\n");
-			mv.addObject("filechk", filechk);
-			mv.addObject("chk", chk);
+			mv.addObject("filechk", filechk); mv.addObject("chk", chk);
+			mv.addObject("pageNum", pageNum); mv.addObject("search", search); 
+			mv.addObject("opt", opt);
 			mv.addObject("num", num); // 유저고유번호 (페이지 되돌아갈때 쓰임)
 			mv.setViewName("view/admin/admin_userinfoPro");
 		}

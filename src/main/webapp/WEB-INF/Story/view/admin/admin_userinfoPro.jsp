@@ -13,10 +13,19 @@
 		</script>
 	</c:if>
 	<c:if test="${filechk==0 && chk==1}">
+		<c:if test="${search == null}">
 		<script>
 			alert("변경되었습니다.");
-			location.href="${pageContext.request.contextPath}/admin/admin_page";
+			location.href="${pageContext.request.contextPath}/admin/admin_page?pageNum=${pageNum}";
 		</script>
+		</c:if>
+		<c:if test="${search != null}">
+		<script>
+			alert("변경되었습니다.");
+			location.href="${pageContext.request.contextPath}/admin/admin_page?search=" + encodeURI('${search}') + 
+					"&opt=${opt}&pageNum=${pageNum}";
+		</script>
+		</c:if>
 	</c:if>
 	<c:if test="${filechk==0 && chk!=1}">
 		<script>

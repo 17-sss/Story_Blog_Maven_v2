@@ -167,8 +167,10 @@
        			<input type="hidden" name="fname" value="${user.filename}">
        			<input type="hidden" name="fsize" value="${user.filesize}">
        			
+       			<input type="hidden" name="pageNum" value="${pageNum}">
+       			<input type="hidden" name="search" value="${search}">
+       			<input type="hidden" name="opt" value="${opt}">
        		
-       			
 				<input type="submit" class="w3-button w3-round w3-blue w3-text-white" value="Update">
 				<input type="button" class="w3-button w3-round w3-gray w3-text-white" value="Cancel"  OnClick="history.back();">
 			</div>

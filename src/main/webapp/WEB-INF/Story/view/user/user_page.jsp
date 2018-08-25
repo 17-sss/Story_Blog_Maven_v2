@@ -157,12 +157,12 @@
 						<c:if test="${user.sort_option == null}">
 						<span>
 							<input type="radio" name="sort_option" value="r_date">
-							<span style="font-size: 14px;">작성일</span>
+							<span style="font-size: 14px;" title="Reporting Date">작성일</span>
 						</span>
 						&nbsp;
 						<span>
 							<input type="radio" name="sort_option" value="n_date">
-							<span style="font-size: 14px;">일기 기준 날짜</span>
+							<span style="font-size: 14px;" title="Date">일기 기준 날짜</span>
 						</span>
 						</c:if>
 						
@@ -170,24 +170,24 @@
 							<c:if test="${user.sort_option eq 'r_date'}">
 							<span>
 								<input type="radio" name="sort_option" value="r_date" checked="checked">
-								<span style="font-size: 14px;">작성일</span>
+								<span style="font-size: 14px;" title="Reporting Date">작성일</span>
 							</span>
 							&nbsp;
 							<span>
 								<input type="radio" name="sort_option" value="n_date">
-								<span style="font-size: 14px;">일기 기준 날짜</span>
+								<span style="font-size: 14px;" title="Date">일기 기준 날짜</span>
 							</span>
 							</c:if>
 							
 							<c:if test="${user.sort_option eq 'n_date'}">
 							<span>
 								<input type="radio" name="sort_option" value="r_date">
-								<span style="font-size: 14px;">작성일</span>
+								<span style="font-size: 14px;" title="Reporting Date">작성일</span>
 							</span>
 							&nbsp;
 							<span>
 								<input type="radio" name="sort_option" value="n_date" checked="checked">
-								<span style="font-size: 14px;">일기 기준 날짜</span>
+								<span style="font-size: 14px;" title="Date">일기 기준 날짜</span>
 							</span>
 							</c:if>
 						</c:if>

@@ -31,28 +31,63 @@
 		        $("input[name=checkRow]").prop("checked", false);
 		      }
 		}
-		
+	</script>	
+	
+	<!-- 검색어 X -->
+	<c:if test="${search == null}">
+	<script type="text/javascript">	
 		/* 유저 삭제 (체크된 것 전부) */
 		function deleteAction(){
-		  var checkRow = "";
-		  $( "input[name='checkRow']:checked" ).each (function (){
-		    checkRow = checkRow + $(this).val()+"," ;
-		  });
-		  checkRow = checkRow.substring(0,checkRow.lastIndexOf(",")); //맨끝 , 지우기
-		 
-		  if(checkRow == ''){
-		    alert("삭제할 대상을 선택하세요.");
-		    return false;
-		  }
-		  console.log("### checkRow => {}"+checkRow);
-		 
-		  if(confirm("정보를 삭제 하시겠습니까?")){
-			  var url = document.location.href='${pageContext.request.contextPath}/admin/admin_user_deletePro?';
-			  var user = 'email=' + checkRow;
-			  location.href= url + user;
-		  }
+			var checkRow = "";
+			$( "input[name='checkRow']:checked" ).each (function (){
+				checkRow = checkRow + $(this).val()+"," ;
+			});
+			checkRow = checkRow.substring(0,checkRow.lastIndexOf(",")); //맨끝 , 지우기
+			 
+			if(checkRow == ''){
+				alert("삭제할 대상을 선택하세요.");
+			    return false;
+			}
+			console.log("### checkRow => {}"+checkRow);
+			 
+			if(confirm("정보를 삭제 하시겠습니까?")){
+				var url = document.location.href='${pageContext.request.contextPath}/admin/admin_user_deletePro?';
+				var page = 'pageNum=${pageNum}&';
+				var user = 'email=' + checkRow;
+				location.href= url + page + user;
+			}  
 		}
 	</script>
+	</c:if>
+	
+	<!-- 검색어 O -->
+	<c:if test="${search != null}">
+	<script type="text/javascript">	
+		/* 유저 삭제 (체크된 것 전부) */
+		function deleteAction(){
+			var checkRow = "";
+			$( "input[name='checkRow']:checked" ).each (function (){
+				checkRow = checkRow + $(this).val()+"," ;
+			});
+			checkRow = checkRow.substring(0,checkRow.lastIndexOf(",")); //맨끝 , 지우기
+			 
+			if(checkRow == ''){
+				alert("삭제할 대상을 선택하세요.");
+			    return false;
+			}
+			console.log("### checkRow => {}"+checkRow);
+			 
+			if(confirm("정보를 삭제 하시겠습니까?")){
+				var url = document.location.href='${pageContext.request.contextPath}/admin/admin_user_deletePro';
+				var page = 'pageNum=${pageNum}';
+				var search = 'search=' + encodeURI('${search}') + '&opt=${opt}'
+				var user = 'email=' + checkRow;
+				
+				location.href= url+'?'+page+'&'+search+'&'+ user;
+			}  
+		}
+	</script>
+	</c:if>
 	
 </head>
 <%@include file="/utilize/common/header.jsp"%>
@@ -79,6 +114,12 @@
 			<span class="w3-right font-montserrat-c" style="font-size: 10pt;">
 				User: <b>${count_user}</b>
 			</span>
+			
+			<c:if test="${search != null}">
+			<span class="w3-right font-montserrat-c w3-hover-text-red" style="font-size: 10pt;">
+				<a href="admin_page">ALL</a>&nbsp;&nbsp;
+			</span>
+			</c:if>
 			
 			<div class="w3-margin-top">
 				<input class="w3-small" type="button" value="삭제" onclick="deleteAction();"/>
@@ -111,7 +152,13 @@
 						<td align="center" width="3"  class="w3-center w3-border font-montserrat-c" style="width: 1%;">${number}</td>
 						<c:set var="number" value="${number-1}" />
 						<td align="center" width="30" class="w3-center w3-border" style="width: 10%;">
-							<a href="${pageContext.request.contextPath}/admin/admin_userinfo?userN=${user.num}" class="w3-hover-text-gray">${user.email}</a>
+							<c:if test="${search == null}">
+							<a href="${pageContext.request.contextPath}/admin/admin_userinfo?userN=${user.num}&pageNum=${pageNum}" class="w3-hover-text-gray">${user.email}</a>
+							</c:if>
+							<c:if test="${search != null}">
+							<a href="javascript:void(0);" class="w3-hover-text-gray"
+							onclick="document.location.href='${pageContext.request.contextPath}/admin/admin_userinfo?userN=${user.num}&search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${pageNum}'">${user.email}</a>
+							</c:if>
 						</td>
 						<td align="center" width="20" class="w3-center w3-border" style="width: 10%;">${user.name}</td>
 						<c:if test="${user.tel != null}">
@@ -132,6 +179,7 @@
 					</tr>
 					</c:forEach>
 				</table>
+				
 				
 				<form class="w3-white" method="post" action="${pageContext.request.contextPath}/admin/admin_page">
 					<div class="w3-center w3-margin-top w3-margin-bottom font-nanum-coding-c">
