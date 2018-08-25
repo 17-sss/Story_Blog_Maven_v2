@@ -58,136 +58,166 @@
 <%@include file="/utilize/common/header.jsp"%>
 <body>
 <div style="margin-top: 39px; background: #f1f1f1; width: 100%;">
-	<div class="w3-container">
-		<c:if test="${count_user==0}">
-		<div style="margin: 2% 24.5% 2% 25%;">
-			<div class="w3-container w3-white w3-round">
-				<div class="w3-container w3-center story-padding-t16-b24">
-					<p>회원이 없습니다.</p>
-					<input type="button" class="w3-light-gray w3-small w3-button" value="Back" 
-					onclick="history.go(-1);">
-				</div>
+
+<div class="w3-container">
+	<c:if test="${count_user==0}">
+	<div style="margin: 2% 24.5% 2% 25%;">
+		<div class="w3-container w3-white w3-round">
+			<div class="w3-container w3-center story-padding-t16-b24">
+				<p>회원이 없습니다.</p>
+				<input type="button" class="w3-light-gray w3-small w3-button" value="Back" 
+				onclick="history.go(-1);">
 			</div>
 		</div>
-		</c:if>
-	
-		<c:if test="${count_user!=0}">
-		<div style="margin: 2% 18.5% 2% 19%;">
-			<div class="w3-container w3-white w3-round w3-padding-16">
-				
-				<span class="w3-right font-montserrat-c" style="font-size: 10pt;">
-					User: <b>${count_user}</b>
-				</span>
-				
-				<div class="w3-margin-top">
-					<input class="w3-small" type="button" value="삭제" onclick="deleteAction();"/>
+	</div>
+	</c:if>
+
+	<c:if test="${count_user!=0}">
+	<div style="margin: 2% 18.5% 2% 19%;">
+		<div class="w3-container w3-white w3-round w3-padding-16">
 			
-					
-					<table class="w3-table w3-bordered w3-border w3-small" width="139">
-						<!--tr은 행을 정의 ==tr=아래=> td는 데이터 셀을 정의, th는 제목 셀을 정의-->	
-						<tr height="5" style="font-size: 9pt;" class="font-nanum-coding-c w3-gray">
-							<td align="center" width="3" style="width: 1%;">
-								<input type="checkbox" name="checkAll" id="td_checkAll" onclick="checkAll();"/>
-							</td>	
-							
-							<td align="center" width="3"  class="w3-center w3-border font-montserrat-c" style="width: 1%;">NUM</td>
-							<td align="center" width="30" class="w3-center w3-border font-montserrat-c" style="width: 10%;">Email</td>
-							<td align="center" width="20" class="w3-center w3-border" style="width: 10%;">이름</td>
-							<!-- pwd, filename -->
-							<td align="center" width="20" class="w3-center w3-border font-montserrat-c">Tel</td>
-							<td align="center" width="20" class="w3-center w3-border">생일</td>
-							<td align="center" width="30" class="w3-center w3-border">생성일</td>
-							<td align="center" width="3"  class="w3-center w3-border">권한</td>
-							<td align="center" width="10" class="w3-center w3-border font-montserrat-c">IP</td>
-						</tr>
+			<span class="w3-right font-montserrat-c" style="font-size: 10pt;">
+				User: <b>${count_user}</b>
+			</span>
+			
+			<div class="w3-margin-top">
+				<input class="w3-small" type="button" value="삭제" onclick="deleteAction();"/>
+		
+				
+				<table class="w3-table w3-bordered w3-border w3-small" width="139">
+					<!--tr은 행을 정의 ==tr=아래=> td는 데이터 셀을 정의, th는 제목 셀을 정의-->	
+					<tr height="5" style="font-size: 9pt;" class="font-nanum-coding-c w3-gray">
+						<td align="center" width="3" style="width: 1%;">
+							<input type="checkbox" name="checkAll" id="td_checkAll" onclick="checkAll();"/>
+						</td>	
 						
-						<c:forEach var="user" items="${u_list}">
-						<tr height="5" style="font-size: 9pt;">
-							<td align="center" width="3" style="width: 1%;" class="w3-light-gray"> 
-								<input type="checkbox" name="checkRow" value="${user.email}" />
-							</td>
-							
-							<td align="center" width="3"  class="w3-center w3-border font-montserrat-c" style="width: 1%;">${number}</td>
-							<c:set var="number" value="${number-1}" />
-							<td align="center" width="30" class="w3-center w3-border" style="width: 10%;">
-								<a href="${pageContext.request.contextPath}/admin/admin_userinfo?userN=${user.num}" class="w3-hover-text-gray">${user.email}</a>
-							</td>
-							<td align="center" width="20" class="w3-center w3-border" style="width: 10%;">${user.name}</td>
-							<c:if test="${user.tel != null}">
-							<td align="center" width="20" class="w3-center w3-border">${user.tel}</td>
-							</c:if>
-							<c:if test="${user.tel == null}">
-							<td align="center" width="20" class="w3-center w3-border w3-text-gray">미입력</td>
-							</c:if>
-							<c:if test="${user.birth != null}">
-							<td align="center" width="20" class="w3-center w3-border">${user.birth}</td>
-							</c:if>
-							<c:if test="${user.birth == null}">
-							<td align="center" width="20" class="w3-center w3-border w3-text-gray">미입력</td>
-							</c:if>
-							<td align="center" width="30" class="w3-center w3-border" style="font-size: 9pt;">${user.cdate}</td>
-							<td align="center" width="3"  class="w3-center w3-border">${user.p_level}</td>
-							<td align="center" width="10" class="w3-center w3-border">${user.ip}</td>
-						</tr>
-						</c:forEach>
-					</table>
+						<td align="center" width="3"  class="w3-center w3-border font-montserrat-c" style="width: 1%;">NUM</td>
+						<td align="center" width="30" class="w3-center w3-border font-montserrat-c" style="width: 10%;">Email</td>
+						<td align="center" width="20" class="w3-center w3-border" style="width: 10%;">이름</td>
+						<!-- pwd, filename -->
+						<td align="center" width="20" class="w3-center w3-border font-montserrat-c">Tel</td>
+						<td align="center" width="20" class="w3-center w3-border">생일</td>
+						<td align="center" width="30" class="w3-center w3-border">생성일</td>
+						<td align="center" width="3"  class="w3-center w3-border">권한</td>
+						<td align="center" width="10" class="w3-center w3-border font-montserrat-c">IP</td>
+					</tr>
 					
-					<form class="w3-white" method="post" action="${pageContext.request.contextPath}/admin/admin_page">
-						<div class="w3-center w3-margin-top w3-margin-bottom font-nanum-coding-c">
-							<select class="w3-border" style="display: inline-block; font-size: 10pt;" name="opt">
-								<option class="w3-text-gray" disabled>Search..</option>
-								<option value="so_em_na" selected>이메일 + 이름</option>
-								<option value="so_em">이메일</option>
-								<option value="so_na">이름</option>
-							</select> 
-							<input type="text" class="w3-border" placeholder="유저 검색" name="search" style="padding: 0px; font-size: 10pt;">				
-							<input type="submit" class="w3-button w3-light-gray font-montserrat-c" value="Search" 
-							 style="display: inline-block; padding: 6px 9px; font-size: 8pt;">
-						</div>
-					</form>
-					
-					<!-- 전체보기 (페이지)  -->
-					<c:if test="${count_user != 0}">
-					<div class="w3-center font-montserrat-c w3-padding-16">
-						<c:if test="${count_user > 0}">
-							<c:if test="${startPage > bottomLine}">		
-								<a href="admin_page?pageNum=${startPage - bottomLine}" style="font-size: 11pt;">[이전]</a>
-							</c:if>	
+					<c:forEach var="user" items="${u_list}">
+					<tr height="5" style="font-size: 9pt;">
+						<td align="center" width="3" style="width: 1%;" class="w3-light-gray"> 
+							<input type="checkbox" name="checkRow" value="${user.email}" />
+						</td>
 						
-							<c:forEach var="i" begin="${startPage}" end="${endPage}">
-								<a href="admin_page?pageNum=${i}">
-								<c:if test="${i != currentPage}">
-									[${i}]
-								</c:if> 
-								<c:if test="${i == currentPage}">
-									<font color='orange'>[${i}]</font>
-								</c:if>
-								</a>
-							</c:forEach>
-	
-							<c:if test="${endPage < pageCount}">
-								<a href="admin_page?pageNum=${startPage + bottomLine}" style="font-size: 11pt;">[다음]</a>
-							</c:if>
+						<td align="center" width="3"  class="w3-center w3-border font-montserrat-c" style="width: 1%;">${number}</td>
+						<c:set var="number" value="${number-1}" />
+						<td align="center" width="30" class="w3-center w3-border" style="width: 10%;">
+							<a href="${pageContext.request.contextPath}/admin/admin_userinfo?userN=${user.num}" class="w3-hover-text-gray">${user.email}</a>
+						</td>
+						<td align="center" width="20" class="w3-center w3-border" style="width: 10%;">${user.name}</td>
+						<c:if test="${user.tel != null}">
+						<td align="center" width="20" class="w3-center w3-border">${user.tel}</td>
 						</c:if>
+						<c:if test="${user.tel == null}">
+						<td align="center" width="20" class="w3-center w3-border w3-text-gray">미입력</td>
+						</c:if>
+						<c:if test="${user.birth != null}">
+						<td align="center" width="20" class="w3-center w3-border">${user.birth}</td>
+						</c:if>
+						<c:if test="${user.birth == null}">
+						<td align="center" width="20" class="w3-center w3-border w3-text-gray">미입력</td>
+						</c:if>
+						<td align="center" width="30" class="w3-center w3-border" style="font-size: 9pt;">${user.cdate}</td>
+						<td align="center" width="3"  class="w3-center w3-border">${user.p_level}</td>
+						<td align="center" width="10" class="w3-center w3-border">${user.ip}</td>
+					</tr>
+					</c:forEach>
+				</table>
+				
+				<form class="w3-white" method="post" action="${pageContext.request.contextPath}/admin/admin_page">
+					<div class="w3-center w3-margin-top w3-margin-bottom font-nanum-coding-c">
+						<select class="w3-border" style="display: inline-block; font-size: 10pt;" name="opt">
+							<option class="w3-text-gray" disabled>Search..</option>
+							<option value="EN" selected>이메일 + 이름</option>
+							<option value="E">이메일</option>
+							<option value="N">이름</option>
+						</select> 
+						<input type="text" class="w3-border" placeholder="유저 검색" name="search" style="padding: 0px; font-size: 10pt;">				
+						<input type="submit" class="w3-button w3-light-gray font-montserrat-c" value="Search" 
+						 style="display: inline-block; padding: 6px 9px; font-size: 8pt;">
 					</div>
+				</form>
+				
+				<!-- 페이징 - 검색 X  -->
+				<c:if test="${count_user != 0 && search == null}">
+				<div class="w3-center font-montserrat-c w3-padding-16">
+					<c:if test="${count_user > 0}">
+						<c:if test="${startPage > bottomLine}">		
+							<a href="admin_page?pageNum=${startPage - bottomLine}" style="font-size: 11pt;">[이전]</a>
+						</c:if>	
+					
+						<c:forEach var="i" begin="${startPage}" end="${endPage}">
+							<a href="admin_page?pageNum=${i}">
+							<c:if test="${i != currentPage}">
+								[${i}]
+							</c:if> 
+							<c:if test="${i == currentPage}">
+								<font color='orange'>[${i}]</font>
+							</c:if>
+							</a>
+						</c:forEach>
+
+						<c:if test="${endPage < pageCount}">
+							<a href="admin_page?pageNum=${startPage + bottomLine}" style="font-size: 11pt;">[다음]</a>
+						</c:if>
+					</c:if>
+				</div>
+				</c:if>
+				
+				<!-- 페이징 - 검색 O  -->
+				<c:if test="${count_user != 0 && search != null}">
+				<div class="w3-center font-montserrat-c w3-padding-16">
+					<c:if test="${count_user>0}">
+						<c:if test="${startPage > bottomLine}">
+							<a href="javascript:void(0);" style="font-size: 11pt;"
+							onclick="document.location.href='${pageContext.request.contextPath}/admin/admin_page?search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${startPage + bottomLine}'">[이전]</a>
+						</c:if>
+
+						<c:forEach var="i" begin="${startPage}" end="${endPage}">.
+							<a href="javascript:void(0);"
+							onclick="document.location.href='${pageContext.request.contextPath}/admin/admin_page?search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${i}'">
+							<c:if test="${i != currentPage}">
+								[${i}]
+							</c:if> 
+							<c:if test="${i == currentPage}">
+								<font color='red'>[${i}]</font>
+							</c:if>
+							</a>	
+						</c:forEach>
+
+						<c:if test="${endPage < pageCount}">
+							<a href="javascript:void(0);" style="font-size: 11pt;"
+							onclick="document.location.href='${pageContext.request.contextPath}/admin/admin_page?search=' + encodeURI('${search}') + '&opt=${opt}&pageNum=${startPage + bottomLine}'">[다음]</a>	
+						</c:if>
 					</c:if>
 					
-					
 				</div>
+				</c:if>
+				
 			</div>
-		</div>	
-		</c:if>
-		
-		
-	
-	</div>
-	<!-- footer  -->
-	<div class="story-footer" style="background: #EAEAEA;">
-		<div class="story-copyright">
-			&copy; Powered by <a href="${pageContext.request.contextPath}/user/LogoutPro">Story Blog</a>
 		</div>
+	</div>	
+	</c:if>
+	
+</div>
+
+<!-- footer  -->
+<div class="story-footer" style="background: #EAEAEA;">
+	<div class="story-copyright">
+		&copy; Powered by <a href="${pageContext.request.contextPath}/user/LogoutPro">Story Blog</a>
 	</div>
-	<!-- end. footer -->	
+</div>
+<!-- end. footer -->	
+
 </div>
 </body>
 </html>

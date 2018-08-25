@@ -74,6 +74,92 @@
 		  and email != #{email} order by cdate desc)a)  where rnum between #{startRow} and #{endRow}
 	</select>
 	
+	<!-- @@@@@@@@@@@@@@@@ 회원 검색 @@@@@@@@@@@@@@@@ -->
+	<!-- [어드민] 회원 검색 - 회원 수 -->
+	<!-- + 접속 계정 제외, 권한 S-Manager 제외 -->
+	<!-- 이메일 + 이름 -->
+	<select id="getUserCount_Search_EN" resultType="int" parameterType="hashmap">
+		SELECT nvl(count(*),0) FROM story_user where p_level != <![CDATA['4(S-Manager)']]> and email != #{email} 
+		and (email like #{search} or name like #{search})
+	</select>
+	<!-- 이메일  -->
+	<select id="getUserCount_Search_E" resultType="int" parameterType="hashmap">
+		SELECT nvl(count(*),0) FROM story_user where p_level != <![CDATA['4(S-Manager)']]> and email != #{email} 
+		and email like #{search}
+	</select>
+	<!-- 이름  -->
+	<select id="getUserCount_Search_N" resultType="int" parameterType="hashmap">
+		SELECT nvl(count(*),0) FROM story_user where p_level != <![CDATA['4(S-Manager)']]> and email != #{email} 
+		and name like #{search}
+	</select>
+	<!-- end. + 접속 계정 제외, 권한 S-Manager 제외 -->
+	
+	<!-- + 접속 계정 제외, 권한 S-Manager, Manager 제외 -->
+	<!-- 이메일 + 이름 -->
+	<select id="getUserCount_Search_EN1" resultType="int" parameterType="hashmap">
+		SELECT nvl(count(*),0) FROM story_user where (p_level != <![CDATA['3(Manager)']]> and p_level != <![CDATA['4(S-Manager)']]>)
+		 and email != #{email} and (email like #{search} or name like #{search})
+	</select>
+	<!-- 이메일  -->
+	<select id="getUserCount_Search_E1" resultType="int" parameterType="hashmap">
+		SELECT nvl(count(*),0) FROM story_user where (p_level != <![CDATA['3(Manager)']]> and p_level != <![CDATA['4(S-Manager)']]>)
+		 and email != #{email} and email like #{search}
+	</select>
+	<!-- 이름  -->
+	<select id="getUserCount_Search_N1" resultType="int" parameterType="hashmap">
+		SELECT nvl(count(*),0) FROM story_user where (p_level != <![CDATA['3(Manager)']]> and p_level != <![CDATA['4(S-Manager)']]>)
+		 and email != #{email} and name like #{search}
+	</select>
+	<!-- end. + 접속 계정 제외, 권한 S-Manager, Manager 제외 -->
+	<!-- ### end. [어드민] 회원 검색 - 회원 수 ### -->
+	
+	<!-- [어드민] 회원 검색 - 목록출력 -->
+	<!-- + 접속 계정 제외, 권한 S-Manager 제외 -->
+	<!-- 이메일 + 이름 -->
+	<select id="getUsers_Search_EN" parameterType="hashmap" resultType="User">
+		select * from (select rownum rnum, a.* from (select num, email, pwd, name, tel, birth, filename, cdate, p_level, ip from
+		 story_user where p_level != <![CDATA['4(S-Manager)']]> and email != #{email} and (email like #{search} or name like #{search})
+		 order by cdate desc)a) where rnum between #{startRow} and #{endRow}
+	</select>
+	<!-- 이메일  -->
+	<select id="getUsers_Search_E" parameterType="hashmap" resultType="User">
+		select * from (select rownum rnum, a.* from (select num, email, pwd, name, tel, birth, filename, cdate, p_level, ip from
+		 story_user where p_level != <![CDATA['4(S-Manager)']]> and email != #{email} and email like #{search}
+		 order by cdate desc)a) where rnum between #{startRow} and #{endRow}
+	</select>
+	<!-- 이름  -->
+	<select id="getUsers_Search_N" parameterType="hashmap" resultType="User">
+		select * from (select rownum rnum, a.* from (select num, email, pwd, name, tel, birth, filename, cdate, p_level, ip from
+		 story_user where p_level != <![CDATA['4(S-Manager)']]> and email != #{email} and name like #{search}
+		 order by cdate desc)a) where rnum between #{startRow} and #{endRow}
+	</select>
+	<!-- end. + 접속 계정 제외, 권한 S-Manager 제외 -->
+	
+	<!-- + 접속 계정 제외, 권한 S-Manager, Manager 제외 -->
+	<!-- 이메일 + 이름 -->
+	<select id="getUsers_Search_EN1" parameterType="hashmap" resultType="User">
+		select * from (select rownum rnum, a.* from (select num, email, pwd, name, tel, birth, filename, cdate, p_level, ip from
+		 story_user where (p_level != <![CDATA['3(Manager)']]> and p_level != <![CDATA['4(S-Manager)']]>) 
+		 and email != #{email} and (email like #{search} or name like #{search}) 
+		 order by cdate desc)a) where rnum between #{startRow} and #{endRow}
+	</select>
+	<!-- 이메일  -->
+	<select id="getUsers_Search_E1" parameterType="hashmap" resultType="User">
+		select * from (select rownum rnum, a.* from (select num, email, pwd, name, tel, birth, filename, cdate, p_level, ip from
+		 story_user where (p_level != <![CDATA['3(Manager)']]> and p_level != <![CDATA['4(S-Manager)']]>) 
+		 and email != #{email} and email like #{search} order by cdate desc)a) where rnum between #{startRow} and #{endRow}
+	</select>
+	<!-- 이름  -->
+	<select id="getUsers_Search_N1" parameterType="hashmap" resultType="User">
+		select * from (select rownum rnum, a.* from (select num, email, pwd, name, tel, birth, filename, cdate, p_level, ip from
+		 story_user where (p_level != <![CDATA['3(Manager)']]> and p_level != <![CDATA['4(S-Manager)']]>) 
+		 and email != #{email} and name like #{search} order by cdate desc)a) where rnum between #{startRow} and #{endRow}
+	</select>
+	<!-- end. + 접속 계정 제외, 권한 S-Manager, Manager 제외 -->
+	<!-- ### end.[어드민] 회원 검색 - 목록출력 ### -->
+	<!-- @@@@@@@@@@@@@@@@ end. 회원 검색 @@@@@@@@@@@@@@@@ -->
+	
+	
 	<!-- [어드민] 회원 삭제 -->
 	<delete id="deleteUser_admin" parameterType="hashmap">
 		delete from story_user where email=#{email}	

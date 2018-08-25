@@ -181,7 +181,169 @@ public class UserDBMyBatis extends MybatisConnector {
 		sqlSession.close();
 		return li;
 	}
-
+	
+	// @@@@@@@@@@@@@@@@ 회원 검색 @@@@@@@@@@@@@@@@
+	// [어드민] 회원 검색 - 회원 수 
+	// + 접속 계정 제외, 권한 S-Manager 제외 [4(S-Manager) 전용]
+	// 이메일 + 이름
+	public int getUserCount_Search_EN(String email, String search) {
+		int x = 0;
+		sqlSession=sqlSession();
+		Map map = new HashMap();
+		map.put("email", email);
+		map.put("search", search);
+		
+		x = sqlSession.selectOne(namespace+".getUserCount_Search_EN", map);
+		sqlSession.close();
+		return x;
+	}
+	// 이메일
+	public int getUserCount_Search_E(String email, String search) {
+		int x = 0;
+		sqlSession=sqlSession();
+		Map map = new HashMap();
+		map.put("email", email);
+		map.put("search", search);
+		
+		x = sqlSession.selectOne(namespace+".getUserCount_Search_E", map);
+		sqlSession.close();
+		return x;
+	}
+	// 이름
+	public int getUserCount_Search_N(String email, String search) {
+		int x = 0;
+		sqlSession=sqlSession();
+		Map map = new HashMap();
+		map.put("email", email);
+		map.put("search", search);
+		
+		x = sqlSession.selectOne(namespace+".getUserCount_Search_N", map);
+		sqlSession.close();
+		return x;
+	}
+	// end. + 접속 계정 제외, 권한 S-Manager 제외 [4(S-Manager) 전용]
+	
+	// + 접속 계정 제외, 권한 S-Manager, Manager 제외 [3(Manager) 전용]
+	// 이메일 + 이름
+	public int getUserCount_Search_EN1(String email, String search) {
+		int x = 0;
+		sqlSession=sqlSession();
+		Map map = new HashMap();
+		map.put("email", email);
+		map.put("search", search);
+		
+		x = sqlSession.selectOne(namespace+".getUserCount_Search_EN1", map);
+		sqlSession.close();
+		return x;
+	}
+	// 이메일
+	public int getUserCount_Search_E1(String email, String search) {
+		int x = 0;
+		sqlSession=sqlSession();
+		Map map = new HashMap();
+		map.put("email", email);
+		map.put("search", search);
+		
+		x = sqlSession.selectOne(namespace+".getUserCount_Search_E1", map);
+		sqlSession.close();
+		return x;
+	}
+	// 이름
+	public int getUserCount_Search_N1(String email, String search) {
+		int x = 0;
+		sqlSession=sqlSession();
+		Map map = new HashMap();
+		map.put("email", email);
+		map.put("search", search);
+		
+		x = sqlSession.selectOne(namespace+".getUserCount_Search_N1", map);
+		sqlSession.close();
+		return x;
+	}
+	// end. + 접속 계정 제외, 권한 S-Manager, Manager 제외 [3(Manager) 전용]
+	// ### end. [어드민] 회원 검색 - 회원 수
+	
+	
+	// [어드민] 회원 검색 - 목록출력
+	// + 접속 계정 제외, 권한 S-Manager 제외 [4(S-Manager) 전용]
+	// 이메일 + 이름
+	public List getUsers_Search_EN(int startRow, int endRow, String email, String search) {
+		sqlSession= sqlSession();
+		Map map = new HashMap();
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		map.put("email", email);
+		map.put("search", search);
+		List li = sqlSession.selectList(namespace + ".getUsers_Search_EN",map);
+		sqlSession.close();
+		return li;
+	}
+	// 이메일
+	public List getUsers_Search_E(int startRow, int endRow, String email, String search) {
+		sqlSession= sqlSession();
+		Map map = new HashMap();
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		map.put("email", email);
+		map.put("search", search);
+		List li = sqlSession.selectList(namespace + ".getUsers_Search_E",map);
+		sqlSession.close();
+		return li;
+	}
+	// 이름
+	public List getUsers_Search_N(int startRow, int endRow, String email, String search) {
+		sqlSession= sqlSession();
+		Map map = new HashMap();
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		map.put("email", email);
+		map.put("search", search);
+		List li = sqlSession.selectList(namespace + ".getUsers_Search_N",map);
+		sqlSession.close();
+		return li;
+	}
+	// end. + 접속 계정 제외, 권한 S-Manager 제외 [4(S-Manager) 전용]
+	
+	// + 접속 계정 제외, 권한 S-Manager, Manager 제외 [3(Manager) 전용]
+	// 이메일 + 이름
+	public List getUsers_Search_EN1(int startRow, int endRow, String email, String search) {
+		sqlSession= sqlSession();
+		Map map = new HashMap();
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		map.put("email", email);
+		map.put("search", search);
+		List li = sqlSession.selectList(namespace + ".getUsers_Search_EN1",map);
+		sqlSession.close();
+		return li;
+	}
+	// 이메일
+	public List getUsers_Search_E1(int startRow, int endRow, String email, String search) {
+		sqlSession= sqlSession();
+		Map map = new HashMap();
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		map.put("email", email);
+		map.put("search", search);
+		List li = sqlSession.selectList(namespace + ".getUsers_Search_E1",map);
+		sqlSession.close();
+		return li;
+	}
+	// 이름
+	public List getUsers_Search_N1(int startRow, int endRow, String email, String search) {
+		sqlSession= sqlSession();
+		Map map = new HashMap();
+		map.put("startRow", startRow);
+		map.put("endRow", endRow);
+		map.put("email", email);
+		map.put("search", search);
+		List li = sqlSession.selectList(namespace + ".getUsers_Search_N1",map);
+		sqlSession.close();
+		return li;
+	}
+	// end. + 접속 계정 제외, 권한 S-Manager, Manager 제외  [3(Manager) 전용]
+	// ### end. [어드민] 회원 검색 - 목록출력
+	// @@@@@@@@@@@@@@@@ end. 회원 검색 @@@@@@@@@@@@@@@@
 	
 	// [어드민] 회원 삭제 
 	public int deleteUser (String email) {

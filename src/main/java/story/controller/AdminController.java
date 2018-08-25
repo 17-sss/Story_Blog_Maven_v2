@@ -38,7 +38,8 @@ public class AdminController {
 	
 	// 관리자 페이지
 	@RequestMapping("/admin_page")
-	public ModelAndView admin_page(HttpServletRequest req, String pageNum, ModelAndView mv, String email, String p_level) throws Exception {
+	public ModelAndView admin_page(HttpServletRequest req, String pageNum, ModelAndView mv, String email, String p_level,
+			String search, String opt) throws Exception {
 		HttpSession session = req.getSession();
 		
 		if (pageNum == null || pageNum == "") {pageNum = "1";}
@@ -73,7 +74,59 @@ public class AdminController {
 				System.out.println("count_user: "+count_user);
 			}
 	    }
-	    // 검색 게시판 참고해서 만들기
+	    // 유저 검색
+	    if (search != null) {
+	    	System.out.println("권한: "+p_level);
+	    	
+	    	if (p_level.equals("4(S-Manager)")) {
+	    		if (opt.equals("EN")) {
+		    		count_user = usPro.getUserCount_Search_EN(email, "%" + search + "%");
+					if (count_user > 0) {
+						u_list = usPro.getUsers_Search_EN(startRow, endRow, email, "%" + search + "%");
+						System.out.println("[EN] Count_User: " + count_user);
+					}
+		    	}
+		    	if (opt.equals("E")) {
+		    		count_user = usPro.getUserCount_Search_E(email, "%" + search + "%");
+					if (count_user > 0) {
+						u_list = usPro.getUsers_Search_E(startRow, endRow, email, "%" + search + "%");
+						System.out.println("[E] Count_User: " + count_user);
+					}
+		    	}    	
+		    	if (opt.equals("N")) {
+		    		count_user = usPro.getUserCount_Search_N(email, "%" + search + "%");
+					if (count_user > 0) {
+						u_list = usPro.getUsers_Search_N(startRow, endRow, email, "%" + search + "%");
+						System.out.println("[N] Count_User: " + count_user);
+					}
+		    	}
+	    	}
+	    	
+	    	if (p_level.equals("3(Manager)")) {
+	    		if (opt.equals("EN")) {
+		    		count_user = usPro.getUserCount_Search_EN1(email, "%" + search + "%");
+					if (count_user > 0) {
+						u_list = usPro.getUsers_Search_EN1(startRow, endRow, email, "%" + search + "%");
+						System.out.println("[EN] Count_User: " + count_user);
+					}
+		    	}
+	    		if (opt.equals("E")) {
+		    		count_user = usPro.getUserCount_Search_E1(email, "%" + search + "%");
+					if (count_user > 0) {
+						u_list = usPro.getUsers_Search_E1(startRow, endRow, email, "%" + search + "%");
+						System.out.println("[E] Count_User: " + count_user);
+					}
+		    	}    	
+		    	if (opt.equals("N")) {
+		    		count_user = usPro.getUserCount_Search_N1(email, "%" + search + "%");
+					if (count_user > 0) {
+						u_list = usPro.getUsers_Search_N1(startRow, endRow, email, "%" + search + "%");
+						System.out.println("[N] Count_User: " + count_user);
+					}
+		    	}
+	    	}
+	    	
+	    }
 	    
 	    //##################
 		number = count_user - (currentPage - 1) * pageSize;
@@ -97,8 +150,8 @@ public class AdminController {
 	    mv.addObject("pageNum", pageNum);
 	   
 	    // 검색
-	   /* mv.addObject("search", search);
-	    mv.addObject("opt", opt);*/
+	    mv.addObject("search", search);
+	    mv.addObject("opt", opt);
 
 		// 접속 제한
 	    if (session.getAttribute("s_email") == null) {
@@ -120,12 +173,12 @@ public class AdminController {
 		int check = 0;
 		int check_diary =0;
 		
-		String[] arrIdx = paramMap.get("email").toString().split(",");
-		for (int i=0; i<arrIdx.length; i++) {
-			check = usPro.deleteUser(arrIdx[i]);
-			check_diary = usPro.deleteUser_diary(arrIdx[i]);
+		String[] arr_del_user = paramMap.get("email").toString().split(",");
+		for (int i=0; i<arr_del_user.length; i++) {
+			check = usPro.deleteUser(arr_del_user[i]);
+			check_diary = usPro.deleteUser_diary(arr_del_user[i]);
 			
-			System.out.println("####이메일: "+arrIdx[i]+"####\n"+"삭제여부: " + check+"\n다이어리 삭제여부: "+check_diary);
+			System.out.println("####이메일: "+arr_del_user[i]+"####\n"+"삭제여부: " + check+"\n다이어리 삭제여부: "+check_diary);
 		}
 
 		
