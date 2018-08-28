@@ -186,7 +186,7 @@
 	    			<span class="w3-right">
 	    				<a href="${pageContext.request.contextPath}/user/accountForm" class="w3-text-black">Sign Up</a>
 	    			</span>
-	    			<span>Forgot <a href="${pageContext.request.contextPath}/user/findpwd">password?</a></span>
+	    			<span>Forgot <a href="${pageContext.request.contextPath}/mail/findpwd">password?</a></span>
 	    		</div>
 	    		
 		    </div>

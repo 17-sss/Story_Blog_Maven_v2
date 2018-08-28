@@ -1,4 +1,4 @@
-package story.Test;
+package Test;
 
 import java.util.List;
 

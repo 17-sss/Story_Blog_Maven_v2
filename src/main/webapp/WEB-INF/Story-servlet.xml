@@ -22,11 +22,11 @@
 	<bean class="story.controller.AdminController"/>
 	<bean class="story.controller.UserController"/>
 	<bean class="story.controller.DiaryController"/>
+	<bean class="story.controller.MailController"/>
 	
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/Story/"/>
 		<property name="suffix" value=".jsp"/>
 	</bean>
-	
 	
 </beans>

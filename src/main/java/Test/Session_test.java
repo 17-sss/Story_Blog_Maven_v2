@@ -1,4 +1,4 @@
-package story.Test;
+package Test;
 
 public class Session_test {
 	// 접속 제한 

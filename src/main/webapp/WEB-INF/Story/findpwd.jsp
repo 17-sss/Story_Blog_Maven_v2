@@ -26,7 +26,9 @@
 </head>
 <body>
 <div id="banner-acc" class="story-height-i-100 story-overflow-hidden1">
-	<form>
+	
+	<form method="post" name="findpwd" action="${pageContext.request.contextPath}/mail/findpwd_mail">
+	
 		<div class="w3-animate-opacity w3-display-middle" style="width: 40%;">
 			<div class="w3-center w3-light-gray w3-container">
 				<span id="font-poiretone" class="w3-jumbo">Story Blog</span>
@@ -38,12 +40,15 @@
 							<i class="far fa-envelope" style="font-size: 24px;">&nbsp;</i>
 							<span class="font-montserrat-c">Email</span>
 						</span>
-						<input type="text" name="findpwd" class="w3-white story-input" placeholder="Email로 임시비밀번호가 전송됩니다.">
+						<input type="text" name="to_email" class="w3-white story-input" placeholder="Email로 임시비밀번호가 전송됩니다.">
 					</div>
+					
 					<div class="w3-margin-top w3-right">
 						<input type="submit" class="w3-round w3-button w3-blue" value="Submit">
 						<input type="button" class="w3-round w3-button w3-gray w3-text-white" value="Cancel" onclick="history.go(-1);">
 					</div>
+					
+					
 				</div>
 			</div>
 		</div>

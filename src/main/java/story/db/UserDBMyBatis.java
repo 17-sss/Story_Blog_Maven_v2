@@ -136,6 +136,19 @@ public class UserDBMyBatis extends MybatisConnector {
 		sqlSession.close();
 		return chk;
 	}
+	
+	// 비밀번호 찾기 - 임시 비밀번호 설정 
+	public int updatePwd (String email, String pwd) {
+		sqlSession= sqlSession();
+		Map map = new HashMap();
+		map.put("email", email);
+		map.put("pwd", pwd);
+		int chk = sqlSession.update(namespace+".updatePwd", map);
+		sqlSession.commit();
+		sqlSession.close();
+		
+		return chk;
+	}
 
 	// [어드민] 회원 수 메소드
 	// + 접속 계정 제외, 권한 S-Manager 제외

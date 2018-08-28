@@ -49,6 +49,11 @@
 		delete from story_diary where user_email = #{email}
 	</delete>
 	
+	<!-- 비밀번호 찾기 - 임시 비밀번호 설정 -->
+	<update id="updatePwd" parameterType="User">
+		update story_user set pwd=#{pwd} where email=#{email}	
+	</update>
+	
 	<!-- [어드민] 회원 수 메소드  -->
 	<!-- + 접속 계정 제외, 권한 S-Manager 제외 -->
 	<select id="getUserCount" resultType="int">
