@@ -116,7 +116,7 @@
 		}
 		
 		/* 로그인 모달 안 컨테이너 (Cancel버튼) 구역 설정 */
-		.container {
+		.container-m {
 		    padding: 16px;
 		}
 	</style>
@@ -182,12 +182,13 @@
 		    		 <input id="btn" type="submit" value="Login"/>
 			    </div>
 			    
-			    <div class= "container">
+			    <div class="container-m">
 	    			<span class="w3-right">
 	    				<a href="${pageContext.request.contextPath}/user/accountForm" class="w3-text-black">Sign Up</a>
 	    			</span>
-	    			<span>Forgot <a href="#">password?</a></span>
+	    			<span>Forgot <a href="${pageContext.request.contextPath}/user/findpwd">password?</a></span>
 	    		</div>
+	    		
 		    </div>
     	    <!-- end. 로그인 입력폼 -->
     	    

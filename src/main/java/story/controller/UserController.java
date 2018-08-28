@@ -316,4 +316,11 @@ public class UserController {
 		return mv;
 	}
 	
+	@RequestMapping("/findpwd")
+	public ModelAndView findpwd(ModelAndView mv) {
+		mv.setViewName("findpwd");
+		
+		return mv; 
+	}
+	
 }
