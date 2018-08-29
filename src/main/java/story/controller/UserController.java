@@ -103,6 +103,8 @@ public class UserController {
 	@RequestMapping("/confirmEmail")
 	public String confirmEmail (String email, Model model) throws Throwable { 
 		boolean result = usPro.confirmEmail(email);
+		System.out.println("ม฿บน: "+ result);
+		
 		model.addAttribute("result", result);
 		model.addAttribute("email", email);
 		

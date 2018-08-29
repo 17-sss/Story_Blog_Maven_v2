@@ -35,7 +35,7 @@
 				<div class="w3-margin-top w3-center">
 					<h4>임시 비밀번호가 전송되었습니다.</h4>
 					<div>
-						<span class="w3-text-orange">${email}</span>
+						<span class="w3-text-blue">${email}</span>
 						<span>메일 확인해주세요.</span>
 					</div>
 				</div>

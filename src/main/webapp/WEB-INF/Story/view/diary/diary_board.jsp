@@ -66,7 +66,8 @@
 						<li>검색 옵션을 변경해서 다시 검색해 보세요.</li>
 					</ul>
 					<div class="w3-center w3-margin-top">
-						<input type="button" class="w3-light-gray w3-small w3-button" value="뒤로" onclick="history.go(-1)">
+						<input type="button" class="w3-light-gray w3-small w3-button" value="목록"
+						onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_board?email=${s_email}&pageNum=${pageNum}'">
 						<input type="button" class="w3-light-gray w3-small w3-button" value="글쓰기" onclick="document.location.href='${pageContext.request.contextPath}/diary/diary_write'">
 					</div>
 				</div>

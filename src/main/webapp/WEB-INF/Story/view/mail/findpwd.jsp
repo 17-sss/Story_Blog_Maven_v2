@@ -45,7 +45,8 @@
 					
 					<div class="w3-margin-top w3-right">
 						<input type="submit" class="w3-round w3-button w3-blue" value="Submit">
-						<input type="button" class="w3-round w3-button w3-gray w3-text-white" value="Cancel" onclick="history.go(-1);">
+						<input type="button" class="w3-round w3-button w3-gray w3-text-white" value="Cancel" 
+						onclick="document.location.href='${pageContext.request.contextPath}/index'">
 					</div>
 					
 					
