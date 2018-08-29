@@ -50,7 +50,7 @@
 			}
 			console.log("### checkRow => {}"+checkRow);
 			 
-			if(confirm("정보를 삭제 하시겠습니까?")){
+			if(confirm("회원을 삭제 하시겠습니까?")){
 				var url = document.location.href='${pageContext.request.contextPath}/admin/admin_user_deletePro?';
 				var page = 'pageNum=${pageNum}&';
 				var user = 'email=' + checkRow;
