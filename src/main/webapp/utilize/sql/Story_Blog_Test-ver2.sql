@@ -71,9 +71,38 @@ from (select rownum rnum, b.* from (select d_date, filename1, filename2, filenam
 -- end. ############################## 2018-07-14 이전 ##############################         
          
 --############################## 2018-07-14 이후 ##############################
+
 -- Story Blog Ver.2 User Test
+-- Delete Join (탈퇴시 일기도 삭제)
+delete from story_diary where user_email = '123@ccc'; -- 그냥 삭제하려고..
+Delete from story_user A where A.email = 
+(select B.user_email from story_diary B where user_email='123@ccc'); -- 이건 그냥 삭제나 다를바가없음..
+delete from story_user from 
+story_user aa INNER JOIN story_diary bb ON bb.user_email = aa.email where aa.email = '123@ccc'; -- mysql 문법.. 안댐
+delete su, sd from story_user as su JOIN story_diary as sd on 
+(su.email = sd.user_email) where su.email = '123@ccc'; -- 이거도 안돼..
+delete from (select * from story_user as su, story_diary as sd where su.email = sd.user_email) where story_user.email = '123@ccc'; -- ㅅㅂ
+delete from story_user where email='123@ccc'; delete from story_diary where user_email='123@ccc'; -- ##결국 각자 삭제.##
+
+--- 유저 검색 ---
+-- 4(S-Manager) 전용 --
+ -- 목록
+select * from (select rownum rnum, a.* from (select num, email, pwd, name, tel, birth, filename, cdate, p_level, ip from
+ story_user where p_level != '4(S-Manager)' and email != 'admin' and (email like '%j%' or name like '%j%')
+ order by cdate desc)a) where rnum between 1 and 10;
+  -- 유저 수
+SELECT nvl(count(*),0) FROM story_user where p_level != '4(S-Manager)' and email != 'admin' and (email like '%j%' or name like '%j%');
+ -- 3(Manager) 전용 --
+ -- 목록
+ select * from (select rownum rnum, a.* from (select num, email, pwd, name, tel, birth, filename, cdate, p_level, ip from
+ story_user where (p_level != '4(S-Manager)' and p_level != '3(Manager)') and email != 'admin' and (email like '%j%' or name like '%j%')
+ order by cdate desc)a) where rnum between 1 and 10;
+ -- 유저 수
+ SELECT nvl(count(*),0) FROM story_user where (p_level != '4(S-Manager)' and p_level != '3(Manager)') and email != 'admin' and (email like '%j%' or name like '%j%');
+ SELECT nvl(count(*),0) FROM story_user where (p_level != '4(S-Manager)' and p_level != '3(Manager)') and email != 'admin' and email like '%a%';
 
 -- Story Blog Ver.2 Diary Test
+
 
 
 
